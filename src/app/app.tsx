@@ -1,12 +1,20 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import Tap from '../pages/Tap';
-import Mine from '../pages/Mine';
 import Friends from '../pages/Friends';
 import Earn from '../pages/Earn';
 import Food from '../pages/Food';
 import Menu from '../components/Menu';
 import React from 'react';
+import MineDocs from '../pages/Mine/MineDocs';
+import MineTeam from '../pages/Mine/MineTeam';
+import MineExclusive from '../pages/Mine/MineExclusive';
+import MineMarkets from '../pages/Mine/MineMarkets';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -31,7 +39,11 @@ export function App() {
       <ScaledApp>
         <Routes>
           <Route path="/" element={<Tap />} />
-          <Route path="/mine" element={<Mine />} />
+          <Route path="/mine" element={<Navigate to="/mine/markets" />} />
+          <Route path="/mine/markets" element={<MineMarkets />} />
+          <Route path="/mine/team" element={<MineTeam />} />
+          <Route path="/mine/docs" element={<MineDocs />} />
+          <Route path="/mine/exclusive" element={<MineExclusive />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/earn" element={<Earn />} />
           <Route path="/food" element={<Food />} />
