@@ -6,7 +6,7 @@ import MineMenu from '../../components/Menu/MineMenu';
 const MineMarkets: React.FC = () => {
   return (
     <PageContainer>
-      <Status coins={0} />
+      <Status />
       <MineMenu />
     </PageContainer>
   );

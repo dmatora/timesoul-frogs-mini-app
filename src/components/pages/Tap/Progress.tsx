@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useFrogs } from '../../../contexts/FrogsContext';
 
 const shouldForwardProp = (prop: string | number) => prop !== 'progress';
 
@@ -22,21 +23,21 @@ const ProgressBarBackground = styled.div`
 const ProgressBarFill = styled.div.withConfig({
   shouldForwardProp,
 })`
-  position: absolute;
   background-color: black;
-  transition: width 0.5s ease-in-out;
   border-radius: 18px;
   height: 36px;
-  width: ${({ progress }: { progress: number }) => progress}%;
+  width: 1000px;
 `;
 
 export const Progress = () => {
-  const progress = 50;
+  const { progress } = useFrogs();
 
   return (
     <ProgressBarContainer>
       <ProgressBarBackground>
-        <ProgressBarFill progress={progress} />
+        <div style={{ width: progress * 10, overflowX: 'hidden' }}>
+          <ProgressBarFill />
+        </div>
       </ProgressBarBackground>
     </ProgressBarContainer>
   );

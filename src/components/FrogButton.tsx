@@ -1,7 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useFrogs } from '../contexts/FrogsContext';
 
-const FrogButton = styled((props) => (
+const FrogButton = () => {
+  const { handleTap } = useFrogs();
+
+  return <FrogButtonImage onClick={handleTap} />;
+};
+
+const FrogButtonImage = styled((props) => (
   <svg {...props} width="822" height="664" viewBox="0 0 822 664" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clipPath="url(#clip0_2021_356)">
       <path

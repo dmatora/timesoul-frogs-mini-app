@@ -54,7 +54,7 @@ const GreenCard = styled.div`
 const MineTeam: React.FC = () => {
   return (
     <PageContainer>
-      <Status coins={0} />
+      <Status />
       <MineMenu />
       <Overlay></Overlay>
       <Container>

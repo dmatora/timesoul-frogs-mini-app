@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 import React from 'react';
+import Row from '../../Row';
+import BoostCard from './BoostCard';
+import BoostIcon from './BoostIcon';
+import { useFrogs } from '../../../contexts/FrogsContext';
 
 export const EnergyIcon = styled((props) => (
   <svg width="60" height="58" viewBox="0 0 60 58" fill="none" {...props}>
@@ -26,3 +30,22 @@ export const EnergyValue = styled.div`
   min-width: 207px;
   text-align: right;
 `;
+
+export const Energy = () => {
+  const { energy, maxEnergy } = useFrogs();
+
+  return (
+    <Row spread={true} margin={'0 48px 118px'}>
+      <Row gap={'10px'}>
+        <EnergyIcon />
+        <EnergyValue>
+          {energy} / {maxEnergy}
+        </EnergyValue>
+      </Row>
+      <BoostCard>
+        <BoostIcon />
+        Ускорение
+      </BoostCard>
+    </Row>
+  );
+};

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Coin from './Coin';
 import Row from '../Row';
+import { useFrogs } from '../../contexts/FrogsContext';
 
 const Container = styled.div`
   margin: 37px 40px 0;
@@ -83,7 +84,8 @@ const TipIcon = styled((props) => (
   height: 50px;
 `;
 
-const Status = ({ coins }: { coins: number }) => {
+const Status = () => {
+  const { earnPerTap, balance, nextLevelPrice, profitPerHour } = useFrogs();
   return (
     <Container>
       <Row spread={true}>
@@ -91,25 +93,25 @@ const Status = ({ coins }: { coins: number }) => {
           <CardLabel>Прибыль за тап</CardLabel>
           <CardRow>
             <Coin />
-            <CardValue>+1</CardValue>
+            <CardValue>+{earnPerTap}</CardValue>
           </CardRow>
         </WhiteCard>
         <WhiteCard>
           <CardLabel>Монет для апа</CardLabel>
-          <CardValue>5K</CardValue>
+          <CardValue>{nextLevelPrice ? `${nextLevelPrice / 1000}K` : `-`}</CardValue>
         </WhiteCard>
         <WhiteCard>
           <CardLabel>Прибыль за час</CardLabel>
           <CardRow>
             <Coin />
-            <CardValue>+1</CardValue>
+            <CardValue>{profitPerHour ? `+${profitPerHour}` : '0'}</CardValue>
             <TipIcon style={{ marginLeft: 8 }} />
           </CardRow>
         </WhiteCard>
       </Row>
       <Center>
         <Coin size="medium" />
-        <Balance>{coins.toLocaleString().replace(/,/g, ' ')}</Balance>
+        <Balance>{balance && balance.toLocaleString().replace(/,/g, ' ')}</Balance>
       </Center>
     </Container>
   );

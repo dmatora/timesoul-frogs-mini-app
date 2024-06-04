@@ -10,6 +10,7 @@ import MineDocs from '../pages/Mine/MineDocs';
 import MineTeam from '../pages/Mine/MineTeam';
 import MineExclusive from '../pages/Mine/MineExclusive';
 import MineMarkets from '../pages/Mine/MineMarkets';
+import { FrogsProvider } from '../contexts/FrogsContext';
 import { handleResize } from '../lib/utils';
 
 const ScaledApp = styled.div`
@@ -32,22 +33,24 @@ export function App() {
   useEffect(handleResize, []);
 
   return (
-    <Router>
-      <Menu />
-      <ScaledApp>
-        <Routes>
-          <Route path="/" element={<Tap />} />
-          <Route path="/mine" element={<Navigate to="/mine/markets" />} />
-          <Route path="/mine/markets" element={<MineMarkets />} />
-          <Route path="/mine/team" element={<MineTeam />} />
-          <Route path="/mine/docs" element={<MineDocs />} />
-          <Route path="/mine/exclusive" element={<MineExclusive />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/earn" element={<Earn />} />
-          <Route path="/food" element={<Food />} />
-        </Routes>
-      </ScaledApp>
-    </Router>
+    <FrogsProvider>
+      <Router>
+        <Menu />
+        <ScaledApp>
+          <Routes>
+            <Route path="/" element={<Tap />} />
+            <Route path="/mine" element={<Navigate to="/mine/markets" />} />
+            <Route path="/mine/markets" element={<MineMarkets />} />
+            <Route path="/mine/team" element={<MineTeam />} />
+            <Route path="/mine/docs" element={<MineDocs />} />
+            <Route path="/mine/exclusive" element={<MineExclusive />} />
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/earn" element={<Earn />} />
+            <Route path="/food" element={<Food />} />
+          </Routes>
+        </ScaledApp>
+      </Router>
+    </FrogsProvider>
   );
 }
 
