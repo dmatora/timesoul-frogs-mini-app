@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Tap from '../pages/Tap';
 import Friends from '../pages/Friends';

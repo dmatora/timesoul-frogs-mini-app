@@ -11,18 +11,12 @@ import App from './app/app';
 
 const handleResizeDelayed = () => {
   setTimeout(() => {
-    document.documentElement.style.setProperty(
-      '--scale',
-      (document.documentElement.clientWidth / 1080).toString()
-    );
+    document.documentElement.style.setProperty('--scale', (document.documentElement.clientWidth / 1080).toString());
   }, 10);
 };
 
 const handleResize = () => {
-  document.documentElement.style.setProperty(
-    '--scale',
-    (document.documentElement.clientWidth / 1080).toString()
-  );
+  document.documentElement.style.setProperty('--scale', (document.documentElement.clientWidth / 1080).toString());
 };
 
 window.addEventListener('resize', handleResizeDelayed);
@@ -31,9 +25,7 @@ handleResizeDelayed();
 WebApp.ready();
 WebApp.expand();
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
     <App />
