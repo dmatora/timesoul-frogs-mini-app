@@ -5,11 +5,12 @@ import Friends from '../pages/Friends';
 import Earn from '../pages/Earn';
 import Food from '../pages/Food';
 import Menu from '../components/Menu';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MineDocs from '../pages/Mine/MineDocs';
 import MineTeam from '../pages/Mine/MineTeam';
 import MineExclusive from '../pages/Mine/MineExclusive';
 import MineMarkets from '../pages/Mine/MineMarkets';
+import { handleResize } from '../lib/utils';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -28,6 +29,8 @@ const ScaledApp = styled.div`
 `;
 
 export function App() {
+  useEffect(handleResize, []);
+
   return (
     <Router>
       <Menu />

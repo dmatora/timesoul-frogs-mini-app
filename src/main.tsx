@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import WebApp from '@twa-dev/sdk';
+import { handleResize } from './lib/utils';
 
 import '@fontsource/geologica';
 import '@fontsource/geologica/500.css';
@@ -9,19 +10,10 @@ import '@fontsource/geologica/700.css';
 
 import App from './app/app';
 
-const handleResizeDelayed = () => {
-  setTimeout(() => {
-    document.documentElement.style.setProperty('--scale', (document.documentElement.clientWidth / 1080).toString());
-  }, 10);
-};
+window.addEventListener('resize', handleResize);
+window.addEventListener('DOMContentLoaded', handleResize);
+window.addEventListener('load', handleResize);
 
-const handleResize = () => {
-  document.documentElement.style.setProperty('--scale', (document.documentElement.clientWidth / 1080).toString());
-};
-
-window.addEventListener('resize', handleResizeDelayed);
-handleResize();
-handleResizeDelayed();
 WebApp.ready();
 WebApp.expand();
 
