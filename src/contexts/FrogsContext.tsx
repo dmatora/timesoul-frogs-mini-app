@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
-import { postStart, sync } from '../lib/sync';
+import { postCard, postStart, sync } from '../lib/api';
 import { useInterval } from 'react-use';
 
 type FrogsContextInterface = {
@@ -17,6 +17,7 @@ type FrogsContextInterface = {
   nextLevelPrice: number | null;
   cardCategories: CardCategory[];
   handleTap: () => void;
+  buyCard: (cardId: string) => Promise<void>;
 };
 
 const FrogsContext = createContext<FrogsContextInterface>({
@@ -33,6 +34,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   nextLevelPrice: 0,
   cardCategories: [],
   handleTap: () => null,
+  buyCard: async () => Promise.resolve(),
 });
 
 export type CardCategory = {
@@ -195,6 +197,23 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     }
   };
 
+  const buyCard = async (cardId: string) => {
+    const response = await postCard(cardId);
+    console.debug(response);
+    let found = false;
+    const cards = userCards.map((userCard) => {
+      if (userCard.card_id === cardId) {
+        found = true;
+        userCard.level_number++;
+      }
+      return userCard;
+    });
+    if (!found) {
+      cards.push({ card_id: cardId, level_number: 1 });
+    }
+    setUserCards(cards);
+  };
+
   return (
     <FrogsContext.Provider
       value={{
@@ -211,6 +230,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         nextLevelPrice,
         cardCategories,
         handleTap,
+        buyCard,
       }}
     >
       {children}
