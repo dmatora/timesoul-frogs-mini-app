@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
-import { postCard, postStart, sync } from '../lib/api';
+import { postCard, postLevel, postStart, sync } from '../lib/api';
 import { useInterval } from 'react-use';
 
 type FrogsContextInterface = {
@@ -18,6 +18,7 @@ type FrogsContextInterface = {
   cardCategories: CardCategory[];
   handleTap: () => void;
   buyCard: (cardId: string) => Promise<void>;
+  upgradeLevel: () => void;
 };
 
 const FrogsContext = createContext<FrogsContextInterface>({
@@ -35,6 +36,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   cardCategories: [],
   handleTap: () => null,
   buyCard: async () => Promise.resolve(),
+  upgradeLevel: () => null,
 });
 
 export type CardCategory = {
@@ -111,18 +113,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   useEffect(() => {
     if (nextLevelPrice) setProgress(balance > nextLevelPrice ? 100 : (balance / nextLevelPrice) * 100);
   }, [balance, nextLevelPrice]);
-
-  useEffect(() => {
-    if (!nextLevelPrice || balance < nextLevelPrice) return;
-
-    const nextLevel = levels.find((item) => item.number === level + 1);
-    if (!nextLevel) {
-      throw new Error('Should not happen');
-    }
-    setLevel((prevLevel) => prevLevel + 1);
-    setEarnPerTap(nextLevel.earnPerTap);
-    setMaxEnergy(nextLevel.energyLimit);
-  }, [balance]);
 
   useEffect(() => {
     const nextLevel = levels.find((item) => item.number === level + 1);
@@ -214,6 +204,21 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     setUserCards(cards);
   };
 
+  const upgradeLevel = async () => {
+    if (!nextLevelPrice || balance < nextLevelPrice) return;
+
+    const nextLevel = levels.find((item) => item.number === level + 1);
+    if (!nextLevel) {
+      throw new Error('Should not happen');
+    }
+    if ((await postLevel(level + 1)) === false) {
+      return;
+    }
+    setLevel((prevLevel) => prevLevel + 1);
+    setEarnPerTap(nextLevel.earnPerTap);
+    setMaxEnergy(nextLevel.energyLimit);
+  };
+
   return (
     <FrogsContext.Provider
       value={{
@@ -231,6 +236,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         cardCategories,
         handleTap,
         buyCard,
+        upgradeLevel,
       }}
     >
       {children}

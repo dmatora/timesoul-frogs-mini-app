@@ -12,3 +12,8 @@ export const postCard = async (card_id: string) => {
   const body = { card_id };
   return postBackApi('user/cards', body);
 };
+
+export const postLevel = async (level: number) => {
+  const body = { level };
+  return postBackApi('user/level', body);
+};

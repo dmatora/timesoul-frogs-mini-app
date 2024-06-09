@@ -32,7 +32,7 @@ export const EnergyValue = styled.div`
 `;
 
 export const Energy = () => {
-  const { energy, maxEnergy } = useFrogs();
+  const { balance, energy, maxEnergy, level, nextLevelPrice, upgradeLevel } = useFrogs();
 
   return (
     <Row spread={true} margin={'0 48px 118px'}>
@@ -42,10 +42,12 @@ export const Energy = () => {
           {energy} / {maxEnergy}
         </EnergyValue>
       </Row>
-      <BoostCard>
-        <BoostIcon />
-        Ускорение
-      </BoostCard>
+      {nextLevelPrice && (
+        <BoostCard onClick={upgradeLevel} disabled={balance < nextLevelPrice}>
+          <BoostIcon />
+          Уровень {level + 1}
+        </BoostCard>
+      )}
     </Row>
   );
 };
