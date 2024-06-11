@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 import Row from '../../Row';
 import { useFrogs } from '../../../contexts/FrogsContext';
+import Progress from './Progress';
 
 export const LevelCard = styled.div`
   height: 60px;
@@ -36,13 +37,18 @@ export const ArrowIcon = styled((props) => (
 export const Level = () => {
   const { level, maxLevel } = useFrogs();
   return (
-    <Row margin={'0 48px'} spread={true}>
-      <LevelCard>
-        Бронзовый <ArrowIcon />
-      </LevelCard>
-      <LevelValue>
-        Уровень {level}/{maxLevel}
-      </LevelValue>
-    </Row>
+    <>
+      <Row margin={'0 48px'} spread={true}>
+        <LevelCard>
+          Бронзовый <ArrowIcon />
+        </LevelCard>
+        <LevelValue>
+          Уровень {level}/{maxLevel}
+        </LevelValue>
+      </Row>
+      <Row margin={'0 40px'}>
+        <Progress />
+      </Row>
+    </>
   );
 };
