@@ -105,7 +105,8 @@ const Status = () => {
           <CardRow>
             <Coin />
             <CardValue>{profitPerHour ? `+${profitPerHour}` : '0'}</CardValue>
-            <TipIcon style={{ marginLeft: 8 }} />
+            {/*<TipIcon style={{ marginLeft: 8 }} />*/}
+            {/* ToDo implement Tip popup */}
           </CardRow>
         </WhiteCard>
       </Row>
