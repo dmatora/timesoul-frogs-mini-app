@@ -92,6 +92,7 @@ export type User = {
   energyLimit: number;
   level: number;
   subscribeToOurTg: boolean;
+  subscribeToOurX: boolean;
 };
 
 export const useFrogs = () => useContext(FrogsContext);
