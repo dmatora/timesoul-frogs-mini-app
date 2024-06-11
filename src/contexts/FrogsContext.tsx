@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
-import { postCard, postLevel, postStart, sync } from '../lib/api';
+import { getFriends, postCard, postLevel, postStart, sync } from '../lib/api';
 import { useInterval } from 'react-use';
+import { getInvitedBy } from '../lib/utils';
+import WebApp from '@twa-dev/sdk';
 
 type FrogsContextInterface = {
   user: User | Record<string, never>;
@@ -16,6 +18,8 @@ type FrogsContextInterface = {
   progress: number;
   nextLevelPrice: number | null;
   cardCategories: CardCategory[];
+  friends: Friend[];
+  updateFriendsList: () => void;
   handleTap: () => void;
   buyCard: (cardId: string) => Promise<void>;
   upgradeLevel: () => void;
@@ -34,6 +38,8 @@ const FrogsContext = createContext<FrogsContextInterface>({
   progress: 0,
   nextLevelPrice: 0,
   cardCategories: [],
+  friends: [],
+  updateFriendsList: () => null,
   handleTap: () => null,
   buyCard: async () => Promise.resolve(),
   upgradeLevel: () => null,
@@ -71,6 +77,15 @@ export type Level = {
   energyLimit: number;
 };
 
+export type Friend = {
+  id: number;
+  level: number;
+  balance: number;
+  displayAs: string;
+  isPremium: boolean;
+  bonus: number;
+};
+
 export type User = {
   earnPerTap: number;
   profitPerHour: number;
@@ -105,6 +120,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     defaultValue: [],
   });
   const [levels, setLevels] = useLocalStorageState<Level[]>('levels', { defaultValue: [] });
+  const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
   const [syncPeriod, setSyncPeriod] = useLocalStorageState<number>('syncPeriod', { defaultValue: 0 });
   const [energyRecoveryRate, setEnergyRecoveryRate] = useLocalStorageState<number>('energyRecoveryRate', {
     defaultValue: 0,
@@ -125,6 +141,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const readConfig = async () => {
+      console.debug({ initDataUnsafe: WebApp.initDataUnsafe });
       const start: {
         cardsCatalog: CardCategory[];
         config: {
@@ -138,7 +155,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         };
         user: User;
         userCards: UserCard[];
-      } = await postStart();
+      } = await postStart(getInvitedBy());
+      if (start === undefined) {
+        console.log('Start is broken, operating in offline mode');
+        return;
+      }
       console.debug(start);
       const { cardsCatalog, config, user, userCards, friends } = start;
       setCardCategories(cardsCatalog);
@@ -178,6 +199,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       if (!response.times.error) setLastTaps(taps);
     }
   }, 1000 * syncPeriod);
+
+  const updateFriendsList = async () => {
+    const response = await getFriends();
+    if (response.list) setFriends(response.list);
+  };
 
   const handleTap = () => {
     if (energy > 0) {
@@ -234,6 +260,8 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         progress,
         nextLevelPrice,
         cardCategories,
+        friends,
+        updateFriendsList,
         handleTap,
         buyCard,
         upgradeLevel,

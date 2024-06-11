@@ -1,7 +1,11 @@
-import { postBackApi } from './call';
+import { getBackApi, postBackApi } from './call';
 
-export const postStart = async () => {
-  return postBackApi('start').then((response) => response.data);
+export const getFriends = async () => {
+  return getBackApi('friends').then((response) => response.data);
+};
+
+export const postStart = async (invited_by: number | undefined) => {
+  return postBackApi('start', invited_by ? { invited_by } : undefined).then((response) => response.data);
 };
 
 export const postSubscribe = async (channel: 'telegram' | 'x') => {
