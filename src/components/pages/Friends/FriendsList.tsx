@@ -8,6 +8,7 @@ import { getTgUserId } from '../../../lib/utils';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { env } from '../../../lib/env';
 import ClipboardButton from './ClipboardButton';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   margin: 20px auto 30px;
@@ -45,32 +46,29 @@ const InviteFriendButton = styled.button`
   }
 `;
 
-const handleInviteFriend = () => {
+const handleInviteFriend = (text: string) => {
   const url = `https://t.me/share/url?url=${encodeURIComponent(
     `${env.botUrl}?startapp=${getTgUserId()}`
-  )}&text=${encodeURIComponent(
-    'Играй со мной, стань генеральным директором криптобиржи и получи токены через аирдроп!\n' +
-      '💸 +5k монет в качестве первого подарка\n' +
-      '🔥 +25k монет, если у тебя есть Telegram Premium\n'
-  )}`;
+  )}&text=${encodeURIComponent(text)}`;
   window.open(url, '_blank');
 };
 
 const FriendsList: React.FC = () => {
   const { friends, updateFriendsList } = useFrogs();
+  const { t } = useTranslation();
 
   return (
     <Container>
       <Row spread={true} margin="0 0 20px">
-        <FriendsListLabel>Список ваших друзей</FriendsListLabel>
+        <FriendsListLabel>{t('friends.listOfYourFriends')}</FriendsListLabel>
         <RefreshIcon onClick={updateFriendsList} />
       </Row>
       {friends.map((friend) => (
         <FriendCard key={friend.id} friend={friend} />
       ))}
       <Row margin="30px 0 37px" gap="12px">
-        <InviteFriendButton onClick={handleInviteFriend}>
-          Пригласить друга <ProfileIcon />
+        <InviteFriendButton onClick={() => handleInviteFriend(t('friends.playWithMe'))}>
+          {t('friends.inviteFriend')} <ProfileIcon />
         </InviteFriendButton>
         <ClipboardButton />
       </Row>

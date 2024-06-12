@@ -4,6 +4,7 @@ import { postSubscribe } from '../../../../lib/api';
 import WebApp from '@twa-dev/sdk';
 import { env } from '../../../../lib/env';
 import { useFrogs } from '../../../../contexts/FrogsContext';
+import { useTranslation } from 'react-i18next';
 
 const TelegramIcon = styled((props) => (
   <svg width="112" height="113" viewBox="0 0 112 113" fill="none" {...props}>
@@ -24,6 +25,7 @@ const TelegramIcon = styled((props) => (
     </defs>
   </svg>
 ))`
+  flex-shrink: 0;
   margin-right: 26px;
 `;
 
@@ -34,14 +36,10 @@ const handleOnClick = async () => {
 
 const TelegramTask = () => {
   const { user } = useFrogs();
+  const { t } = useTranslation();
 
   return (
-    <TaskCard
-      label={['Присоединяйся к нашему', 'Telegram каналу']}
-      Icon={TelegramIcon}
-      done={user.subscribeToOurTg}
-      onClick={handleOnClick}
-    />
+    <TaskCard label={t('earn.joinOurTG')} Icon={TelegramIcon} done={user.subscribeToOurTg} onClick={handleOnClick} />
   );
 };
 

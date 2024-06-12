@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Leader } from '../../../contexts/FrogsContext';
 import Row from '../../Row';
 import Coin from '../../Status/Coin';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   height: 156px;
@@ -63,7 +64,8 @@ const DummyIcon = styled((props) => (
 ))``;
 
 const UserCard = ({ user, place }: { user: Leader; place: number }) => {
-  const name = user.displayAs || `Пользователь ${user.id}`;
+  const { t } = useTranslation();
+  const name = user.displayAs || `${t('friends.user')} ${user.id}`;
 
   return (
     <Container>

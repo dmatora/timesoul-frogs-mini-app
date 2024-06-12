@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Row from '../../../Row';
 import BonusIcon from './BonusIcon';
 import Coin from '../../../Status/Coin';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div<{ premium?: boolean }>`
   height: ${({ premium }) => (premium ? '300px' : '246px')};
@@ -31,6 +32,8 @@ const Text = styled.div`
 `;
 
 const FriendsBonusCard = ({ premium }: { premium?: boolean }) => {
+  const { t } = useTranslation();
+
   return (
     <Container premium={premium}>
       <Row spread={true}>
@@ -39,17 +42,18 @@ const FriendsBonusCard = ({ premium }: { premium?: boolean }) => {
           <Title>
             {premium ? (
               <span>
-                Пригласить друга
-                <br /> с Telegram Premium
+                {t('friends.inviteFriend')}
+                <br />
+                {t('friends.withTelegramPremium')}
               </span>
             ) : (
-              'Пригласить друга'
+              t('friends.inviteFriend')
             )}
           </Title>
           <Row style={{ justifyContent: 'left' }} margin={'30px 0 0'}>
             <Coin />
-            <Amount>+{premium ? '25 000' : '5 000'}</Amount>
-            <Text>для вас и вашего друга </Text>
+            <Amount>+{premium ? '35 000' : '25 000'}</Amount>
+            <Text>{t('friends.forYouAndYourFriend')}</Text>
           </Row>
         </div>
       </Row>

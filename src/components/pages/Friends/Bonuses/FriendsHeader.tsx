@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   margin: 56px auto 0;
@@ -18,10 +19,12 @@ const HeaderParagraph = styled.p`
 `;
 
 const FriendsHeader: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <Container>
-      <HeaderTitle>Пригласите друзей!</HeaderTitle>
-      <HeaderParagraph>Вы и ваш друг получите бонусы</HeaderParagraph>
+      <HeaderTitle>{t('friends.inviteFriends')}</HeaderTitle>
+      <HeaderParagraph>{t('friends.receiveBonuses')}</HeaderParagraph>
     </Container>
   );
 };

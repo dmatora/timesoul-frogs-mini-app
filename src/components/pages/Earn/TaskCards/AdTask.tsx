@@ -3,6 +3,7 @@ import TaskCard from '../TaskCard';
 import { postSubscribe } from '../../../../lib/api';
 import WebApp from '@twa-dev/sdk';
 import { env } from '../../../../lib/env';
+import { useTranslation } from 'react-i18next';
 
 const TelegramIcon = styled((props) => (
   <svg width="112" height="113" viewBox="0 0 112 113" fill="none" {...props}>
@@ -23,6 +24,7 @@ const TelegramIcon = styled((props) => (
     </defs>
   </svg>
 ))`
+  flex-shrink: 0;
   margin-right: 26px;
 `;
 
@@ -32,15 +34,9 @@ const handleOnClick = async () => {
 };
 
 const AdTask = () => {
-  return (
-    <TaskCard
-      label={['Свяжитесь с админом', 'нашего Telegram канала']}
-      Icon={TelegramIcon}
-      reward={false}
-      done={false}
-      onClick={handleOnClick}
-    />
-  );
+  const { t } = useTranslation();
+
+  return <TaskCard label={t('earn.connect')} Icon={TelegramIcon} reward={false} done={false} onClick={handleOnClick} />;
 };
 
 export default AdTask;

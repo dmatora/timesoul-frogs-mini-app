@@ -1,5 +1,6 @@
 import TaskCard from '../TaskCard';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const RewardIcon = styled((props) => (
   <svg {...props} xmlns="http://www.w3.org/2000/svg" width="109" height="122" viewBox="0 0 109 122" fill="none">
@@ -342,10 +343,25 @@ const RewardIcon = styled((props) => (
     </defs>
   </svg>
 ))`
+  flex-shrink: 0;
   margin-left: 13px;
   margin-right: 30px;
 `;
 
-const EverydayTask = () => <TaskCard label="Ежедневная награда" Icon={RewardIcon} />;
+const EverydayTask = () => {
+  const { t } = useTranslation();
+
+  return (
+    <TaskCard
+      label={t('earn.dailyReward')}
+      Icon={RewardIcon}
+      done={false}
+      reward={false}
+      onClick={async () => {
+        return;
+      }}
+    />
+  );
+};
 
 export default EverydayTask;

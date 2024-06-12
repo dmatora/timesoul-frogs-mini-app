@@ -2,16 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import ButtonContainer from './ButtonContainer';
 import ButtonLabel from './ButtonLabel';
+import { useTranslation } from 'react-i18next';
 
 export const Icon = styled(({ active, ...props }) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="76"
-    height="66"
-    viewBox="0 0 76 66"
-    fill="none"
-  >
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="76" height="66" viewBox="0 0 76 66" fill="none">
     <path
       d="M75.34 36.3799L75.3 36.4899C75.3 36.4899 75.3 36.4399 75.3 36.4199C75.3 24.9599 63.14 15.6799 48.15 15.6799C33.16 15.6799 21 24.9699 21 36.4199V44.1399C21 44.2099 21 44.2899 21 44.3599C21 55.8199 33.16 65.0999 48.16 65.0999C63.16 65.0999 75.32 55.8099 75.32 44.3599C75.32 44.2699 75.32 44.1799 75.32 44.0899H75.36V36.3799H75.34Z"
       fill={active ? 'black' : 'white'}
@@ -70,11 +64,13 @@ export const Icon = styled(({ active, ...props }) => (
 `;
 
 const EarnButton = ({ active = false }) => {
+  const { t } = useTranslation();
+
   return (
     <ButtonContainer active={active}>
       <Icon active={active} />
       <ButtonLabel active={active} marginTop={11}>
-        Деньги
+        {t('menu.earn')}
       </ButtonLabel>
     </ButtonContainer>
   );

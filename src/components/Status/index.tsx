@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Coin from './Coin';
 import Row from '../Row';
 import { useFrogs } from '../../contexts/FrogsContext';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   margin: 37px 40px 0;
@@ -86,22 +87,24 @@ const TipIcon = styled((props) => (
 
 const Status = () => {
   const { earnPerTap, balance, nextLevelPrice, profitPerHour } = useFrogs();
+  const { t } = useTranslation();
+
   return (
     <Container>
       <Row spread={true}>
         <WhiteCard className="overlap-group">
-          <CardLabel>Прибыль за тап</CardLabel>
+          <CardLabel>{t('system.earnPerTap')}</CardLabel>
           <CardRow>
             <Coin />
             <CardValue>+{earnPerTap}</CardValue>
           </CardRow>
         </WhiteCard>
         <WhiteCard>
-          <CardLabel>Монет для апа</CardLabel>
+          <CardLabel>{t('system.coinsToLevelUp')}</CardLabel>
           <CardValue>{nextLevelPrice ? `${nextLevelPrice / 1000}K` : `-`}</CardValue>
         </WhiteCard>
         <WhiteCard>
-          <CardLabel>Прибыль за час</CardLabel>
+          <CardLabel>{t('system.profitPerHour')}</CardLabel>
           <CardRow>
             <Coin />
             <CardValue>{profitPerHour ? `+${profitPerHour}` : '0'}</CardValue>

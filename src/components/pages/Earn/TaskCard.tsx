@@ -21,6 +21,10 @@ const Amount = styled.div`
   margin: 0 5px;
 `;
 
+const Label = styled.div`
+  width: 510px;
+`;
+
 const DoneIcon = styled((props) => (
   <svg viewBox="0 0 46 34" width="46" height="34" fill="none" {...props}>
     <path d="M3 16.988L16.0081 30L43 3" stroke="#98E703" strokeWidth="5" strokeLinecap="round" />
@@ -36,7 +40,7 @@ const TaskCard = ({
   done = false,
   onClick,
 }: {
-  label: string | string[];
+  label: string;
   Icon: string;
   reward?: boolean;
   done: boolean;
@@ -48,15 +52,7 @@ const TaskCard = ({
         <Row>
           <Icon />
           <div>
-            {typeof label === 'string' ? (
-              label
-            ) : (
-              <>
-                {label[0]}
-                <br />
-                {label[1]}
-              </>
-            )}
+            <Label>{label}</Label>
             {reward && (
               <Row style={{ justifyContent: 'left' }} margin={'7px 0 0'}>
                 <Coin />

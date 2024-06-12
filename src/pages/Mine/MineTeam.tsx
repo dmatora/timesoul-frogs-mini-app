@@ -9,6 +9,7 @@ import Card from '../../components/pages/Mine/Card';
 import { postSubscribe } from '../../lib/api';
 import WebApp from '@twa-dev/sdk';
 import { env } from '../../lib/env';
+import { useTranslation } from 'react-i18next';
 
 const Overlay = styled.div`
   height: 1529px;
@@ -42,6 +43,7 @@ const GreenCard = styled.button`
   margin: 44px auto;
 
   background-color: #98e703;
+  border: none;
   border-radius: 62px;
   box-shadow: 5px 7px 0 0 #262626;
 
@@ -66,6 +68,7 @@ const GreenCard = styled.button`
 
 const MineTeam: React.FC = () => {
   const { user, cardCategories } = useFrogs();
+  const { t } = useTranslation();
   const cardCategory = cardCategories.find((item) => item.id === 'pr-and-team');
 
   const handleOnClick = async () => {
@@ -81,11 +84,8 @@ const MineTeam: React.FC = () => {
         <>
           <Overlay></Overlay>
           <Container>
-            <JoinLabel>
-              Присоединяйтесь к нашему каналу
-              <br />в Telegram, чтобы разблокировать
-            </JoinLabel>
-            <GreenCard onClick={handleOnClick}>Разблокировать</GreenCard>
+            <JoinLabel>{t('mine.joinOurTG')}</JoinLabel>
+            <GreenCard onClick={handleOnClick}>{t('mine.unlock')}</GreenCard>
           </Container>
         </>
       )}

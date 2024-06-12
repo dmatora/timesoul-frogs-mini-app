@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Row from '../../../Row';
 import Coin from '../../../Status/Coin';
 import { Card } from '../../../../contexts/FrogsContext';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   height: 208px;
@@ -38,6 +39,7 @@ const Icon = styled.img`
 `;
 
 const CardHeader = ({ card, cardLevel }: { card: Card; cardLevel: number }) => {
+  const { t } = useTranslation();
   const cardCurrentLevel = card.levels.find((level) => level.number === (cardLevel || 1));
   const active = cardLevel > 0;
 
@@ -49,7 +51,7 @@ const CardHeader = ({ card, cardLevel }: { card: Card; cardLevel: number }) => {
           <Title>{card.title}</Title>
           {cardCurrentLevel && (
             <>
-              <ProfitLabel active={active}>Прибыль в час</ProfitLabel>
+              <ProfitLabel active={active}>{t('system.profitPerHour')}</ProfitLabel>
               <Row
                 gap={'5px'}
                 style={{ justifyContent: 'left', filter: active ? '' : 'grayscale(100%)' }}

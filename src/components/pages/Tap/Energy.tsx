@@ -4,6 +4,7 @@ import Row from '../../Row';
 import BoostCard from './BoostCard';
 import BoostIcon from './BoostIcon';
 import { useFrogs } from '../../../contexts/FrogsContext';
+import { useTranslation } from 'react-i18next';
 
 export const EnergyIcon = styled((props) => (
   <svg width="60" height="58" viewBox="0 0 60 58" fill="none" {...props}>
@@ -33,6 +34,7 @@ export const EnergyValue = styled.div`
 
 export const Energy = () => {
   const { balance, energy, maxEnergy, level, nextLevelPrice, upgradeLevel } = useFrogs();
+  const { t } = useTranslation();
 
   return (
     <Row spread={true} margin={'0 48px 118px'}>
@@ -45,7 +47,7 @@ export const Energy = () => {
       {nextLevelPrice && (
         <BoostCard onClick={upgradeLevel} disabled={balance < nextLevelPrice}>
           <BoostIcon />
-          Уровень {level + 1}
+          {t('system.level')} {level + 1}
         </BoostCard>
       )}
     </Row>

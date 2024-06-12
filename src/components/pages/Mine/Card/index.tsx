@@ -4,6 +4,7 @@ import Row from '../../../Row';
 import { Card as CardType, useFrogs } from '../../../../contexts/FrogsContext';
 import CardHeader from './CardHeader';
 import Coin from '../../../Status/Coin';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ const BuyButton = styled.button`
 
 const Card = ({ card }: { card: CardType }) => {
   const { buyCard, userCards } = useFrogs();
+  const { t } = useTranslation();
   const userCard = userCards.find((userCard) => userCard.card_id === card.id);
   const cardLevel = userCard?.level_number || 0;
   const cardNextLevel = card.levels.find((level) => level.number === cardLevel + 1);
@@ -58,7 +60,9 @@ const Card = ({ card }: { card: CardType }) => {
     <Container>
       <CardHeader card={card} cardLevel={cardLevel} />
       <Row gap={'6px'}>
-        <CardLevel>Уровень {cardLevel}</CardLevel>
+        <CardLevel>
+          {t('system.level')} {cardLevel}
+        </CardLevel>
         <BuyButton onClick={() => buyCard(card.id)} disabled={!cardNextLevel}>
           {cardNextLevel && (
             <Row gap={'5px'}>

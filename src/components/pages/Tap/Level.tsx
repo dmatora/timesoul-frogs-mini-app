@@ -4,6 +4,7 @@ import Row from '../../Row';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import Progress from './Progress';
 import { getLevelName } from '../../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export const LevelCard = styled.div`
   height: 60px;
@@ -37,6 +38,8 @@ export const ArrowIcon = styled((props) => (
 
 export const Level = () => {
   const { level, maxLevel } = useFrogs();
+  const { t } = useTranslation();
+
   return (
     <>
       <Row margin={'0 48px'} spread={true}>
@@ -44,7 +47,7 @@ export const Level = () => {
           {getLevelName(level)} <ArrowIcon />
         </LevelCard>
         <LevelValue>
-          Уровень {level}/{maxLevel}
+          {t('system.level')} {level}/{maxLevel}
         </LevelValue>
       </Row>
       <Row margin={'0 40px'}>

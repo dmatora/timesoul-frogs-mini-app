@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
 import TextButton from './Buttons/TextButton';
+import { useTranslation } from 'react-i18next';
 
 const MenuContainer = styled.div`
   background: black;
@@ -18,21 +19,19 @@ const MenuContainer = styled.div`
 `;
 
 const MineMenu = () => {
+  const { t } = useTranslation();
+
   return (
     <MenuContainer>
       <NavLink to="/mine/markets" className={'active'}>
-        {({ isActive }) => <TextButton active={isActive} label={'Рынки'} />}
+        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.markets')} />}
       </NavLink>
-      <NavLink to="/mine/team">
-        {({ isActive }) => (
-          <TextButton active={isActive} label={'PR и команда'} />
-        )}
-      </NavLink>
+      <NavLink to="/mine/team">{({ isActive }) => <TextButton active={isActive} label={t('mineMenu.team')} />}</NavLink>
       <NavLink to="/mine/docs">
-        {({ isActive }) => <TextButton active={isActive} label={'Документы'} />}
+        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.legal')} />}
       </NavLink>
       <NavLink to="/mine/exclusive">
-        {({ isActive }) => <TextButton active={isActive} label={'Эксклюзив'} />}
+        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.specials')} />}
       </NavLink>
     </MenuContainer>
   );

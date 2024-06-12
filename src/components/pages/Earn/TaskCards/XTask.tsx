@@ -4,6 +4,7 @@ import { postSubscribe } from '../../../../lib/api';
 import WebApp from '@twa-dev/sdk';
 import { env } from '../../../../lib/env';
 import { useFrogs } from '../../../../contexts/FrogsContext';
+import { useTranslation } from 'react-i18next';
 
 const XIcon = styled((props) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="112" height="113" viewBox="0 0 112 113" fill="none" {...props}>
@@ -26,6 +27,7 @@ const XIcon = styled((props) => (
     </defs>
   </svg>
 ))`
+  flex-shrink: 0;
   margin-right: 26px;
 `;
 
@@ -36,10 +38,9 @@ const handleOnClick = async () => {
 
 const XTask = () => {
   const { user } = useFrogs();
+  const { t } = useTranslation();
 
-  return (
-    <TaskCard label="Следи за нашим аккаунтом в X" Icon={XIcon} done={user.subscribeToOurX} onClick={handleOnClick} />
-  );
+  return <TaskCard label={t('earn.followOurX')} Icon={XIcon} done={user.subscribeToOurX} onClick={handleOnClick} />;
 };
 
 export default XTask;

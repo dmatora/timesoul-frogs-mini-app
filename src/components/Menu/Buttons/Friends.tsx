@@ -2,16 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import ButtonContainer from './ButtonContainer';
 import ButtonLabel from './ButtonLabel';
+import { useTranslation } from 'react-i18next';
 
 export const Icon = styled(({ active, ...props }) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="107"
-    height="58"
-    viewBox="0 0 107 58"
-    fill="none"
-  >
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="107" height="58" viewBox="0 0 107 58" fill="none">
     <path
       d="M88.41 23.33C94.706 23.33 99.81 18.2261 99.81 11.93C99.81 5.63398 94.706 0.530029 88.41 0.530029C82.1139 0.530029 77.01 5.63398 77.01 11.93C77.01 18.2261 82.1139 23.33 88.41 23.33Z"
       fill={active ? 'black' : 'white'}
@@ -54,11 +48,13 @@ export const Icon = styled(({ active, ...props }) => (
 `;
 
 const FriendsButton = ({ active = false }) => {
+  const { t } = useTranslation();
+
   return (
     <ButtonContainer active={active}>
       <Icon active={active} />
       <ButtonLabel active={active} marginTop={11}>
-        Друзья
+        {t('menu.friends')}
       </ButtonLabel>
     </ButtonContainer>
   );

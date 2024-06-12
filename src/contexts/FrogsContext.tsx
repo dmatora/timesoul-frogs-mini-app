@@ -4,6 +4,7 @@ import { getFriends, getLeaderboard, postCard, postLevel, postStart, sync } from
 import { useInterval } from 'react-use';
 import { getInvitedBy } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
+import i18n from '../lib/i18n';
 
 type FrogsContextInterface = {
   user: User | Record<string, never>;
@@ -154,6 +155,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const readConfig = async () => {
+      console.debug({ i18n });
       console.debug({ initDataUnsafe: WebApp.initDataUnsafe });
       const start: {
         cardsCatalog: CardCategory[];

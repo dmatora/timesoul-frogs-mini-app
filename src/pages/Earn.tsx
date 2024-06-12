@@ -6,6 +6,7 @@ import TelegramTask from '../components/pages/Earn/TaskCards/TelegramTask';
 import XTask from '../components/pages/Earn/TaskCards/XTask';
 import AdTask from '../components/pages/Earn/TaskCards/AdTask';
 import { useFrogs } from '../contexts/FrogsContext';
+import { useTranslation } from 'react-i18next';
 
 const Label = styled.div`
   font-size: 44px;
@@ -16,18 +17,20 @@ const Label = styled.div`
 
 const Earn: React.FC = () => {
   const { user } = useFrogs();
+  const { t } = useTranslation();
+
   return (
     <PageContainer>
       <EarnHeader />
       {/* ToDo: implement EverydayTask */}
-      {/*<Label>Ежедневные задания</Label>*/}
+      {/*<Label>{t('earn.dailyTasks')}</Label>*/}
       {/*<EverydayTask />*/}
-      <Label>Список заданий</Label>
+      <Label>{t('earn.tasksList')}</Label>
       <TelegramTask />
       <XTask />
       {user.subscribeToOurTg && (
         <>
-          <Label>Здесь может быть Ваша реклама</Label>
+          <Label>{t('earn.yourAd')}</Label>
           <AdTask />
         </>
       )}
