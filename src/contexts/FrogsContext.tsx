@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
-import { getFriends, postCard, postLevel, postStart, sync } from '../lib/api';
+import { getFriends, getLeaderboard, postCard, postLevel, postStart, sync } from '../lib/api';
 import { useInterval } from 'react-use';
 import { getInvitedBy } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
@@ -19,7 +19,9 @@ type FrogsContextInterface = {
   nextLevelPrice: number | null;
   cardCategories: CardCategory[];
   friends: Friend[];
+  leaders: Leader[];
   updateFriendsList: () => void;
+  updateLeaderboard: () => void;
   handleTap: () => void;
   buyCard: (cardId: string) => Promise<void>;
   upgradeLevel: () => void;
@@ -39,7 +41,9 @@ const FrogsContext = createContext<FrogsContextInterface>({
   nextLevelPrice: 0,
   cardCategories: [],
   friends: [],
+  leaders: [],
   updateFriendsList: () => null,
+  updateLeaderboard: () => null,
   handleTap: () => null,
   buyCard: async () => Promise.resolve(),
   upgradeLevel: () => null,
@@ -86,6 +90,13 @@ export type Friend = {
   bonus: number;
 };
 
+export type Leader = {
+  id: number;
+  level: number;
+  balance: number;
+  displayAs: string;
+};
+
 export type User = {
   earnPerTap: number;
   profitPerHour: number;
@@ -122,6 +133,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   });
   const [levels, setLevels] = useLocalStorageState<Level[]>('levels', { defaultValue: [] });
   const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
+  const [leaders, setLeaders] = useLocalStorageState<Leader[]>('leaders', { defaultValue: [] });
   const [syncPeriod, setSyncPeriod] = useLocalStorageState<number>('syncPeriod', { defaultValue: 0 });
   const [energyRecoveryRate, setEnergyRecoveryRate] = useLocalStorageState<number>('energyRecoveryRate', {
     defaultValue: 0,
@@ -206,6 +218,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     if (response.list) setFriends(response.list);
   };
 
+  const updateLeaderboard = async () => {
+    const response = await getLeaderboard();
+    if (response.list) setLeaders(response.list);
+  };
+
   const handleTap = () => {
     if (energy > 0) {
       setTaps((prevTaps) => prevTaps + 1);
@@ -262,7 +279,9 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         nextLevelPrice,
         cardCategories,
         friends,
+        leaders,
         updateFriendsList,
+        updateLeaderboard,
         handleTap,
         buyCard,
         upgradeLevel,

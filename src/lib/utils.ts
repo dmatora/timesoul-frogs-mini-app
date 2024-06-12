@@ -1,5 +1,22 @@
 import WebApp from '@twa-dev/sdk';
 
+export const getLevelName = (level: number) => {
+  const names = [
+    '',
+    'Bronze',
+    'Silver',
+    'Gold',
+    'Platinum',
+    'Diamond',
+    'Epic',
+    'Legendary',
+    'Master',
+    'Grandmaster',
+    'Lord',
+  ];
+  return names[level];
+};
+
 export const getTgUserId = () => {
   return WebApp.initDataUnsafe?.user?.id;
 };

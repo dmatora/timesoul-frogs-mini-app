@@ -4,12 +4,18 @@ import FrogButton from '../components/FrogButton';
 import PageContainer from '../components/PageContainer';
 import { Energy } from '../components/pages/Tap/Energy';
 import { Level } from '../components/pages/Tap/Level';
+import { NavLink } from 'react-router-dom';
+import { useFrogs } from '../contexts/FrogsContext';
 
 const Tap: React.FC = () => {
+  const { updateLeaderboard } = useFrogs();
+
   return (
     <PageContainer minHeight={'1806px'}>
       <Status />
-      <Level />
+      <NavLink to="/leaderboard" onClick={updateLeaderboard}>
+        <Level />
+      </NavLink>
       <FrogButton />
       <Energy />
     </PageContainer>

@@ -3,6 +3,7 @@ import React from 'react';
 import Row from '../../Row';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import Progress from './Progress';
+import { getLevelName } from '../../../lib/utils';
 
 export const LevelCard = styled.div`
   height: 60px;
@@ -40,7 +41,7 @@ export const Level = () => {
     <>
       <Row margin={'0 48px'} spread={true}>
         <LevelCard>
-          Бронзовый <ArrowIcon />
+          {getLevelName(level)} <ArrowIcon />
         </LevelCard>
         <LevelValue>
           Уровень {level}/{maxLevel}

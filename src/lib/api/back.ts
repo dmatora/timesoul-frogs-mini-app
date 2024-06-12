@@ -4,6 +4,10 @@ export const getFriends = async () => {
   return getBackApi('friends').then((response) => response.data);
 };
 
+export const getLeaderboard = async () => {
+  return getBackApi('leaderboard').then((response) => response.data);
+};
+
 export const postStart = async (invited_by: number | undefined) => {
   return postBackApi('start', invited_by ? { invited_by } : undefined).then((response) => response.data);
 };

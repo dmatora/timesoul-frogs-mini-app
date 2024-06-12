@@ -12,6 +12,7 @@ import MineExclusive from '../pages/Mine/MineExclusive';
 import MineMarkets from '../pages/Mine/MineMarkets';
 import { FrogsProvider } from '../contexts/FrogsContext';
 import { handleResize } from '../lib/utils';
+import Leaderboard from '../pages/Leaderboard';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -47,6 +48,7 @@ export function App() {
             <Route path="/friends" element={<Friends />} />
             <Route path="/earn" element={<Earn />} />
             <Route path="/food" element={<Food />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
           </Routes>
         </ScaledApp>
       </Router>
