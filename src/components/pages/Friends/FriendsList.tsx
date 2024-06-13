@@ -60,7 +60,9 @@ const FriendsList: React.FC = () => {
   return (
     <Container>
       <Row spread={true} margin="0 0 20px">
-        <FriendsListLabel>{t('friends.listOfYourFriends')}</FriendsListLabel>
+        <FriendsListLabel>
+          {t('friends.listOfYourFriends')} ({friends.length})
+        </FriendsListLabel>
         <RefreshIcon onClick={updateFriendsList} />
       </Row>
       {friends.map((friend) => (
