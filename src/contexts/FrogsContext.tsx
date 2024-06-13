@@ -234,13 +234,22 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   };
 
   const buyCard = async (cardId: string) => {
+    const cardData = cardCategories
+      .map((cardCategory) => cardCategory.cards.find((card) => card.id === cardId))
+      .filter((item) => item)[0];
+    if (!cardData) throw new Error('Should not happen');
     const response = await postCard(cardId);
     console.debug(response);
     let found = false;
     const cards = userCards.map((userCard) => {
       if (userCard.card_id === cardId) {
         found = true;
+        const oldProfit = cardData.levels.find((level) => level.number === userCard.level_number)?.profitPerHour;
         userCard.level_number++;
+        const newProfit = cardData.levels.find((level) => level.number === userCard.level_number)?.profitPerHour;
+        if (!oldProfit || !newProfit) throw new Error('Should not happen');
+        const profitIncrement = newProfit - oldProfit;
+        setProfitPerHour((prevProfitPerHour) => prevProfitPerHour + profitIncrement);
       }
       return userCard;
     });
