@@ -15,7 +15,8 @@ const MineExclusive: React.FC = () => {
       <Status />
       <MineMenu />
       <Row gap={'20px'} style={{ flexWrap: 'wrap', justifyContent: 'left' }} margin={'0 40px'}>
-        {cardCategory?.cards && cardCategory.cards.map((card: CardType) => <Card key={card.id} card={card} />)}
+        {cardCategory?.cards &&
+          cardCategory.cards.map((card: CardType) => <Card key={card.id} card={card} special={true} />)}
       </Row>
     </PageContainer>
   );

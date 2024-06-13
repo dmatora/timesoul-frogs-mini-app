@@ -5,8 +5,8 @@ import Coin from '../../../Status/Coin';
 import { Card } from '../../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
 
-const Container = styled.div`
-  height: 208px;
+const Container = styled.div<{ special: boolean }>`
+  min-height: 208px;
   width: 490px;
   margin-bottom: 5px;
   border-radius: 47px;
@@ -14,14 +14,17 @@ const Container = styled.div`
   font-weight: 400;
   display: flex;
   flex-direction: row;
+  justify-content: ${({ special }) => (special ? 'center' : '')};
+  padding: ${({ special }) => (special ? '40px 0' : '')};
 `;
 
-const Title = styled.div`
+const Title = styled.div<{ special: boolean }>`
   font-size: 30px;
+  text-align: ${({ special }) => (special ? 'center' : 'left')};
 `;
 
-const ProfitLabel = styled.div<{ active: boolean }>`
-  margin-top: 25px;
+const ProfitLabel = styled.div<{ active: boolean; special?: boolean }>`
+  margin-top: ${({ special }) => (special ? '' : '25px')};
   font-size: 26px;
   color: ${({ active }) => (active ? 'black' : 'gray')};
 `;
@@ -38,25 +41,30 @@ const Icon = styled.img`
   border-radius: 80px;
 `;
 
-const CardHeader = ({ card, cardLevel }: { card: Card; cardLevel: number }) => {
+const CardHeader = ({ card, cardLevel, special }: { card: Card; cardLevel: number; special: boolean }) => {
   const { t } = useTranslation();
   const cardCurrentLevel = card.levels.find((level) => level.number === (cardLevel || 1));
   const active = cardLevel > 0;
 
   return (
-    <Container>
-      <Row gap={'30px'}>
+    <Container special={special}>
+      <Row gap={'30px'} style={{ flexDirection: special ? 'column' : 'row' }}>
         <Icon alt="Card Icon" src={card.coverUrl} />
         <div>
-          <Title>{card.title}</Title>
+          <Title special={special}>{card.title}</Title>
           {cardCurrentLevel && (
             <>
-              <ProfitLabel active={active}>{t('system.profitPerHour')}</ProfitLabel>
+              {!special && <ProfitLabel active={active}>{t('system.profitPerHour')}</ProfitLabel>}
               <Row
                 gap={'5px'}
                 style={{ justifyContent: 'left', filter: active ? '' : 'grayscale(100%)' }}
                 margin={'10px 0 0 -15px'}
               >
+                {special && (
+                  <ProfitLabel active={active} special={true}>
+                    {t('system.profitPerHour')}
+                  </ProfitLabel>
+                )}
                 <Coin />
                 <ProfitValue active={active}>+{cardCurrentLevel?.profitPerHour}</ProfitValue>
               </Row>

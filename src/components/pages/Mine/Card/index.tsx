@@ -49,7 +49,7 @@ const BuyButton = styled.button`
   }
 `;
 
-const Card = ({ card }: { card: CardType }) => {
+const Card = ({ card, special = false }: { card: CardType; special?: boolean }) => {
   const { buyCard, userCards } = useFrogs();
   const { t } = useTranslation();
   const userCard = userCards.find((userCard) => userCard.card_id === card.id);
@@ -58,7 +58,7 @@ const Card = ({ card }: { card: CardType }) => {
 
   return (
     <Container>
-      <CardHeader card={card} cardLevel={cardLevel} />
+      <CardHeader card={card} cardLevel={cardLevel} special={special} />
       <Row gap={'6px'}>
         <CardLevel>
           {t('system.level')} {cardLevel}
