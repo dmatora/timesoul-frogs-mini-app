@@ -6,7 +6,7 @@ include:
       - "helm-vnfr.yml"
 
 variables:
-  APP_NAME: 'vfnr-front'
+  APP_NAME: 'vnfr-front'
   BRANCH: "stage"
 
 stages:
