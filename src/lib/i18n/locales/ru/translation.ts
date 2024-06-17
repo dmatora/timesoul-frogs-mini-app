@@ -1,5 +1,7 @@
 export default {
   system: {
+    rotate1: 'Пожалуйста, поверните ваше устройство',
+    rotate2: 'в портретный режим',
     level: 'Уровень',
     earnPerTap: 'Прибыль за тап',
     coinsToLevelUp: 'Монет для апа',

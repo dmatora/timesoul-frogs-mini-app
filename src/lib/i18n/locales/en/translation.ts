@@ -1,5 +1,7 @@
 export default {
   system: {
+    rotate1: 'Please rotate your device',
+    rotate2: 'to portrait mode',
     level: 'Level',
     earnPerTap: 'Earn per tap',
     coinsToLevelUp: 'Coins to level up',

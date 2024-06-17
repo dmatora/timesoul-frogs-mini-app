@@ -13,6 +13,7 @@ import MineMarkets from '../pages/Mine/MineMarkets';
 import { FrogsProvider } from '../contexts/FrogsContext';
 import { handleResize } from '../lib/utils';
 import Leaderboard from '../pages/Leaderboard';
+import ForcePortrait from '../components/ForcePortrait';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -30,27 +31,36 @@ const ScaledApp = styled.div`
   }
 `;
 
+const VerticalApp = styled.div`
+  @media screen and (orientation: landscape) {
+    display: none;
+  }
+`;
+
 export function App() {
   useEffect(handleResize, []);
 
   return (
     <FrogsProvider>
       <Router>
-        <Menu />
-        <ScaledApp>
-          <Routes>
-            <Route path="/" element={<Tap />} />
-            <Route path="/mine" element={<Navigate to="/mine/markets" />} />
-            <Route path="/mine/markets" element={<MineMarkets />} />
-            <Route path="/mine/team" element={<MineTeam />} />
-            <Route path="/mine/docs" element={<MineDocs />} />
-            <Route path="/mine/exclusive" element={<MineExclusive />} />
-            <Route path="/friends" element={<Friends />} />
-            <Route path="/earn" element={<Earn />} />
-            <Route path="/food" element={<Food />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-          </Routes>
-        </ScaledApp>
+        <ForcePortrait />
+        <VerticalApp>
+          <Menu />
+          <ScaledApp>
+            <Routes>
+              <Route path="/" element={<Tap />} />
+              <Route path="/mine" element={<Navigate to="/mine/markets" />} />
+              <Route path="/mine/markets" element={<MineMarkets />} />
+              <Route path="/mine/team" element={<MineTeam />} />
+              <Route path="/mine/docs" element={<MineDocs />} />
+              <Route path="/mine/exclusive" element={<MineExclusive />} />
+              <Route path="/friends" element={<Friends />} />
+              <Route path="/earn" element={<Earn />} />
+              <Route path="/food" element={<Food />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+            </Routes>
+          </ScaledApp>
+        </VerticalApp>
       </Router>
     </FrogsProvider>
   );
