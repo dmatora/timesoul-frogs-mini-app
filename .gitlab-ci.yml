@@ -1,0 +1,26 @@
+include:
+  - project: chillzapp/cd-templates
+    ref: "main"
+    file:
+      - "build-vnfr.yaml"
+      - "helm-vnfr.yml"
+
+variables:
+  APP_NAME: 'vfnr-front'
+  BRANCH: "stage"
+
+stages:
+  - build
+  - deploy
+
+build_vnfr_test:
+  stage: build
+
+build_vnfr_prod:
+  stage: build
+
+deploy_helm:
+  stage: deploy
+  before_script:
+    - |
+      cat "$PROD_ENV_DATA_YAML" >> values.yaml

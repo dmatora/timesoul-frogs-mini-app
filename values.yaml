@@ -1,0 +1,41 @@
+---
+replicaCount: 1
+
+fullnameOverride: 'vnfr-front'
+
+image:
+  repository: rg.fr-par.scw.cloud/namespace-pedantic-curran/vnfr/vnfr-front.vnfr
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 'latest'
+
+imagePullSecrets:
+  - name: registry-secret
+
+service:
+  type: ClusterIP
+  customLabels: {}
+
+ports:
+  # For php use 9000, but it will not participate in Service
+  - containerPort: 80
+    servicePort: 80
+    protocol: TCP
+    portName: http
+
+ingress:
+  enabled:  false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+envFrom:
+  enabled: true
+  name: 'vnfr-front'
+
+secrets:
