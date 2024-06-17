@@ -8,7 +8,7 @@ COPY . ./
 RUN npm run build
 # production environment
 FROM nginx:stable-alpine
-RUN chown -R nginx:nginx /app && chmod 755 /app && \
+RUN chown -R nginx:nginx /usr/share/nginx && chmod 755 /usr/share/nginx && \
         chown -R nginx:nginx /var/cache/nginx && \
         chown -R nginx:nginx /etc/nginx && \
         chown -R nginx:nginx /var/log/nginx
