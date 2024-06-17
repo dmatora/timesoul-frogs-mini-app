@@ -13,6 +13,7 @@ import MineMarkets from '../pages/Mine/MineMarkets';
 import { FrogsProvider } from '../contexts/FrogsContext';
 import { handleResize } from '../lib/utils';
 import Leaderboard from '../pages/Leaderboard';
+import Popups from '../components/Popups';
 import ForcePortrait from '../components/ForcePortrait';
 
 const ScaledApp = styled.div`
@@ -46,6 +47,7 @@ export function App() {
         <ForcePortrait />
         <VerticalApp>
           <Menu />
+          <Popups />
           <ScaledApp>
             <Routes>
               <Route path="/" element={<Tap />} />

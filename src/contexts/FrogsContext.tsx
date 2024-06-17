@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 import { getFriends, getLeaderboard, postCard, postLevel, postStart, sync } from '../lib/api';
 import { useInterval } from 'react-use';
@@ -21,6 +21,8 @@ type FrogsContextInterface = {
   cardCategories: CardCategory[];
   friends: Friend[];
   leaders: Leader[];
+  event: Event;
+  clearEvent: () => void;
   updateFriendsList: () => void;
   updateLeaderboard: () => void;
   handleTap: () => void;
@@ -43,6 +45,8 @@ const FrogsContext = createContext<FrogsContextInterface>({
   cardCategories: [],
   friends: [],
   leaders: [],
+  event: null,
+  clearEvent: () => null,
   updateFriendsList: () => null,
   updateLeaderboard: () => null,
   handleTap: () => null,
@@ -107,6 +111,12 @@ export type User = {
   subscribeToOurX: boolean;
 };
 
+export type Event = null | {
+  type: 'levelUp';
+  maxEnergyGain: number;
+  earnPerTapGain: number;
+};
+
 export const useFrogs = () => useContext(FrogsContext);
 
 interface FrogsProviderProps {
@@ -139,6 +149,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [energyRecoveryRate, setEnergyRecoveryRate] = useLocalStorageState<number>('energyRecoveryRate', {
     defaultValue: 0,
   });
+  const [event, setEvent] = useState<Event>(null);
 
   useEffect(() => {
     if (nextLevelPrice) setProgress(balance > nextLevelPrice ? 100 : (balance / nextLevelPrice) * 100);
@@ -215,6 +226,10 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     }
   }, 1000 * syncPeriod);
 
+  const clearEvent = async () => {
+    setEvent(null);
+  };
+
   const updateFriendsList = async () => {
     const response = await getFriends();
     if (response.list) setFriends(response.list);
@@ -272,6 +287,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     setLevel((prevLevel) => prevLevel + 1);
     setEarnPerTap(nextLevel.earnPerTap);
     setMaxEnergy(nextLevel.energyLimit);
+    setEvent({
+      type: 'levelUp',
+      maxEnergyGain: nextLevel.energyLimit - maxEnergy,
+      earnPerTapGain: nextLevel.earnPerTap - earnPerTap,
+    });
   };
 
   return (
@@ -291,6 +311,8 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         cardCategories,
         friends,
         leaders,
+        event,
+        clearEvent,
         updateFriendsList,
         updateLeaderboard,
         handleTap,

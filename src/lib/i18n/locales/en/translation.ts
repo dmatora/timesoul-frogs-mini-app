@@ -7,6 +7,11 @@ export default {
     coinsToLevelUp: 'Coins to level up',
     profitPerHour: 'Profit per hour',
   },
+  popup_levelUp: {
+    levelUp: 'Level up!',
+    multiTap: 'Multitap',
+    energyLimit: 'Energy limit',
+  },
   menu: {
     exchange: 'Exchange',
     mine: 'Mine',

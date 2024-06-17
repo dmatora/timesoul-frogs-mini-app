@@ -7,6 +7,11 @@ export default {
     coinsToLevelUp: 'Монет для апа',
     profitPerHour: 'Прибыль в час',
   },
+  popup_levelUp: {
+    levelUp: 'Уровень повышен!',
+    multiTap: 'Мультитап',
+    energyLimit: 'Лимит энергии',
+  },
   menu: {
     exchange: 'Сеть',
     mine: 'Майн',
