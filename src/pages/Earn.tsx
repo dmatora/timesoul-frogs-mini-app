@@ -7,6 +7,7 @@ import XTask from '../components/pages/Earn/TaskCards/XTask';
 import AdTask from '../components/pages/Earn/TaskCards/AdTask';
 import { useFrogs } from '../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
+import { env } from '../lib/env';
 
 const Label = styled.div`
   font-size: 44px;
@@ -16,8 +17,9 @@ const Label = styled.div`
 `;
 
 const Earn: React.FC = () => {
-  const { user } = useFrogs();
+  const { tasks } = useFrogs();
   const { t } = useTranslation();
+  const ourTgChannelTask = tasks.find((task) => task.id === env.channelTask);
 
   return (
     <PageContainer>
@@ -25,15 +27,18 @@ const Earn: React.FC = () => {
       {/* ToDo: implement EverydayTask */}
       {/*<Label>{t('earn.dailyTasks')}</Label>*/}
       {/*<EverydayTask />*/}
-      <Label>{t('earn.tasksList')}</Label>
-      <TelegramTask />
-      <XTask />
-      {user.subscribeToOurTg && (
+      {ourTgChannelTask?.isCompleted && (
         <>
           <Label>{t('earn.yourAd')}</Label>
           <AdTask />
         </>
       )}
+      <Label>{t('earn.tasksList')}</Label>
+      {tasks.map((task) => {
+        const isX = task.url.startsWith('https://x.com');
+        if (isX) return <XTask key={task.id} task={task} />;
+        return <TelegramTask key={task.id} task={task} />;
+      })}
     </PageContainer>
   );
 };

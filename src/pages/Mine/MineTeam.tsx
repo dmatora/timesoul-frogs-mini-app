@@ -6,10 +6,9 @@ import styled from 'styled-components';
 import { Card as CardType, useFrogs } from '../../contexts/FrogsContext';
 import Row from '../../components/Row';
 import Card from '../../components/pages/Mine/Card';
-import { postSubscribe } from '../../lib/api';
-import WebApp from '@twa-dev/sdk';
-import { env } from '../../lib/env';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import { env } from '../../lib/env';
 
 const Overlay = styled.div`
   height: 1529px;
@@ -67,25 +66,23 @@ const GreenCard = styled.button`
 `;
 
 const MineTeam: React.FC = () => {
-  const { user, cardCategories } = useFrogs();
+  const { tasks, cardCategories, updateUserTasks } = useFrogs();
   const { t } = useTranslation();
   const cardCategory = cardCategories.find((item) => item.id === 'pr-and-team');
-
-  const handleOnClick = async () => {
-    await postSubscribe('telegram');
-    WebApp.openTelegramLink(env.channelUrl);
-  };
+  const ourTgChannelTask = tasks.find((task) => task.id === env.channelTask);
 
   return (
     <PageContainer>
       <Status />
       <MineMenu />
-      {!user.subscribeToOurTg && (
+      {!ourTgChannelTask?.isCompleted && (
         <>
           <Overlay></Overlay>
           <Container>
             <JoinLabel>{t('mine.joinOurTG')}</JoinLabel>
-            <GreenCard onClick={handleOnClick}>{t('mine.unlock')}</GreenCard>
+            <NavLink to="/earn" onClick={updateUserTasks}>
+              <GreenCard>{t('mine.unlock')}</GreenCard>
+            </NavLink>
           </Container>
         </>
       )}

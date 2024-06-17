@@ -1,4 +1,4 @@
-import { getBackApi, postBackApi } from './call';
+import { getBackApi, patchBackApi, postBackApi } from './call';
 
 export const getFriends = async () => {
   return getBackApi('friends').then((response) => response.data);
@@ -8,12 +8,16 @@ export const getLeaderboard = async () => {
   return getBackApi('leaderboard').then((response) => response.data);
 };
 
-export const postStart = async (invited_by: number | undefined) => {
-  return postBackApi('start', invited_by ? { invited_by } : undefined).then((response) => response.data);
+export const getUserTasks = async () => {
+  return getBackApi('user/tasks').then((response) => response.data);
 };
 
-export const postSubscribe = async (channel: 'telegram' | 'x') => {
-  return postBackApi('subscribe-to', { channel });
+export const patchUserTasks = async (task_id: string) => {
+  return patchBackApi('user/tasks', { task_id }).then((response) => response.data);
+};
+
+export const postStart = async (invited_by: number | undefined) => {
+  return postBackApi('start', invited_by ? { invited_by } : undefined).then((response) => response.data);
 };
 
 export const postCard = async (card_id: string) => {

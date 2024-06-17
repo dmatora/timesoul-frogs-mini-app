@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
-import { getFriends, getLeaderboard, postCard, postLevel, postStart, sync } from '../lib/api';
+import { getFriends, getLeaderboard, getUserTasks, postCard, postLevel, postStart, sync } from '../lib/api';
 import { useInterval } from 'react-use';
 import { getInvitedBy } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
@@ -21,10 +21,12 @@ type FrogsContextInterface = {
   cardCategories: CardCategory[];
   friends: Friend[];
   leaders: Leader[];
+  tasks: UserTask[];
   event: Event;
   clearEvent: () => void;
   updateFriendsList: () => void;
   updateLeaderboard: () => void;
+  updateUserTasks: () => Promise<void>;
   handleTap: () => void;
   buyCard: (cardId: string) => Promise<void>;
   upgradeLevel: () => void;
@@ -45,10 +47,12 @@ const FrogsContext = createContext<FrogsContextInterface>({
   cardCategories: [],
   friends: [],
   leaders: [],
+  tasks: [],
   event: null,
   clearEvent: () => null,
   updateFriendsList: () => null,
   updateLeaderboard: () => null,
+  updateUserTasks: async () => Promise.resolve(),
   handleTap: () => null,
   buyCard: async () => Promise.resolve(),
   upgradeLevel: () => null,
@@ -102,13 +106,19 @@ export type Leader = {
   displayAs: string;
 };
 
+export type UserTask = {
+  bonus: number;
+  id: string;
+  isCompleted: boolean;
+  title: string;
+  url: string;
+};
+
 export type User = {
   earnPerTap: number;
   profitPerHour: number;
   energyLimit: number;
   level: number;
-  subscribeToOurTg: boolean;
-  subscribeToOurX: boolean;
 };
 
 export type Event = null | {
@@ -145,6 +155,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [levels, setLevels] = useLocalStorageState<Level[]>('levels', { defaultValue: [] });
   const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
   const [leaders, setLeaders] = useLocalStorageState<Leader[]>('leaders', { defaultValue: [] });
+  const [tasks, setTasks] = useLocalStorageState<UserTask[]>('tasks', { defaultValue: [] });
   const [syncPeriod, setSyncPeriod] = useLocalStorageState<number>('syncPeriod', { defaultValue: 0 });
   const [energyRecoveryRate, setEnergyRecoveryRate] = useLocalStorageState<number>('energyRecoveryRate', {
     defaultValue: 0,
@@ -240,6 +251,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     if (response.list) setLeaders(response.list);
   };
 
+  const updateUserTasks = async () => {
+    const response = await getUserTasks();
+    if (response.list) setTasks(response.list);
+  };
+
   const handleTap = () => {
     if (energy > 0) {
       setTaps((prevTaps) => prevTaps + 1);
@@ -311,10 +327,12 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         cardCategories,
         friends,
         leaders,
+        tasks,
         event,
         clearEvent,
         updateFriendsList,
         updateLeaderboard,
+        updateUserTasks,
         handleTap,
         buyCard,
         upgradeLevel,

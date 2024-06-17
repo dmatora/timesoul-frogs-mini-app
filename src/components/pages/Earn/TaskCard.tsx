@@ -14,6 +14,7 @@ const Container = styled.div<{ done?: boolean }>`
   display: flex;
   margin: 0 auto 20px;
   font-size: 33px;
+  flex-shrink: 0;
 `;
 
 const Amount = styled.div`
@@ -38,12 +39,14 @@ const TaskCard = ({
   Icon,
   reward = true,
   done = false,
+  bonus = 5000,
   onClick,
 }: {
   label: string;
   Icon: string;
   reward?: boolean;
   done: boolean;
+  bonus?: number;
   onClick: () => Promise<void>;
 }) => {
   return (
@@ -56,7 +59,7 @@ const TaskCard = ({
             {reward && (
               <Row style={{ justifyContent: 'left' }} margin={'7px 0 0'}>
                 <Coin />
-                <Amount>+5 000</Amount>
+                <Amount>+{bonus.toLocaleString().replace(/,/g, ' ')}</Amount>
               </Row>
             )}
           </div>

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import TaskCard from '../TaskCard';
-import { postSubscribe } from '../../../../lib/api';
 import WebApp from '@twa-dev/sdk';
 import { env } from '../../../../lib/env';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +28,6 @@ const TelegramIcon = styled((props) => (
 `;
 
 const handleOnClick = async () => {
-  await postSubscribe('telegram');
   WebApp.openTelegramLink(env.channelUrl);
 };
 

@@ -5,6 +5,8 @@ const { backUrl, tapUrl } = env;
 
 export const getTapApi = async (endpoint: string) => callApi(tapUrl, endpoint);
 export const getBackApi = async (endpoint: string) => callApi(backUrl, endpoint);
+export const patchBackApi = async (endpoint: string, body: any = undefined) =>
+  callApi(backUrl, endpoint, 'PATCH', JSON.stringify(body));
 export const postTapApi = async (endpoint: string, body: any = undefined) =>
   callApi(tapUrl, endpoint, 'POST', JSON.stringify(body));
 export const postBackApi = async (endpoint: string, body: any = undefined) =>
@@ -13,7 +15,7 @@ export const postBackApi = async (endpoint: string, body: any = undefined) =>
 const callApi = async (
   backUrl: string,
   endpoint: string,
-  method: 'GET' | 'POST' = 'GET',
+  method: 'GET' | 'POST' | 'PATCH' = 'GET',
   body: string | undefined = undefined
 ) => {
   if (!WebApp.initData) throw new Error('Must run inside telegram app');

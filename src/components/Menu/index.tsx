@@ -6,6 +6,7 @@ import FriendsButton from './Buttons/Friends';
 import EarnButton from './Buttons/Earn';
 import FoodButton from './Buttons/Food';
 import { NavLink } from 'react-router-dom';
+import { useFrogs } from '../../contexts/FrogsContext';
 
 const MenuContainer = styled.div`
   background: black;
@@ -33,23 +34,17 @@ const MenuContainer = styled.div`
 `;
 
 const Menu = () => {
+  const { updateUserTasks } = useFrogs();
+
   return (
     <MenuContainer>
-      <NavLink to="/">
-        {({ isActive }) => <ExchangeButton active={isActive} />}
-      </NavLink>
-      <NavLink to="/mine">
-        {({ isActive }) => <Mine active={isActive} />}
-      </NavLink>
-      <NavLink to="/friends">
-        {({ isActive }) => <FriendsButton active={isActive} />}
-      </NavLink>
-      <NavLink to="/earn">
+      <NavLink to="/">{({ isActive }) => <ExchangeButton active={isActive} />}</NavLink>
+      <NavLink to="/mine">{({ isActive }) => <Mine active={isActive} />}</NavLink>
+      <NavLink to="/friends">{({ isActive }) => <FriendsButton active={isActive} />}</NavLink>
+      <NavLink to="/earn" onClick={updateUserTasks}>
         {({ isActive }) => <EarnButton active={isActive} />}
       </NavLink>
-      <NavLink to="/food">
-        {({ isActive }) => <FoodButton active={isActive} />}
-      </NavLink>
+      <NavLink to="/food">{({ isActive }) => <FoodButton active={isActive} />}</NavLink>
     </MenuContainer>
   );
 };

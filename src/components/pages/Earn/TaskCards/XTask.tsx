@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import TaskCard from '../TaskCard';
-import { postSubscribe } from '../../../../lib/api';
 import WebApp from '@twa-dev/sdk';
-import { env } from '../../../../lib/env';
-import { useFrogs } from '../../../../contexts/FrogsContext';
-import { useTranslation } from 'react-i18next';
+import { useFrogs, UserTask } from '../../../../contexts/FrogsContext';
+import { patchUserTasks } from '../../../../lib/api';
 
 const XIcon = styled((props) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="112" height="113" viewBox="0 0 112 113" fill="none" {...props}>
@@ -31,16 +29,24 @@ const XIcon = styled((props) => (
   margin-right: 26px;
 `;
 
-const handleOnClick = async () => {
-  await postSubscribe('x');
-  WebApp.openLink(env.xUrl);
+const handleOnClick = async (task: UserTask, updateUserTasks: () => Promise<void>) => {
+  await patchUserTasks(task.id);
+  await updateUserTasks();
+  WebApp.openLink(task.url);
 };
 
-const XTask = () => {
-  const { user } = useFrogs();
-  const { t } = useTranslation();
+const XTask = ({ task }: { task: UserTask }) => {
+  const { updateUserTasks } = useFrogs();
 
-  return <TaskCard label={t('earn.followOurX')} Icon={XIcon} done={user.subscribeToOurX} onClick={handleOnClick} />;
+  return (
+    <TaskCard
+      label={task.title}
+      Icon={XIcon}
+      bonus={task.bonus}
+      done={task.isCompleted}
+      onClick={() => handleOnClick(task, updateUserTasks)}
+    />
+  );
 };
 
 export default XTask;
