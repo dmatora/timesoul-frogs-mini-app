@@ -24,7 +24,6 @@ RUN ls -l /usr/share/nginx/html
 
 # Ensure the correct permissions
 RUN chown -R nginx:nginx /usr/share/nginx/html
-RUN rm /etc/nginx/conf.d/deafult.conf
 COPY default.conf /etc/nginx/conf.d/
 # Expose port 80
 EXPOSE 80
