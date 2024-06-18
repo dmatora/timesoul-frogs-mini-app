@@ -6,6 +6,8 @@ export default {
     earnPerTap: 'Прибыль за тап',
     coinsToLevelUp: 'Монет для апа',
     profitPerHour: 'Прибыль в час',
+    coming1: 'Скоро здесь будет',
+    coming2: 'что-то интересное...',
   },
   popup_levelUp: {
     levelUp: 'Уровень повышен!',

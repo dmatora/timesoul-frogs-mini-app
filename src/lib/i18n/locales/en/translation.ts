@@ -6,6 +6,8 @@ export default {
     earnPerTap: 'Earn per tap',
     coinsToLevelUp: 'Coins to level up',
     profitPerHour: 'Profit per hour',
+    coming1: 'Something interesting',
+    coming2: 'coming up here soon....',
   },
   popup_levelUp: {
     levelUp: 'Level up!',
