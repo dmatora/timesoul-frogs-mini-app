@@ -1,11 +1,13 @@
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
+import * as Sentry from '@sentry/react';
+
 import Tap from '../pages/Tap';
 import Friends from '../pages/Friends';
 import Earn from '../pages/Earn';
 import Food from '../pages/Food';
 import Menu from '../components/Menu';
-import React, { useEffect } from 'react';
 import MineDocs from '../pages/Mine/MineDocs';
 import MineTeam from '../pages/Mine/MineTeam';
 import MineExclusive from '../pages/Mine/MineExclusive';
@@ -15,6 +17,7 @@ import { handleResize } from '../lib/utils';
 import Leaderboard from '../pages/Leaderboard';
 import Popups from '../components/Popups';
 import ForcePortrait from '../components/ForcePortrait';
+import { env } from '../lib/env';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -37,6 +40,10 @@ const VerticalApp = styled.div`
     display: none;
   }
 `;
+
+Sentry.init({
+  dsn: env.sentryDsn,
+});
 
 export function App() {
   useEffect(handleResize, []);
