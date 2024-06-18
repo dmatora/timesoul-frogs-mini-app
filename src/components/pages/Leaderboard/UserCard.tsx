@@ -78,7 +78,7 @@ const UserCard = ({ user, place }: { user: Leader; place: number }) => {
             <Name>{name}</Name>
             <Row style={{ justifyContent: 'left' }}>
               <Coin />
-              <Balance>{user.balance.toLocaleString().replace(/,/g, ' ')}</Balance>
+              <Balance>{user.balance.toLocaleString('en-US').replace(/,/g, ' ')}</Balance>
             </Row>
           </div>
         </Row>

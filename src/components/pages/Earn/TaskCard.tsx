@@ -59,7 +59,7 @@ const TaskCard = ({
             {reward && (
               <Row style={{ justifyContent: 'left' }} margin={'7px 0 0'}>
                 <Coin />
-                <Amount>+{bonus.toLocaleString().replace(/,/g, ' ')}</Amount>
+                <Amount>+{bonus.toLocaleString('en-US').replace(/,/g, ' ')}</Amount>
               </Row>
             )}
           </div>

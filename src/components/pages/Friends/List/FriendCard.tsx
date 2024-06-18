@@ -72,7 +72,7 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
         </Row>
         <Row>
           <Coin />
-          <Bonus>+{friend.bonus.toLocaleString().replace(/,/g, ' ')}</Bonus>
+          <Bonus>+{friend.bonus.toLocaleString('en-US').replace(/,/g, ' ')}</Bonus>
         </Row>
       </Row>
     </Container>

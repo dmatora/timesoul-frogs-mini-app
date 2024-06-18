@@ -115,7 +115,7 @@ const Status = () => {
       </Row>
       <Center>
         <Coin size="medium" />
-        <Balance>{balance && balance.toLocaleString().replace(/,/g, ' ')}</Balance>
+        <Balance>{balance && balance.toLocaleString('en-US').replace(/,/g, ' ')}</Balance>
       </Center>
     </Container>
   );
