@@ -286,6 +286,9 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     });
     if (!found) {
       cards.push({ card_id: cardId, level_number: 1 });
+      const profitIncrement = cardData.levels.find((level) => level.number === 1)?.profitPerHour;
+      if (!profitIncrement) throw new Error('Should not happen');
+      setProfitPerHour((prevProfitPerHour) => prevProfitPerHour + profitIncrement);
     }
     setUserCards(cards);
   };
