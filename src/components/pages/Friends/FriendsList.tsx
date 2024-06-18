@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import WebApp from '@twa-dev/sdk';
+
 import Row from '../../Row';
 import FriendCard from './List/FriendCard';
 import RefreshIcon from './List/RefreshIcon';
@@ -8,7 +11,6 @@ import { getTgUserId } from '../../../lib/utils';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { env } from '../../../lib/env';
 import ClipboardButton from './ClipboardButton';
-import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   margin: 20px auto 30px;
@@ -46,16 +48,13 @@ const InviteFriendButton = styled.button`
   }
 `;
 
-const handleInviteFriend = (text: string) => {
-  const url = `https://t.me/share/url?url=${encodeURIComponent(
-    `${env.botUrl}?startapp=${getTgUserId()}`
-  )}&text=${encodeURIComponent(text)}`;
-  window.open(url, '_blank');
-};
-
 const FriendsList: React.FC = () => {
   const { friends, updateFriendsList } = useFrogs();
   const { t } = useTranslation();
+
+  const urlInvitation = `https://t.me/share/url?url=${encodeURIComponent(
+    `${env.botUrl}?startapp=${getTgUserId()}`
+  )}&text=${encodeURIComponent(t('friends.playWithMe'))}`;
 
   return (
     <Container>
@@ -69,10 +68,10 @@ const FriendsList: React.FC = () => {
         <FriendCard key={friend.id} friend={friend} />
       ))}
       <Row margin="30px 0 37px" gap="12px">
-        <InviteFriendButton onClick={() => handleInviteFriend(t('friends.playWithMe'))}>
+        <InviteFriendButton onClick={() => WebApp.openTelegramLink(urlInvitation)}>
           {t('friends.inviteFriend')} <ProfileIcon />
         </InviteFriendButton>
-        <ClipboardButton />
+        <ClipboardButton url={urlInvitation} />
       </Row>
     </Container>
   );

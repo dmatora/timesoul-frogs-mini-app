@@ -18,6 +18,7 @@ import Leaderboard from '../pages/Leaderboard';
 import Popups from '../components/Popups';
 import ForcePortrait from '../components/ForcePortrait';
 import { env } from '../lib/env';
+import { Notifications } from '../components/Notifications';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -51,6 +52,7 @@ export function App() {
   return (
     <FrogsProvider>
       <Router>
+        <Notifications />
         <ForcePortrait />
         <VerticalApp>
           <Menu />

@@ -1,5 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { notificationEmit } from '../../../controllers/NotificationsController';
 
 const Container = styled.button`
   width: 170px;
@@ -32,11 +33,20 @@ const ClipIcon = styled.div`
   box-shadow: 8px -8px 0 0 black;
 `;
 
-const ClipboardButton: React.FC = () => {
+const ClipboardButton = ({url}: {url: string}) => {
+  const handleCopy = () => {
+    notificationEmit({
+      title: 'Invite a friend',
+      subtitle: 'The invitation link has copied to your clipboard!',
+    });  
+  };
+
   return (
-    <Container>
-      <ClipIcon />
-    </Container>
+    <CopyToClipboard text={url} onCopy={() => handleCopy()}>
+      <Container>
+        <ClipIcon />
+      </Container>
+    </CopyToClipboard>
   );
 };
 
