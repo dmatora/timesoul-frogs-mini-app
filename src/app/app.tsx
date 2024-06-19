@@ -19,6 +19,7 @@ import Popups from '../components/Popups';
 import ForcePortrait from '../components/ForcePortrait';
 import { env } from '../lib/env';
 import { Notifications } from '../components/Notifications';
+import { onlineStatusInit } from '../controllers/OnlineStatusController';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -47,7 +48,10 @@ Sentry.init({
 });
 
 export function App() {
-  useEffect(handleResize, []);
+  useEffect(() => {
+    handleResize();
+    onlineStatusInit();
+  }, []);
 
   return (
     <FrogsProvider>
