@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import WebApp from '@twa-dev/sdk';
@@ -49,6 +49,7 @@ const InviteFriendButton = styled.button`
 `;
 
 const FriendsList: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const { friends, updateFriendsList } = useFrogs();
   const { t } = useTranslation();
 
@@ -56,13 +57,19 @@ const FriendsList: React.FC = () => {
     `${env.botUrl}?startapp=${getTgUserId()}`
   )}&text=${encodeURIComponent(t('friends.playWithMe'))}`;
 
+  const handleOnclick = async () => {
+    setLoading(true);
+    await updateFriendsList();
+    setLoading(false);
+  };
+
   return (
     <Container>
       <Row spread={true} margin="0 0 20px">
         <FriendsListLabel>
           {t('friends.listOfYourFriends')} ({friends.length})
         </FriendsListLabel>
-        <RefreshIcon onClick={updateFriendsList} />
+        <RefreshIcon onClick={handleOnclick} isLoading={loading} />
       </Row>
       {friends.map((friend) => (
         <FriendCard key={friend.id} friend={friend} />

@@ -24,7 +24,7 @@ type FrogsContextInterface = {
   tasks: UserTask[];
   event: Event;
   clearEvent: () => void;
-  updateFriendsList: () => void;
+  updateFriendsList: () => Promise<void>;
   updateLeaderboard: () => void;
   updateUserTasks: () => Promise<void>;
   handleTap: () => void;
@@ -50,7 +50,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   tasks: [],
   event: null,
   clearEvent: () => null,
-  updateFriendsList: () => null,
+  updateFriendsList: async () => Promise.resolve(),
   updateLeaderboard: () => null,
   updateUserTasks: async () => Promise.resolve(),
   handleTap: () => null,

@@ -23,7 +23,7 @@ const Text = styled.p`
   text-align: center;
 `;
 
-const rotateAnimation = keyframes`
+export const rotateAnimation = keyframes`
   0% {
       transform: rotate(0deg) scaleY(-1);
   }

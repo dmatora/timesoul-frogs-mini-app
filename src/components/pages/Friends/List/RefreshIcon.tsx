@@ -1,8 +1,17 @@
 import styled from 'styled-components';
 import React from 'react';
+import { rotateAnimation } from '../../../ForcePortrait';
 
-const RefreshIcon = styled((props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="61" height="61" viewBox="0 0 61 61" fill="none" {...props}>
+const RefreshIcon = styled(({ isLoading, className, ...props }) => (
+  <svg
+    className={`${isLoading ? 'loading ' : ''} ${className}`}
+    xmlns="http://www.w3.org/2000/svg"
+    width="61"
+    height="61"
+    viewBox="0 0 61 61"
+    fill="none"
+    {...props}
+  >
     <path
       d="M26.36 4.19948C33.4 3.25948 40.5601 5.48947 46.1501 10.2195L40.1501 9.45948L43.68 14.0095L53.19 15.2095L54.3901 5.69948L50.86 1.14948L49.9601 8.27948C43.3601 2.06948 34.53 -0.920525 25.82 0.249475C12.37 2.03948 1.55007 13.5995 0.0900678 27.7195C-0.0199322 28.8195 0.780046 29.7995 1.88005 29.9095C1.95005 29.9095 2.02007 29.9195 2.09007 29.9195C3.10007 29.9195 3.97006 29.1495 4.08006 28.1195C5.35006 15.8095 14.71 5.75948 26.35 4.19948H26.36Z"
       fill="#262626"
@@ -12,6 +21,10 @@ const RefreshIcon = styled((props) => (
       fill="#262626"
     />
   </svg>
-))``;
+))`
+  &.loading {
+    animation: ${rotateAnimation} 2s infinite linear;
+  }
+`;
 
 export default RefreshIcon;
