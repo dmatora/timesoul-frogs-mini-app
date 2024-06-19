@@ -4,10 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   color: white;
-  font-family: Geologica, sans-serif;
   width: 100vw;
   height: 100vh;
-  background-color: #000c;
 
   display: flex;
   justify-content: center;

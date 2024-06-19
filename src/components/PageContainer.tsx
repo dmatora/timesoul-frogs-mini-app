@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 const PageContainer = styled.div<{ minHeight?: string }>`
-  color: black;
-  font-family: Geologica, sans-serif;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -11,11 +9,7 @@ const PageContainer = styled.div<{ minHeight?: string }>`
   min-height: ${(props) => props.minHeight || '1940px'};
   padding-top: 40px;
   padding-bottom: 40px;
-  background: black url('/img/bg.svg') center 40px no-repeat;
-  & button {
-    font-family: Geologica, sans-serif;
-    color: black;
-  }
+  background: url('/img/bg.svg') center 40px no-repeat;
 `;
 
 export default PageContainer;

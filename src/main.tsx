@@ -15,6 +15,8 @@ window.addEventListener('DOMContentLoaded', handleResize);
 window.addEventListener('load', handleResize);
 
 WebApp.ready();
+WebApp.setBackgroundColor('#000');
+WebApp.setHeaderColor('#000');
 WebApp.expand();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
