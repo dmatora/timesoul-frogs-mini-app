@@ -39,7 +39,7 @@ const Place = styled.div`
 
 const UserCard = ({ user, place }: { user: Leader; place: number }) => {
   const { t } = useTranslation();
-  const name = user.displayAs || `${t('friends.user')} ${user.id}`;
+  const name = user.displayAs || `${t('system.user')} ${user.id}`;
 
   return (
     <Container>

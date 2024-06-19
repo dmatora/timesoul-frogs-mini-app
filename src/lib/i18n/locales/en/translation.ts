@@ -1,5 +1,6 @@
 export default {
   system: {
+    user: 'User',
     rotate1: 'Please rotate your device',
     rotate2: 'to portrait mode',
     level: 'Level',
@@ -39,7 +40,6 @@ export default {
     forYouAndYourFriend: 'for you and your friend',
     moreBonuses: 'More bonuses',
     listOfYourFriends: 'List of your friends',
-    user: 'User',
     playWithMe:
       'Join me and play to earn tokens through an airdrop!\n' +
       '💰 Grab your gift! +25k coins for newcomers\n' +

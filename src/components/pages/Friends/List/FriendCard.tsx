@@ -33,7 +33,7 @@ const Bonus = styled.div`
 
 const FriendCard = ({ friend }: { friend: Friend }) => {
   const { t } = useTranslation();
-  const name = friend.displayAs || `${t('friends.user')} ${friend.id}`;
+  const name = friend.displayAs || `${t('system.user')} ${friend.id}`;
 
   return (
     <Container>
