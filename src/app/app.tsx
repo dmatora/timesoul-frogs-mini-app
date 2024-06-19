@@ -28,10 +28,9 @@ const ScaledApp = styled.div`
   user-select: none;
 
   width: 1080px;
-  height: 2020px; // leaves a bottom white gap on short height desktop but only if page is 100vh
+  height: 0;
   margin: 0 auto;
   @media (max-width: 1079px) {
-    height: calc(2020px * var(--scale));
     transform-origin: 0 0;
     transform: scale(var(--scale));
   }

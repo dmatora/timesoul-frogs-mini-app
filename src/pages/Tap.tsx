@@ -14,7 +14,7 @@ const Tap: React.FC = () => {
   return (
     <>
       <SettingsPanel />
-      <PageContainer minHeight={'1806px'}>
+      <PageContainer header={true}>
         <Status />
         <NavLink to="/leaderboard" onClick={updateLeaderboard}>
           <Level />

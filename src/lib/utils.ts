@@ -28,5 +28,7 @@ export const getInvitedBy = () => {
   return startParam;
 };
 
-export const handleResize = () =>
-  document.documentElement.style.setProperty('--scale', (document.documentElement.clientWidth / 1080).toString());
+export const handleResize = () => {
+  const scale = document.documentElement.clientWidth > 1080 ? 1 : document.documentElement.clientWidth / 1080;
+  document.documentElement.style.setProperty('--scale', scale.toString());
+};
