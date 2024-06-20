@@ -279,6 +279,12 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     if (!cardData) throw new Error('Should not happen');
     const response = await postCard(cardId);
     console.debug(response);
+
+    const cardLevel = userCards.find((userCard) => userCard.card_id === cardId)?.level_number || 0;
+    const cardNextLevel = cardData.levels.find((level) => level.number === cardLevel + 1);
+    if (!cardNextLevel) throw new Error('Should not happen');
+    setBalance((prevBalance) => prevBalance - cardNextLevel.price);
+
     let found = false;
     const cards = userCards.map((userCard) => {
       if (userCard.card_id === cardId) {

@@ -85,8 +85,7 @@ const Card = ({ card, special = false }: { card: CardType; special?: boolean }) 
   const [buying, setBuying] = useState(false);
   const { buyCard, userCards } = useFrogs();
   const { t } = useTranslation();
-  const userCard = userCards.find((userCard) => userCard.card_id === card.id);
-  const cardLevel = userCard?.level_number || 0;
+  const cardLevel = userCards.find((userCard) => userCard.card_id === card.id)?.level_number || 0;
   const cardNextLevel = card.levels.find((level) => level.number === cardLevel + 1);
 
   const handleOnClick = async () => {
