@@ -19,12 +19,12 @@ const Center = styled.div`
   margin-top: 42px;
 `;
 
-const Balance = styled.div`
+const Balance = styled.div<{ length: number }>`
   font-size: 90px;
   font-weight: bold;
   line-height: 168px;
   margin-left: 15px;
-  min-width: 185px; // maybe 246px?
+  width: ${({ length }) => length}ch;
 `;
 
 const WhiteCard = styled.div`
@@ -88,6 +88,7 @@ const TipIcon = styled((props) => (
 const Status = () => {
   const { earnPerTap, balance, nextLevelPrice, profitPerHour } = useFrogs();
   const { t } = useTranslation();
+  const balanceFormatted = (balance && Math.round(balance).toLocaleString('en-US').replace(/,/g, ' ')) || '';
 
   return (
     <Container>
@@ -115,7 +116,7 @@ const Status = () => {
       </Row>
       <Center>
         <Coin size="medium" />
-        <Balance>{balance && balance.toLocaleString('en-US').replace(/,/g, ' ')}</Balance>
+        <Balance length={balanceFormatted.length}>{balanceFormatted}</Balance>
       </Center>
     </Container>
   );

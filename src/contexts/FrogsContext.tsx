@@ -232,6 +232,10 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   }, []);
 
   useInterval(() => {
+    setBalance((prevBalance) => prevBalance + profitPerHour / 3600);
+  }, 1000);
+
+  useInterval(() => {
     setEnergy((prevEnergy) =>
       prevEnergy + energyRecoveryRate < maxEnergy ? prevEnergy + energyRecoveryRate : maxEnergy
     );
