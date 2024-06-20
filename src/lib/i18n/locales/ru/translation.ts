@@ -15,6 +15,10 @@ export default {
     multiTap: 'Мультитап',
     energyLimit: 'Лимит энергии',
   },
+  popup_BalanceUp: {
+    balanceUp: 'Баланс поднят!',
+    balanceDiffSinceLast: 'Ваша награда',
+  },
   menu: {
     exchange: 'Сеть',
     mine: 'Майн',

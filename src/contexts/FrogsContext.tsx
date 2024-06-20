@@ -122,9 +122,10 @@ export type User = {
 };
 
 export type Event = null | {
-  type: 'levelUp';
-  maxEnergyGain: number;
-  earnPerTapGain: number;
+  type: 'levelUp' | 'balanceUp';
+  maxEnergyGain?: number;
+  earnPerTapGain?: number;
+  balanceDiffSinceLast?: number;
 };
 
 export const useFrogs = () => useContext(FrogsContext);
@@ -218,6 +219,13 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       const syncData = await sync(0);
       setBalance(syncData.user.balance);
       setEnergy(syncData.user.energy);
+
+      if (syncData.user.balanceDiffSinceLast > 0) {
+        setEvent({
+          type: 'balanceUp',
+          balanceDiffSinceLast: syncData.user.balanceDiffSinceLast,
+        });
+      }
     };
 
     readConfig().then();

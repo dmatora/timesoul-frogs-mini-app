@@ -1,4 +1,3 @@
-import React from 'react';
 import Coin from '../../Status/Coin';
 import Row from '../../Row';
 import Popup from '../Popup';
@@ -20,7 +19,7 @@ const Text = styled.div`
   font-weight: 600;
 `;
 
-const LevelUp = () => {
+const BalanceUp = () => {
   const { event } = useFrogs();
   const { t } = useTranslation();
 
@@ -29,19 +28,15 @@ const LevelUp = () => {
       <Row>
         <Coin size={'large'} />
       </Row>
-      <Header>{t('popup_levelUp.levelUp')}</Header>
-      <Row spread={true} margin="70px">
+      <Header>{t('popup_BalanceUp.balanceUp')}</Header>
+      <Row margin="70px">
         <Text>
-          {t('popup_levelUp.multiTap')}
-          <br />+{event?.earnPerTapGain}
-        </Text>
-        <Text>
-          {t('popup_levelUp.energyLimit')}
-          <br />+{event?.maxEnergyGain}
+          {t('popup_BalanceUp.balanceDiffSinceLast')}
+          <br />+{event?.balanceDiffSinceLast}
         </Text>
       </Row>
     </Popup>
   );
 };
 
-export default LevelUp;
+export default BalanceUp;
