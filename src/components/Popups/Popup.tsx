@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CloseIcon from './CloseIcon';
 import { useFrogs } from '../../contexts/FrogsContext';
+import { useTranslation } from 'react-i18next';
 
 const duration = 350;
 
@@ -77,6 +78,8 @@ const CloseButton = styled.button`
 
 const Popup = ({ children, close, height }: { children: React.ReactNode; close?: string; height?: number }) => {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
+
   const { clearEvent } = useFrogs();
 
   const handleClose = () => {
@@ -93,7 +96,7 @@ const Popup = ({ children, close, height }: { children: React.ReactNode; close?:
       <PopupContainer open={open} height={height}>
         <CloseIcon onClick={handleClose} />
         {children}
-        <CloseButton onClick={handleClose}>{close || 'Закрыть'}</CloseButton>
+        <CloseButton onClick={handleClose}>{close || t('system.close')}</CloseButton>
       </PopupContainer>
     </PopupOverlay>
   );

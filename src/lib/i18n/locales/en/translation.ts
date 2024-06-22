@@ -9,6 +9,7 @@ export default {
     profitPerHour: 'Profit per hour',
     coming1: 'Something interesting',
     coming2: 'coming up here soon....',
+    close: 'Close',
   },
   popup_levelUp: {
     levelUp: 'Level up!',
