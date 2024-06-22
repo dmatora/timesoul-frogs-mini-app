@@ -10,6 +10,7 @@ export default {
     coming1: 'Something interesting',
     coming2: 'coming up here soon....',
     close: 'Close',
+    friends: 'Friends',
   },
   popup_levelUp: {
     levelUp: 'Level up!',
@@ -23,7 +24,6 @@ export default {
   menu: {
     exchange: 'Exchange',
     mine: 'Mine',
-    friends: 'Friends',
     earn: 'Earn',
     food: 'Food',
   },

@@ -54,7 +54,7 @@ const FriendsButton = ({ active = false }) => {
     <ButtonContainer active={active}>
       <Icon active={active} />
       <ButtonLabel active={active} marginTop={11}>
-        {t('menu.friends')}
+        {t('system.friends')}
       </ButtonLabel>
     </ButtonContainer>
   );

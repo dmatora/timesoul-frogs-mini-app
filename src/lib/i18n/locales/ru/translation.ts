@@ -10,6 +10,7 @@ export default {
     coming1: 'Скоро здесь будет',
     coming2: 'что-то интересное...',
     close: 'Закрыть',
+    friends: 'Друзья',
   },
   popup_levelUp: {
     levelUp: 'Уровень повышен!',
@@ -23,7 +24,6 @@ export default {
   menu: {
     exchange: 'Сеть',
     mine: 'Майн',
-    friends: 'Друзья',
     earn: 'Деньги',
     food: 'Еда',
   },
