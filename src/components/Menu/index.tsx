@@ -14,7 +14,7 @@ const MenuContainer = styled.div`
   justify-content: space-between;
   left: 50%;
   position: fixed;
-  z-index: 1;
+  z-index: 10;
 
   @media (min-width: 1080px) {
     border-radius: 90px;

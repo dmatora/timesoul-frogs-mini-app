@@ -33,7 +33,8 @@ export default {
     achievements: 'Достижения',
   },
   mine: {
-    joinOurTG: 'Присоединяйтесь к нашему каналу в Telegram, чтобы разблокировать',
+    joinOurTG1: 'Залетай в наш телеграм-канал,',
+    joinOurTG2: 'чтобы разблокировать!',
     unlock: 'Разблокировать',
   },
   friends: {

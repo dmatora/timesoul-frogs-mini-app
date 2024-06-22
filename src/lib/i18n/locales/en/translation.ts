@@ -33,7 +33,8 @@ export default {
     achievements: 'Achievements',
   },
   mine: {
-    joinOurTG: 'Join our Telegram channel to unlock',
+    joinOurTG1: 'Join our Telegram channel,',
+    joinOurTG2: 'to unlock!',
     unlock: 'Unlock',
   },
   friends: {

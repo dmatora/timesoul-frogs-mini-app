@@ -9,9 +9,10 @@ import Card from '../../components/pages/Mine/Card';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { env } from '../../lib/env';
+import UnlockFrog from '../../components/pages/Mine/UnlockFrog';
 
 const Overlay = styled.div`
-  height: 1529px;
+  height: calc(100% - 638px);
   width: 1080px;
   background-color: white;
   border-radius: 95px;
@@ -22,10 +23,12 @@ const Overlay = styled.div`
 `;
 
 const Container = styled.div`
-  height: 1529px;
   width: 1080px;
   position: absolute;
-  top: 636px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  top: 600px;
   z-index: 1;
 `;
 
@@ -79,7 +82,12 @@ const MineInvestments: React.FC = () => {
         <>
           <Overlay></Overlay>
           <Container>
-            <JoinLabel>{t('mine.joinOurTG')}</JoinLabel>
+            <JoinLabel>
+              {t('mine.joinOurTG1')}
+              <br />
+              {t('mine.joinOurTG2')}
+            </JoinLabel>
+            <UnlockFrog />
             <NavLink to="/earn" onClick={updateUserTasks}>
               <GreenCard>{t('mine.unlock')}</GreenCard>
             </NavLink>

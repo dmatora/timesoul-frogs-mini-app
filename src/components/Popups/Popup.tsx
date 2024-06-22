@@ -7,7 +7,7 @@ const duration = 350;
 
 const PopupOverlay = styled.div<{ open: boolean }>`
   position: fixed;
-  z-index: 2;
+  z-index: 10;
   height: 100%;
   background: ${({ open }) => (open ? '#000c' : 'transparent')};
   transition: background ${duration}ms ease-in-out;
@@ -32,7 +32,6 @@ const PopupContainer = styled.div<{ open: boolean; height?: number }>`
   }
 
   position: absolute;
-  z-index: 2;
   background: #efedf2;
   border-radius: 95px 95px 0 0;
   bottom: ${({ open, height }) => (open ? '0' : `calc(-${height || 1248}px * var(--scale))`)};
