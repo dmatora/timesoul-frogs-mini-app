@@ -6,7 +6,7 @@ import Row from '../../components/Row';
 import { Card as CardType, useFrogs } from '../../contexts/FrogsContext';
 import Card from '../../components/pages/Mine/Card';
 
-const MineMarkets: React.FC = () => {
+const MineActivities: React.FC = () => {
   const { cardCategories } = useFrogs();
   const cardCategory = cardCategories.find((item) => item.id === 'markets');
 
@@ -21,4 +21,4 @@ const MineMarkets: React.FC = () => {
   );
 };
 
-export default MineMarkets;
+export default MineActivities;

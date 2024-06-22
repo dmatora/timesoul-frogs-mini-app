@@ -27,10 +27,10 @@ export default {
     food: 'Food',
   },
   mineMenu: {
-    markets: 'Markets',
-    team: 'PR&Team',
-    legal: 'Legal',
-    specials: 'Specials',
+    activities: 'Activities',
+    investments: 'Investments',
+    web3: 'WEB3',
+    achievements: 'Achievements',
   },
   mine: {
     joinOurTG: 'Join our Telegram channel to unlock',

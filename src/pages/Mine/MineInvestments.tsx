@@ -65,7 +65,7 @@ const GreenCard = styled.button`
   }
 `;
 
-const MineTeam: React.FC = () => {
+const MineInvestments: React.FC = () => {
   const { tasks, cardCategories, updateUserTasks } = useFrogs();
   const { t } = useTranslation();
   const cardCategory = cardCategories.find((item) => item.id === 'pr-and-team');
@@ -93,4 +93,4 @@ const MineTeam: React.FC = () => {
   );
 };
 
-export default MineTeam;
+export default MineInvestments;

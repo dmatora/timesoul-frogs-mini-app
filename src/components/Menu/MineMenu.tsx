@@ -23,15 +23,15 @@ const MineMenu = () => {
 
   return (
     <MenuContainer>
-      <NavLink to="/mine/markets" className={'active'}>
-        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.markets')} />}
+      <NavLink to="/mine/activities" className={'active'}>
+        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.activities')} />}
       </NavLink>
-      <NavLink to="/mine/team">{({ isActive }) => <TextButton active={isActive} label={t('mineMenu.team')} />}</NavLink>
-      <NavLink to="/mine/docs">
-        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.legal')} />}
+      <NavLink to="/mine/investments">
+        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.investments')} />}
       </NavLink>
-      <NavLink to="/mine/exclusive">
-        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.specials')} />}
+      <NavLink to="/mine/web3">{({ isActive }) => <TextButton active={isActive} label={t('mineMenu.web3')} />}</NavLink>
+      <NavLink to="/mine/achievements">
+        {({ isActive }) => <TextButton active={isActive} label={t('mineMenu.achievements')} />}
       </NavLink>
     </MenuContainer>
   );

@@ -8,10 +8,10 @@ import Friends from '../pages/Friends';
 import Earn from '../pages/Earn';
 import Food from '../pages/Food';
 import Menu from '../components/Menu';
-import MineDocs from '../pages/Mine/MineDocs';
-import MineTeam from '../pages/Mine/MineTeam';
-import MineExclusive from '../pages/Mine/MineExclusive';
-import MineMarkets from '../pages/Mine/MineMarkets';
+import MineWeb3 from '../pages/Mine/MineWeb3';
+import MineInvestments from '../pages/Mine/MineInvestments';
+import MineAchievements from '../pages/Mine/MineAchievements';
+import MineActivities from '../pages/Mine/MineActivities';
 import { FrogsProvider } from '../contexts/FrogsContext';
 import { handleResize } from '../lib/utils';
 import Leaderboard from '../pages/Leaderboard';
@@ -63,11 +63,11 @@ export function App() {
           <ScaledApp>
             <Routes>
               <Route path="/" element={<Tap />} />
-              <Route path="/mine" element={<Navigate to="/mine/markets" />} />
-              <Route path="/mine/markets" element={<MineMarkets />} />
-              <Route path="/mine/team" element={<MineTeam />} />
-              <Route path="/mine/docs" element={<MineDocs />} />
-              <Route path="/mine/exclusive" element={<MineExclusive />} />
+              <Route path="/mine" element={<Navigate to="/mine/activities" />} />
+              <Route path="/mine/activities" element={<MineActivities />} />
+              <Route path="/mine/investments" element={<MineInvestments />} />
+              <Route path="/mine/web3" element={<MineWeb3 />} />
+              <Route path="/mine/achievements" element={<MineAchievements />} />
               <Route path="/friends" element={<Friends />} />
               <Route path="/earn" element={<Earn />} />
               <Route path="/food" element={<Food />} />

@@ -6,20 +6,19 @@ import { Card as CardType, useFrogs } from '../../contexts/FrogsContext';
 import Row from '../../components/Row';
 import Card from '../../components/pages/Mine/Card';
 
-const MineExclusive: React.FC = () => {
+const MineWeb3: React.FC = () => {
   const { cardCategories } = useFrogs();
-  const cardCategory = cardCategories.find((item) => item.id === 'specials');
+  const cardCategory = cardCategories.find((item) => item.id === 'legal');
 
   return (
     <PageContainer>
       <Status />
       <MineMenu />
       <Row gap={'20px'} style={{ flexWrap: 'wrap', justifyContent: 'left' }} margin={'0 40px'}>
-        {cardCategory?.cards &&
-          cardCategory.cards.map((card: CardType) => <Card key={card.id} card={card} special={true} />)}
+        {cardCategory?.cards && cardCategory.cards.map((card: CardType) => <Card key={card.id} card={card} />)}
       </Row>
     </PageContainer>
   );
 };
 
-export default MineExclusive;
+export default MineWeb3;

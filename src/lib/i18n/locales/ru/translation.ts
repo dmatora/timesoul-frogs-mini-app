@@ -27,10 +27,10 @@ export default {
     food: 'Еда',
   },
   mineMenu: {
-    markets: 'Рынки',
-    team: 'PR и команда',
-    legal: 'Документы',
-    specials: 'Эксклюзив',
+    activities: 'Активности',
+    investments: 'Инвестиции',
+    web3: 'WEB3',
+    achievements: 'Достижения',
   },
   mine: {
     joinOurTG: 'Присоединяйтесь к нашему каналу в Telegram, чтобы разблокировать',
