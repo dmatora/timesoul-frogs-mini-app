@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Row from '../../../Row';
 import Coin from '../../../Status/Coin';
-import { Card } from '../../../../contexts/FrogsContext';
+import { UserCard } from '../../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
 import { compactAmount } from '../../../../lib/utils';
+import LockedIcon from './LockedIcon';
 
 const Container = styled.div<{ special: boolean }>`
   min-height: 208px;
@@ -16,12 +17,13 @@ const Container = styled.div<{ special: boolean }>`
   display: flex;
   flex-direction: row;
   justify-content: ${({ special }) => (special ? 'center' : '')};
-  padding: ${({ special }) => (special ? '40px 0' : '')};
+  padding: ${({ special }) => (special ? '40px 0' : '10px 0')};
 `;
 
 const Title = styled.div<{ special: boolean }>`
-  font-size: 30px;
+  font-size: 29px;
   text-align: ${({ special }) => (special ? 'center' : 'left')};
+  padding-right: 20px;
 `;
 
 const ProfitLabel = styled.div<{ active: boolean; special?: boolean }>`
@@ -35,42 +37,47 @@ const ProfitValue = styled.div<{ active: boolean }>`
   color: ${({ active }) => (active ? 'black' : 'gray')};
 `;
 
-const Icon = styled.img`
-  margin-left: 20px;
-  height: 160px;
-  width: 160px;
+const Icon = styled.img<{ locked: boolean; special: boolean }>`
+  margin-left: ${({ special }) => (special ? '' : '20px')};
+  width: ${({ special }) => (special ? '490px' : '160px')};
+  height: ${({ special }) => (special ? '490px' : '160px')};
   border-radius: 80px;
+  opacity: ${({ locked }) => (locked ? 0.4 : 1)};
+  flex-shrink: 0;
 `;
 
-const CardHeader = ({ card, cardLevel, special }: { card: Card; cardLevel: number; special: boolean }) => {
+const CardHeader = ({ card, special }: { card: UserCard; special: boolean }) => {
   const { t } = useTranslation();
-  const cardCurrentLevel = card.levels.find((level) => level.number === (cardLevel || 1));
-  const active = cardLevel > 0;
+  const active = card.level > 0;
 
   return (
     <Container special={special}>
-      <Row gap={'30px'} style={{ flexDirection: special ? 'column' : 'row' }}>
-        <Icon alt="Card Icon" src={card.coverUrl} />
+      <Row gap={'30px'} style={{ flexDirection: special ? 'column' : 'row', justifyContent: 'left' }}>
+        {card.isBlockedBy && <LockedIcon special={special} />}
+        <Icon
+          locked={!!card.isBlockedBy}
+          alt="Card Icon"
+          src={card.isBlockedBy ? card.coverNaUrl : card.coverUrl}
+          special={special}
+        />
         <div>
-          <Title special={special}>{card.title}</Title>
-          {cardCurrentLevel && (
-            <>
-              {!special && <ProfitLabel active={active}>{t('system.profitPerHour')}</ProfitLabel>}
-              <Row
-                gap={'5px'}
-                style={{ justifyContent: 'left', filter: active ? '' : 'grayscale(100%)' }}
-                margin={'10px 0 0 -15px'}
-              >
-                {special && (
-                  <ProfitLabel active={active} special={true}>
-                    {t('system.profitPerHour')}
-                  </ProfitLabel>
-                )}
-                <Coin />
-                <ProfitValue active={active}>+{compactAmount(cardCurrentLevel?.profitPerHour)}</ProfitValue>
-              </Row>
-            </>
-          )}
+          <Title special={special}>{card.name}</Title>
+          {!special && <ProfitLabel active={active}>{t('system.profitPerHour')}</ProfitLabel>}
+          <Row
+            gap={'5px'}
+            style={{ justifyContent: 'left', filter: active ? '' : 'grayscale(100%)' }}
+            margin={'10px 0 0 -15px'}
+          >
+            {special && (
+              <ProfitLabel active={active} special={true}>
+                {t('system.profitPerHour')}
+              </ProfitLabel>
+            )}
+            <Coin />
+            <ProfitValue active={active}>
+              +{compactAmount(card.level ? card.profitPerHour : card.nextLevelProfitPerHour)}
+            </ProfitValue>
+          </Row>
         </div>
       </Row>
     </Container>

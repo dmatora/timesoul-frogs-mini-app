@@ -1,6 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
-import { getFriends, getLeaderboard, getUserTasks, postCard, postLevel, postStart, sync } from '../lib/api';
+import {
+  getFriends,
+  getLeaderboard,
+  getUserCards,
+  getUserTasks,
+  postCard,
+  postLevel,
+  postStart,
+  sync,
+} from '../lib/api';
 import { useInterval } from 'react-use';
 import { getInvitedBy } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
@@ -18,7 +27,6 @@ type FrogsContextInterface = {
   maxLevel: number;
   progress: number;
   nextLevelPrice: number | null;
-  cardCategories: CardCategory[];
   friends: Friend[];
   leaders: Leader[];
   tasks: UserTask[];
@@ -28,7 +36,7 @@ type FrogsContextInterface = {
   updateLeaderboard: () => void;
   updateUserTasks: () => Promise<void>;
   handleTap: () => void;
-  buyCard: (cardId: string) => Promise<void>;
+  buyCard: (card: UserCard) => Promise<void>;
   upgradeLevel: () => void;
 };
 
@@ -44,7 +52,6 @@ const FrogsContext = createContext<FrogsContextInterface>({
   maxLevel: 0,
   progress: 0,
   nextLevelPrice: 0,
-  cardCategories: [],
   friends: [],
   leaders: [],
   tasks: [],
@@ -81,6 +88,22 @@ export type Card = {
 export type UserCard = {
   card_id: string;
   level_number: number;
+
+  categoryName: string;
+  coverNaUrl: string;
+  coverUrl: string;
+  description: string;
+  id: number;
+  isBlockedBy: {
+    cardId: number;
+    cardLevel: number;
+    moreFriendsCount: null | number;
+  };
+  level: number;
+  name: string;
+  nextLevelPrice: number;
+  nextLevelProfitPerHour: number;
+  profitPerHour: number;
 };
 
 export type Level = {
@@ -150,9 +173,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [nextLevelPrice, setNextLevelPrice] = useLocalStorageState<number | null>('nextLevelPrice', {
     defaultValue: null,
   });
-  const [cardCategories, setCardCategories] = useLocalStorageState<CardCategory[]>('cardCategories', {
-    defaultValue: [],
-  });
   const [levels, setLevels] = useLocalStorageState<Level[]>('levels', { defaultValue: [] });
   const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
   const [leaders, setLeaders] = useLocalStorageState<Leader[]>('leaders', { defaultValue: [] });
@@ -199,8 +219,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         return;
       }
       console.debug(start);
-      const { cardsCatalog, config, user, userCards, friends } = start;
-      setCardCategories(cardsCatalog);
+      const { config, user, userCards, friends } = start;
       setLevels(config.levels);
       setMaxLevel(config.levels.length);
       setSyncPeriod(config.syncPeriod);
@@ -276,39 +295,14 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     }
   };
 
-  const buyCard = async (cardId: string) => {
-    const cardData = cardCategories
-      .map((cardCategory) => cardCategory.cards.find((card) => card.id === cardId))
-      .filter((item) => item)[0];
-    if (!cardData) throw new Error('Should not happen');
-    const response = await postCard(cardId);
-    console.debug(response);
-
-    const cardLevel = userCards.find((userCard) => userCard.card_id === cardId)?.level_number || 0;
-    const cardNextLevel = cardData.levels.find((level) => level.number === cardLevel + 1);
-    if (!cardNextLevel) throw new Error('Should not happen');
-    setBalance((prevBalance) => prevBalance - cardNextLevel.price);
-
-    let found = false;
-    const cards = userCards.map((userCard) => {
-      if (userCard.card_id === cardId) {
-        found = true;
-        const oldProfit = cardData.levels.find((level) => level.number === userCard.level_number)?.profitPerHour;
-        userCard.level_number++;
-        const newProfit = cardData.levels.find((level) => level.number === userCard.level_number)?.profitPerHour;
-        if (!oldProfit || !newProfit) throw new Error('Should not happen');
-        const profitIncrement = newProfit - oldProfit;
-        setProfitPerHour((prevProfitPerHour) => prevProfitPerHour + profitIncrement);
-      }
-      return userCard;
-    });
-    if (!found) {
-      cards.push({ card_id: cardId, level_number: 1 });
-      const profitIncrement = cardData.levels.find((level) => level.number === 1)?.profitPerHour;
-      if (!profitIncrement) throw new Error('Should not happen');
-      setProfitPerHour((prevProfitPerHour) => prevProfitPerHour + profitIncrement);
+  const buyCard = async (card: UserCard) => {
+    const cardsData = await postCard(card.id);
+    console.debug(cardsData);
+    if (cardsData) {
+      setUserCards(cardsData);
+      setBalance((prevBalance) => prevBalance - card.nextLevelPrice);
+      setProfitPerHour((prevProfitPerHour) => prevProfitPerHour + card.nextLevelProfitPerHour - card.profitPerHour);
     }
-    setUserCards(cards);
   };
 
   const upgradeLevel = async () => {
@@ -345,7 +339,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         maxLevel,
         progress,
         nextLevelPrice,
-        cardCategories,
         friends,
         leaders,
         tasks,

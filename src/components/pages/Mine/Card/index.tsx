@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Row from '../../../Row';
-import { Card as CardType, useFrogs } from '../../../../contexts/FrogsContext';
+import { useFrogs, UserCard } from '../../../../contexts/FrogsContext';
 import CardHeader from './CardHeader';
-import Coin from '../../../Status/Coin';
 import { useTranslation } from 'react-i18next';
+import Coin from '../../../Status/Coin';
 import { compactAmount } from '../../../../lib/utils';
 
-const Container = styled.div`
+const Container = styled.div<{ locked: boolean }>`
   display: flex;
   flex-direction: column;
   font-size: 26px;
@@ -25,6 +25,19 @@ const CardLevel = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const Requirement = styled.div`
+  text-align: center;
+  width: 460px;
+  min-height: 75px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 37px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BuyButton = styled.button<{ buying: boolean }>`
@@ -82,34 +95,49 @@ const BuyButton = styled.button<{ buying: boolean }>`
   `};
 `;
 
-const Card = ({ card, special = false }: { card: CardType; special?: boolean }) => {
+const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) => {
   const [buying, setBuying] = useState(false);
   const { buyCard, userCards } = useFrogs();
   const { t } = useTranslation();
-  const cardLevel = userCards.find((userCard) => userCard.card_id === card.id)?.level_number || 0;
-  const cardNextLevel = card.levels.find((level) => level.number === cardLevel + 1);
 
+  const getCardName = (cardId: number) => {
+    return userCards.find((card) => card.id === cardId)?.name;
+  };
   const handleOnClick = async () => {
     setBuying(true);
-    await buyCard(card.id);
+    await buyCard(card);
     setBuying(false);
   };
 
   return (
-    <Container>
-      <CardHeader card={card} cardLevel={cardLevel} special={special} />
+    <Container locked={!!card.isBlockedBy}>
+      <CardHeader card={card} special={special} />
       <Row gap={'6px'}>
-        <CardLevel>
-          {t('system.level')} {cardLevel}
-        </CardLevel>
-        <BuyButton onClick={handleOnClick} buying={buying} disabled={buying || !cardNextLevel}>
-          {!buying && cardNextLevel && (
-            <Row gap={'5px'}>
-              <Coin />
-              {compactAmount(cardNextLevel?.price)}
-            </Row>
-          )}
-        </BuyButton>
+        {!card.isBlockedBy && (
+          <>
+            <CardLevel>
+              {t('system.level')} {card.level}
+            </CardLevel>
+            <BuyButton onClick={handleOnClick} buying={buying} disabled={buying || !card.nextLevelPrice}>
+              {!buying && card.nextLevelPrice && (
+                <Row gap={'5px'}>
+                  <Coin />
+                  {compactAmount(card.nextLevelPrice)}
+                </Row>
+              )}
+            </BuyButton>
+          </>
+        )}
+        {card.isBlockedBy && (
+          <Requirement>
+            {card.isBlockedBy &&
+              card.isBlockedBy.moreFriendsCount &&
+              `${t('system.friends')} (${card.isBlockedBy.moreFriendsCount})`}
+            {card.isBlockedBy &&
+              !card.isBlockedBy.moreFriendsCount &&
+              `${getCardName(card.isBlockedBy.cardId)} (${t('system.level')} ${card.isBlockedBy.cardLevel})`}
+          </Requirement>
+        )}
       </Row>
     </Container>
   );

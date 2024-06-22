@@ -1,5 +1,6 @@
 import WebApp from '@twa-dev/sdk';
 import { env } from '../env';
+import i18n from '../i18n';
 
 const { backUrl, tapUrl } = env;
 
@@ -23,6 +24,7 @@ const callApi = async (
     method,
     headers: {
       'Content-Type': 'application/json',
+      'Accept-Language': i18n.language,
       Authorization: `Bearer ${btoa(WebApp.initData)}`,
     },
     body,

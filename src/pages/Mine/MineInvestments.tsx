@@ -3,7 +3,7 @@ import PageContainer from '../../components/PageContainer';
 import Status from '../../components/Status';
 import MineMenu from '../../components/Menu/MineMenu';
 import styled from 'styled-components';
-import { Card as CardType, useFrogs } from '../../contexts/FrogsContext';
+import { useFrogs, UserCard } from '../../contexts/FrogsContext';
 import Row from '../../components/Row';
 import Card from '../../components/pages/Mine/Card';
 import { useTranslation } from 'react-i18next';
@@ -69,9 +69,9 @@ const GreenCard = styled.button`
 `;
 
 const MineInvestments: React.FC = () => {
-  const { tasks, cardCategories, updateUserTasks } = useFrogs();
+  const { userCards, tasks, updateUserTasks } = useFrogs();
   const { t } = useTranslation();
-  const cardCategory = cardCategories.find((item) => item.id === 'pr-and-team');
+  const cards = userCards.filter((item) => item.categoryName === 'Investments');
   const ourTgChannelTask = tasks.find((task) => task.id === env.channelTask);
 
   return (
@@ -95,7 +95,7 @@ const MineInvestments: React.FC = () => {
         </>
       )}
       <Row gap={'20px'} style={{ flexWrap: 'wrap', justifyContent: 'left' }} margin={'0 40px'}>
-        {cardCategory?.cards && cardCategory.cards.map((card: CardType) => <Card key={card.id} card={card} />)}
+        {cards && cards.map((card: UserCard) => <Card key={card.id} card={card} />)}
       </Row>
     </PageContainer>
   );
