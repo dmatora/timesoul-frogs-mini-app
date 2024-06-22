@@ -5,6 +5,7 @@ import Row from '../../../Row';
 import Coin from '../../../Status/Coin';
 import { useTranslation } from 'react-i18next';
 import UserIcon from '../../../UserIcon';
+import { amountWithSpaces } from '../../../../lib/utils';
 
 const Container = styled.div`
   height: 156px;
@@ -44,7 +45,7 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
         </Row>
         <Row>
           <Coin />
-          <Bonus>+{friend.bonus.toLocaleString('en-US').replace(/,/g, ' ')}</Bonus>
+          <Bonus>+{amountWithSpaces(friend.bonus)}</Bonus>
         </Row>
       </Row>
     </Container>

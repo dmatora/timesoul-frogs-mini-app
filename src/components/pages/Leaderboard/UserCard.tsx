@@ -5,6 +5,7 @@ import Row from '../../Row';
 import Coin from '../../Status/Coin';
 import { useTranslation } from 'react-i18next';
 import UserIcon from '../../UserIcon';
+import { amountWithSpaces } from '../../../lib/utils';
 
 const Container = styled.div`
   height: 156px;
@@ -50,7 +51,7 @@ const UserCard = ({ user, place }: { user: Leader; place: number }) => {
             <Name>{name}</Name>
             <Row style={{ justifyContent: 'left' }}>
               <Coin />
-              <Balance>{user.balance.toLocaleString('en-US').replace(/,/g, ' ')}</Balance>
+              <Balance>{amountWithSpaces(user.balance)}</Balance>
             </Row>
           </div>
         </Row>

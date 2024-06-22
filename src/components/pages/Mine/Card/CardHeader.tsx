@@ -4,6 +4,7 @@ import Row from '../../../Row';
 import Coin from '../../../Status/Coin';
 import { Card } from '../../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
+import { compactAmount } from '../../../../lib/utils';
 
 const Container = styled.div<{ special: boolean }>`
   min-height: 208px;
@@ -66,7 +67,7 @@ const CardHeader = ({ card, cardLevel, special }: { card: Card; cardLevel: numbe
                   </ProfitLabel>
                 )}
                 <Coin />
-                <ProfitValue active={active}>+{cardCurrentLevel?.profitPerHour}</ProfitValue>
+                <ProfitValue active={active}>+{compactAmount(cardCurrentLevel?.profitPerHour)}</ProfitValue>
               </Row>
             </>
           )}

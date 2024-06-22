@@ -17,6 +17,19 @@ export const getLevelName = (level: number) => {
   return names[level];
 };
 
+export const amountWithSpaces = (balance: number) => {
+  if (!balance) return '0';
+  return Math.round(balance).toLocaleString('en-US').replace(/,/g, ' ');
+};
+
+export const compactAmount = (price: number, fractionDigits = 2) => {
+  if (price >= 1000000000000) return `${parseFloat((price / 1000000000000).toFixed(fractionDigits))}T`;
+  if (price >= 1000000000) return `${parseFloat((price / 1000000000).toFixed(fractionDigits))}B`;
+  if (price >= 1000000) return `${parseFloat((price / 1000000).toFixed(fractionDigits))}M`;
+  if (price >= 1000) return `${parseFloat((price / 1000).toFixed(fractionDigits))}K`;
+  return price;
+};
+
 export const getTgUserId = () => {
   return WebApp.initDataUnsafe?.user?.id;
 };

@@ -4,6 +4,7 @@ import Popup from '../Popup';
 import styled from 'styled-components';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
+import { compactAmount } from '../../../lib/utils';
 
 const Header = styled.div`
   text-align: center;
@@ -32,7 +33,7 @@ const BalanceUp = () => {
       <Row margin="70px">
         <Text>
           {t('popup_BalanceUp.balanceDiffSinceLast')}
-          <br />+{event?.balanceDiffSinceLast}
+          <br />+{compactAmount(event?.balanceDiffSinceLast || 0) /* ToDo implement proper event types */}
         </Text>
       </Row>
     </Popup>

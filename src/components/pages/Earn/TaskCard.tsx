@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Row from '../../Row';
 import Coin from '../../Status/Coin';
 import OpenButton from './OpenButton';
+import { amountWithSpaces } from '../../../lib/utils';
 
 const Container = styled.div<{ done?: boolean }>`
   border: ${({ done }) => (done ? '3px solid #98e703' : 'none')};
@@ -59,7 +60,7 @@ const TaskCard = ({
             {reward && (
               <Row style={{ justifyContent: 'left' }} margin={'7px 0 0'}>
                 <Coin />
-                <Amount>+{bonus.toLocaleString('en-US').replace(/,/g, ' ')}</Amount>
+                <Amount>+{amountWithSpaces(bonus)}</Amount>
               </Row>
             )}
           </div>

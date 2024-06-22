@@ -5,7 +5,7 @@ import Progress from '../components/pages/Tap/Progress';
 import Row from '../components/Row';
 import styled from 'styled-components';
 import UserCard from '../components/pages/Leaderboard/UserCard';
-import { getLevelName } from '../lib/utils';
+import { compactAmount, getLevelName } from '../lib/utils';
 
 const Level = styled.div`
   margin: 0 auto;
@@ -32,8 +32,8 @@ const Leaderboard: React.FC = () => {
       </Row>
       <Row>
         <Balance>
-          {balance}
-          {nextLevelPrice && ` / ${nextLevelPrice / 1000}K`}
+          {compactAmount(balance)}
+          {nextLevelPrice && ` / ${compactAmount(nextLevelPrice)}`}
         </Balance>
       </Row>
       <Row margin={'26px 48px 38px'}>

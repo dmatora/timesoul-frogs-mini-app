@@ -5,6 +5,7 @@ import { Card as CardType, useFrogs } from '../../../../contexts/FrogsContext';
 import CardHeader from './CardHeader';
 import Coin from '../../../Status/Coin';
 import { useTranslation } from 'react-i18next';
+import { compactAmount } from '../../../../lib/utils';
 
 const Container = styled.div`
   display: flex;
@@ -105,7 +106,7 @@ const Card = ({ card, special = false }: { card: CardType; special?: boolean }) 
           {!buying && cardNextLevel && (
             <Row gap={'5px'}>
               <Coin />
-              {cardNextLevel?.price}
+              {compactAmount(cardNextLevel?.price)}
             </Row>
           )}
         </BuyButton>

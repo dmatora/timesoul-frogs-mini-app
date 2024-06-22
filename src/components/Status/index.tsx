@@ -4,6 +4,7 @@ import Coin from './Coin';
 import Row from '../Row';
 import { useFrogs } from '../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
+import { amountWithSpaces, compactAmount } from '../../lib/utils';
 
 const Container = styled.div`
   margin: 37px 40px 0;
@@ -88,7 +89,6 @@ const TipIcon = styled((props) => (
 const Status = () => {
   const { earnPerTap, balance, nextLevelPrice, profitPerHour } = useFrogs();
   const { t } = useTranslation();
-  const balanceFormatted = (balance && Math.round(balance).toLocaleString('en-US').replace(/,/g, ' ')) || '';
 
   return (
     <Container>
@@ -102,13 +102,13 @@ const Status = () => {
         </WhiteCard>
         <WhiteCard>
           <CardLabel>{t('system.coinsToLevelUp')}</CardLabel>
-          <CardValue>{nextLevelPrice ? `${nextLevelPrice / 1000}K` : `-`}</CardValue>
+          <CardValue>{nextLevelPrice ? `${compactAmount(nextLevelPrice)}` : `-`}</CardValue>
         </WhiteCard>
         <WhiteCard>
           <CardLabel>{t('system.profitPerHour')}</CardLabel>
           <CardRow>
             <Coin />
-            <CardValue>{profitPerHour ? `+${profitPerHour}` : '0'}</CardValue>
+            <CardValue>{profitPerHour ? `+${compactAmount(profitPerHour)}` : '0'}</CardValue>
             {/*<TipIcon style={{ marginLeft: 8 }} />*/}
             {/* ToDo implement Tip popup */}
           </CardRow>
@@ -116,7 +116,7 @@ const Status = () => {
       </Row>
       <Center>
         <Coin size="medium" />
-        <Balance length={balanceFormatted.length}>{balanceFormatted}</Balance>
+        <Balance length={amountWithSpaces(balance).length}>{amountWithSpaces(balance)}</Balance>
       </Center>
     </Container>
   );
