@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import UserIcon from '../../UserIcon';
 import ChooseNetwork from './ChooseNetwork';
@@ -7,8 +7,10 @@ import SettingsButton from './SettingsButton';
 import WebApp from '@twa-dev/sdk';
 import { useTranslation } from 'react-i18next';
 
-const ScreenWrapper = styled.div`
-  height: 100px;
+const ScreenWrapper = styled.div<{ expanded: boolean }>`
+  height: ${({ expanded }) => (expanded ? '100px' : '0')};
+  transition: height 300ms ease-in;
+  overflow: hidden;
   position: relative;
   width: 1000px;
   background: black;
@@ -42,10 +44,16 @@ const getUserName = (userTranslated: string) => {
 };
 
 const Settings = () => {
+  const [expanded, setExpanded] = useState(false);
   const { t } = useTranslation();
+  useEffect(() => {
+    setTimeout(() => {
+      setExpanded(true);
+    }, 300);
+  }, []);
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper expanded={expanded}>
       <Row spread={true}>
         <Row gap="20px">
           <UserIcon light={true} />
