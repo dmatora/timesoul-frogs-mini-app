@@ -8,7 +8,7 @@ const duration = 350;
 
 const PopupOverlay = styled.div<{ open: boolean }>`
   position: fixed;
-  z-index: 10;
+  z-index: 100;
   height: 100%;
   background: ${({ open }) => (open ? '#000c' : 'transparent')};
   transition: background ${duration}ms ease-in-out;

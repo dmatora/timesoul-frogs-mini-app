@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Sentry from '@sentry/react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import Tap from '../pages/Tap';
 import Friends from '../pages/Friends';
@@ -20,6 +21,7 @@ import ForcePortrait from '../components/ForcePortrait';
 import { env } from '../lib/env';
 import { Notifications } from '../components/Notifications';
 import { onlineStatusInit } from '../controllers/OnlineStatusController';
+import { useLocation } from 'react-use';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -33,6 +35,18 @@ const ScaledApp = styled.div`
   @media (max-width: 1079px) {
     transform-origin: 0 0;
     transform: scale(var(--scale));
+  }
+
+  .fade-enter {
+    position: absolute;
+    opacity: 0;
+    z-index: 10;
+    transition: opacity 300ms ease-in;
+  }
+
+  .fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
   }
 `;
 
@@ -52,6 +66,8 @@ export function App() {
     onlineStatusInit();
   }, []);
 
+  const location = useLocation();
+
   return (
     <FrogsProvider>
       <Router>
@@ -61,18 +77,22 @@ export function App() {
           <Menu />
           <Popups />
           <ScaledApp>
-            <Routes>
-              <Route path="/" element={<Tap />} />
-              <Route path="/mine" element={<Navigate to="/mine/activities" />} />
-              <Route path="/mine/activities" element={<MineActivities />} />
-              <Route path="/mine/investments" element={<MineInvestments />} />
-              <Route path="/mine/web3" element={<MineWeb3 />} />
-              <Route path="/mine/achievements" element={<MineAchievements />} />
-              <Route path="/friends" element={<Friends />} />
-              <Route path="/earn" element={<Earn />} />
-              <Route path="/food" element={<Food />} />
-              <Route path="/leaderboard" element={<Leaderboard />} />
-            </Routes>
+            <TransitionGroup>
+              <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
+                <Routes location={location}>
+                  <Route path="/" element={<Tap />} />
+                  <Route path="/mine" element={<Navigate to="/mine/activities" />} />
+                  <Route path="/mine/activities" element={<MineActivities />} />
+                  <Route path="/mine/investments" element={<MineInvestments />} />
+                  <Route path="/mine/web3" element={<MineWeb3 />} />
+                  <Route path="/mine/achievements" element={<MineAchievements />} />
+                  <Route path="/friends" element={<Friends />} />
+                  <Route path="/earn" element={<Earn />} />
+                  <Route path="/food" element={<Food />} />
+                  <Route path="/leaderboard" element={<Leaderboard />} />
+                </Routes>
+              </CSSTransition>
+            </TransitionGroup>
           </ScaledApp>
         </VerticalApp>
       </Router>

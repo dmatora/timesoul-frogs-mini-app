@@ -12,7 +12,7 @@ const Tap: React.FC = () => {
   const { updateLeaderboard } = useFrogs();
 
   return (
-    <>
+    <div>
       <SettingsPanel />
       <PageContainer header={true}>
         <Status />
@@ -22,7 +22,7 @@ const Tap: React.FC = () => {
         <FrogButton />
         <Energy />
       </PageContainer>
-    </>
+    </div>
   );
 };
 
