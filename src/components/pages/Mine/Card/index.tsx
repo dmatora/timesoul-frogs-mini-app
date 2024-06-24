@@ -6,6 +6,7 @@ import CardHeader from './CardHeader';
 import { useTranslation } from 'react-i18next';
 import Coin from '../../../Status/Coin';
 import { compactAmount } from '../../../../lib/utils';
+import Loading from '../../../Loading';
 
 const Container = styled.div<{ locked: boolean }>`
   display: flex;
@@ -64,36 +65,8 @@ const BuyButton = styled.button<{ buying: boolean }>`
     box-shadow: none;
     top: 6px;
     left: 5px;
-  }
-  `};
-
-  ${({ buying }) =>
-    buying &&
-    `
-  &::after {
-    content: '.';
-    display: inline-block;
-    margin-left: 8px;
-    animation: dots 1.5s infinite;
-  }
-
-  @keyframes dots {
-    0%,
-    20% {
-      content: '.';
-    }
-    40% {
-      content: '..';
-    }
-    60% {
-      content: '...';
-    }
-    80%,
-    100% {
-      content: '';
-    }
-  }
-  `};
+  };
+  `}
 `;
 
 const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) => {
@@ -121,6 +94,7 @@ const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) 
             </CardLevel>
             {card.nextLevelPrice && (
               <BuyButton onClick={handleOnClick} buying={buying} disabled={buying || card.nextLevelPrice > balance}>
+                {buying && <Loading />}
                 {!buying && card.nextLevelPrice && (
                   <Row gap={'5px'}>
                     <Coin />
