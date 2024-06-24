@@ -16,6 +16,7 @@ import WebApp from '@twa-dev/sdk';
 import i18n from '../lib/i18n';
 
 type FrogsContextInterface = {
+  config: Config | Record<string, never>;
   user: User | Record<string, never>;
   balance: number;
   energy: number;
@@ -41,6 +42,7 @@ type FrogsContextInterface = {
 };
 
 const FrogsContext = createContext<FrogsContextInterface>({
+  config: {},
   user: {},
   balance: 0,
   energy: 0,
@@ -64,6 +66,14 @@ const FrogsContext = createContext<FrogsContextInterface>({
   buyCard: async () => Promise.resolve(),
   upgradeLevel: () => null,
 });
+
+export type Config = {
+  id: string;
+  energyRecoveryRate: number;
+  title: string;
+  levels: Level[];
+  syncPeriod: number;
+};
 
 export type CardCategory = {
   id: string;
@@ -158,6 +168,7 @@ interface FrogsProviderProps {
 }
 
 export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
+  const [config, setConfig] = useLocalStorageState<Config | Record<string, never>>('config', { defaultValue: {} });
   const [user, setUser] = useLocalStorageState<User | Record<string, never>>('user', { defaultValue: {} });
   const [balance, setBalance] = useLocalStorageState<number>('balance', { defaultValue: 0 });
   const [taps, setTaps] = useLocalStorageState<number>('taps', { defaultValue: 0 });
@@ -173,14 +184,9 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [nextLevelPrice, setNextLevelPrice] = useLocalStorageState<number | null>('nextLevelPrice', {
     defaultValue: null,
   });
-  const [levels, setLevels] = useLocalStorageState<Level[]>('levels', { defaultValue: [] });
   const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
   const [leaders, setLeaders] = useLocalStorageState<Leader[]>('leaders', { defaultValue: [] });
   const [tasks, setTasks] = useLocalStorageState<UserTask[]>('tasks', { defaultValue: [] });
-  const [syncPeriod, setSyncPeriod] = useLocalStorageState<number>('syncPeriod', { defaultValue: 0 });
-  const [energyRecoveryRate, setEnergyRecoveryRate] = useLocalStorageState<number>('energyRecoveryRate', {
-    defaultValue: 0,
-  });
   const [event, setEvent] = useState<Event>(null);
 
   useEffect(() => {
@@ -188,7 +194,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   }, [balance, nextLevelPrice]);
 
   useEffect(() => {
-    const nextLevel = levels.find((item) => item.number === level + 1);
+    const nextLevel = config.levels?.find((item) => item.number === level + 1);
     if (!nextLevel) {
       setNextLevelPrice(null);
       return;
@@ -202,11 +208,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       console.debug({ initDataUnsafe: WebApp.initDataUnsafe });
       const start: {
         cardsCatalog: CardCategory[];
-        config: {
-          syncPeriod: number;
-          energyRecoveryRate: number;
-          levels: Level[];
-        };
+        config: Config;
         friends: {
           hasMoreItems: true;
           list: Friend[];
@@ -220,13 +222,12 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       }
       console.debug(start);
       const { config, user, userCards, friends } = start;
-      setLevels(config.levels);
+      setConfig(config);
       setMaxLevel(config.levels.length);
-      setSyncPeriod(config.syncPeriod);
-      setEnergyRecoveryRate(config.energyRecoveryRate);
 
       const { hasMoreItems, list } = friends;
       setFriends(list);
+
       const { earnPerTap, profitPerHour, energyLimit, level } = user;
       setUser(user);
       setEarnPerTap(earnPerTap);
@@ -255,8 +256,9 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   }, 1000);
 
   useInterval(() => {
+    if (!config.energyRecoveryRate) return;
     setEnergy((prevEnergy) =>
-      prevEnergy + energyRecoveryRate < maxEnergy ? prevEnergy + energyRecoveryRate : maxEnergy
+      prevEnergy + config.energyRecoveryRate < maxEnergy ? prevEnergy + config.energyRecoveryRate : maxEnergy
     );
   }, 1000);
 
@@ -266,7 +268,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       console.debug(response);
       if (!response.times.error) setLastTaps(taps);
     }
-  }, 1000 * syncPeriod);
+  }, 1000 * (config.syncPeriod || 10));
 
   const clearEvent = async () => {
     setEvent(null);
@@ -308,7 +310,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const upgradeLevel = async () => {
     if (!nextLevelPrice || balance < nextLevelPrice) return;
 
-    const nextLevel = levels.find((item) => item.number === level + 1);
+    const nextLevel = config.levels?.find((item) => item.number === level + 1);
     if (!nextLevel) {
       throw new Error('Should not happen');
     }
@@ -328,6 +330,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   return (
     <FrogsContext.Provider
       value={{
+        config,
         user,
         balance,
         energy,
