@@ -22,7 +22,7 @@ export default {
     balanceDiffSinceLast: 'Ваша награда',
   },
   menu: {
-    exchange: 'Сеть',
+    network: 'Сеть',
     mine: 'Майн',
     earn: 'Деньги',
     food: 'Еда',

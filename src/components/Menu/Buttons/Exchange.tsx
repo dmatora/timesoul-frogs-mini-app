@@ -34,7 +34,7 @@ const ExchangeButton = ({ active = false }) => {
     <ButtonContainer active={active}>
       <Icon active={active} />
       <ButtonLabel active={active} marginTop={10}>
-        {t('menu.exchange')}
+        {t('menu.network')}
       </ButtonLabel>
     </ButtonContainer>
   );
