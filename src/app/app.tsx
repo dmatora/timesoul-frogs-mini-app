@@ -23,6 +23,7 @@ import { Notifications } from '../components/Notifications';
 import { onlineStatusInit } from '../controllers/OnlineStatusController';
 import { useLocation } from 'react-use';
 import Settings from '../pages/Settings';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -61,6 +62,14 @@ Sentry.init({
   dsn: env.sentryDsn,
 });
 
+const queryClient = new QueryClient();
+
+const Providers = ({ children }: { children: React.ReactNode }) => (
+  <QueryClientProvider client={queryClient}>
+    <FrogsProvider>{children}</FrogsProvider>
+  </QueryClientProvider>
+);
+
 export function App() {
   useEffect(() => {
     handleResize();
@@ -70,7 +79,7 @@ export function App() {
   const location = useLocation();
 
   return (
-    <FrogsProvider>
+    <Providers>
       <Router>
         <Notifications />
         <ForcePortrait />
@@ -99,7 +108,7 @@ export function App() {
           </ScaledApp>
         </VerticalApp>
       </Router>
-    </FrogsProvider>
+    </Providers>
   );
 }
 

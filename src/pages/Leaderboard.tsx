@@ -6,6 +6,8 @@ import Row from '../components/Row';
 import styled from 'styled-components';
 import UserCard from '../components/pages/Leaderboard/UserCard';
 import { compactAmount, getLevelName } from '../lib/utils';
+import { useLeaderboard } from '../lib/api';
+import Loading from '../components/Loading';
 
 const Level = styled.div`
   margin: 0 auto;
@@ -21,6 +23,7 @@ const Balance = styled.div`
 
 const Leaderboard: React.FC = () => {
   const { balance, level, leaders, nextLevelPrice } = useFrogs();
+  const { data, isLoading } = useLeaderboard();
 
   return (
     <PageContainer>
@@ -39,9 +42,8 @@ const Leaderboard: React.FC = () => {
       <Row margin={'26px 48px 38px'}>
         <Progress />
       </Row>
-      {leaders.map((leader, k) => (
-        <UserCard key={leader.id} user={leader} place={k + 1} />
-      ))}
+      {isLoading && <Loading fontSize="100px" />}
+      {!isLoading && data?.list.map((leader, k) => <UserCard key={leader.id} user={leader} place={k + 1} />)}
     </PageContainer>
   );
 };

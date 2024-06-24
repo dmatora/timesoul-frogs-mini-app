@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 import {
   getFriends,
-  getLeaderboard,
   getUser,
   getUserCards,
   getUserTasks,
@@ -31,13 +30,11 @@ type FrogsContextInterface = {
   progress: number;
   nextLevelPrice: number | null;
   friends: Friend[];
-  leaders: Leader[];
   tasks: UserTask[];
   event: Event;
   clearEvent: () => void;
   updateNetwork: (networkId: string) => Promise<void>;
   updateFriendsList: () => Promise<void>;
-  updateLeaderboard: () => void;
   updateUserTasks: () => Promise<void>;
   handleTap: () => void;
   buyCard: (card: UserCard) => Promise<void>;
@@ -59,13 +56,11 @@ const FrogsContext = createContext<FrogsContextInterface>({
   progress: 0,
   nextLevelPrice: 0,
   friends: [],
-  leaders: [],
   tasks: [],
   event: null,
   clearEvent: () => null,
   updateNetwork: async () => Promise.resolve(),
   updateFriendsList: async () => Promise.resolve(),
-  updateLeaderboard: () => null,
   updateUserTasks: async () => Promise.resolve(),
   handleTap: () => null,
   buyCard: async () => Promise.resolve(),
@@ -200,7 +195,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     defaultValue: null,
   });
   const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
-  const [leaders, setLeaders] = useLocalStorageState<Leader[]>('leaders', { defaultValue: [] });
   const [tasks, setTasks] = useLocalStorageState<UserTask[]>('tasks', { defaultValue: [] });
   const [event, setEvent] = useState<Event>(null);
 
@@ -302,11 +296,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     if (response.list) setFriends(response.list);
   };
 
-  const updateLeaderboard = async () => {
-    const response = await getLeaderboard();
-    if (response.list) setLeaders(response.list);
-  };
-
   const updateUserTasks = async () => {
     const response = await getUserTasks();
     if (response.list) setTasks(response.list);
@@ -372,13 +361,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         progress,
         nextLevelPrice,
         friends,
-        leaders,
         tasks,
         event,
         clearEvent,
         updateNetwork,
         updateFriendsList,
-        updateLeaderboard,
         updateUserTasks,
         handleTap,
         buyCard,
