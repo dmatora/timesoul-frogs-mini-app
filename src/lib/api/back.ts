@@ -1,11 +1,12 @@
 import { getBackApi, patchBackApi, postBackApi } from './call';
+import { Leader } from '../../contexts/FrogsContext';
 
 export const getFriends = async () => {
   return getBackApi('friends').then((response) => response.data);
 };
 
-export const getLeaderboard = async () => {
-  return getBackApi('leaderboard').then((response) => response.data);
+export const getLeaderboard = async (level: number): Promise<{ list: Leader[] }> => {
+  return getBackApi(`leaderboard?level=${level}`).then((response) => response.data);
 };
 
 export const getUser = async () => {

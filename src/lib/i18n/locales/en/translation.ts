@@ -37,6 +37,10 @@ export default {
     web3: 'WEB3',
     achievements: 'Achievements',
   },
+  leaderboard: {
+    from: 'from',
+    beTheFirst: 'Be the first!',
+  },
   mine: {
     joinOurTG1: 'Join our Telegram channel,',
     joinOurTG2: 'to unlock!',

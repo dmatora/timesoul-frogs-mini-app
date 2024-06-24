@@ -42,6 +42,10 @@ export default {
     joinOurTG2: 'чтобы разблокировать!',
     unlock: 'Разблокировать',
   },
+  leaderboard: {
+    from: 'от',
+    beTheFirst: 'Стань первым!',
+  },
   friends: {
     inviteFriends: 'Пригласите друзей!',
     receiveBonuses: 'Вы и ваш друг получите бонусы',
