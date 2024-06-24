@@ -24,8 +24,8 @@ export const i18nInit = (translations: Translations) => {
       pluralSeparator: '_',
       resources,
       detection: {
-        order: ['cookie', 'navigator'],
-        caches: [], // Disable caching by default
+        order: ['localStorage', 'navigator'],
+        caches: ['localStorage'], // Disable caching by default
       },
       debug: false,
       fallbackLng: 'en', // use en if detected lng is not available

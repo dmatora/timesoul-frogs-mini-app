@@ -12,6 +12,10 @@ export default {
     close: 'Закрыть',
     friends: 'Друзья',
   },
+  settings: {
+    chooseNetwork: 'Выбери сеть',
+    chooseLanguage: 'Выбери язык',
+  },
   popup_levelUp: {
     levelUp: 'Уровень повышен!',
     multiTap: 'Мультитап',

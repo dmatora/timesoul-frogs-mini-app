@@ -3,10 +3,12 @@ import useLocalStorageState from 'use-local-storage-state';
 import {
   getFriends,
   getLeaderboard,
+  getUser,
   getUserCards,
   getUserTasks,
   postCard,
   postLevel,
+  postNetwork,
   postStart,
   sync,
 } from '../lib/api';
@@ -33,11 +35,13 @@ type FrogsContextInterface = {
   tasks: UserTask[];
   event: Event;
   clearEvent: () => void;
+  updateNetwork: (networkId: string) => Promise<void>;
   updateFriendsList: () => Promise<void>;
   updateLeaderboard: () => void;
   updateUserTasks: () => Promise<void>;
   handleTap: () => void;
   buyCard: (card: UserCard) => Promise<void>;
+  updateCards: () => Promise<void>;
   upgradeLevel: () => void;
 };
 
@@ -59,11 +63,13 @@ const FrogsContext = createContext<FrogsContextInterface>({
   tasks: [],
   event: null,
   clearEvent: () => null,
+  updateNetwork: async () => Promise.resolve(),
   updateFriendsList: async () => Promise.resolve(),
   updateLeaderboard: () => null,
   updateUserTasks: async () => Promise.resolve(),
   handleTap: () => null,
   buyCard: async () => Promise.resolve(),
+  updateCards: () => Promise.resolve(),
   upgradeLevel: () => null,
 });
 
@@ -71,7 +77,9 @@ export type Config = {
   id: string;
   energyRecoveryRate: number;
   title: string;
+  languages: { [key: string]: string };
   levels: Level[];
+  networks: Network[];
   syncPeriod: number;
 };
 
@@ -123,6 +131,12 @@ export type Level = {
   energyLimit: number;
 };
 
+export type Network = {
+  id: string;
+  title: string;
+  factor: number;
+};
+
 export type Friend = {
   id: number;
   level: number;
@@ -152,6 +166,7 @@ export type User = {
   profitPerHour: number;
   energyLimit: number;
   level: number;
+  networkId: null | string;
 };
 
 export type Event = null | {
@@ -274,6 +289,14 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     setEvent(null);
   };
 
+  const updateNetwork = async (networkId: string) => {
+    await postNetwork(networkId);
+    const user = await getUser();
+    console.debug(user);
+    setUser(user);
+    setProfitPerHour(user.profitPerHour);
+  };
+
   const updateFriendsList = async () => {
     const response = await getFriends();
     if (response.list) setFriends(response.list);
@@ -305,6 +328,12 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setBalance((prevBalance) => prevBalance - card.nextLevelPrice);
       setProfitPerHour((prevProfitPerHour) => prevProfitPerHour + card.nextLevelProfitPerHour - card.profitPerHour);
     }
+  };
+
+  const updateCards = async () => {
+    const cards = await getUserCards();
+    console.debug(cards);
+    setUserCards(cards);
   };
 
   const upgradeLevel = async () => {
@@ -347,11 +376,13 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         tasks,
         event,
         clearEvent,
+        updateNetwork,
         updateFriendsList,
         updateLeaderboard,
         updateUserTasks,
         handleTap,
         buyCard,
+        updateCards,
         upgradeLevel,
       }}
     >

@@ -12,6 +12,10 @@ export default {
     close: 'Close',
     friends: 'Friends',
   },
+  settings: {
+    chooseNetwork: 'Choose network',
+    chooseLanguage: 'Choose language',
+  },
   popup_levelUp: {
     levelUp: 'Level up!',
     multiTap: 'Multitap',

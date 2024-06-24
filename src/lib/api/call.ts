@@ -24,7 +24,7 @@ const callApi = async (
     method,
     headers: {
       'Content-Type': 'application/json',
-      'Accept-Language': i18n.language,
+      'Accept-Language': i18n.language.substring(0, 2),
       Authorization: `Bearer ${btoa(WebApp.initData)}`,
     },
     body,

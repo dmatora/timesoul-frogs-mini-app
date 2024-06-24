@@ -22,6 +22,7 @@ import { env } from '../lib/env';
 import { Notifications } from '../components/Notifications';
 import { onlineStatusInit } from '../controllers/OnlineStatusController';
 import { useLocation } from 'react-use';
+import Settings from '../pages/Settings';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -86,6 +87,8 @@ export function App() {
                   <Route path="/mine/investments" element={<MineInvestments />} />
                   <Route path="/mine/web3" element={<MineWeb3 />} />
                   <Route path="/mine/achievements" element={<MineAchievements />} />
+                  <Route path="/network" element={<Settings selection="network" />} />
+                  <Route path="/language" element={<Settings selection="language" />} />
                   <Route path="/friends" element={<Friends />} />
                   <Route path="/earn" element={<Earn />} />
                   <Route path="/food" element={<Food />} />

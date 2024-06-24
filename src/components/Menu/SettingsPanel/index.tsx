@@ -6,6 +6,7 @@ import Row from '../../Row';
 import SettingsButton from './SettingsButton';
 import WebApp from '@twa-dev/sdk';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 
 const ScreenWrapper = styled.div<{ expanded: boolean }>`
   height: ${({ expanded }) => (expanded ? '100px' : '0')};
@@ -60,8 +61,12 @@ const Settings = () => {
           <Username>{getUserName(t('system.user'))}</Username>
         </Row>
         <Row gap="20px">
-          <ChooseNetwork />
-          <SettingsButton />
+          <NavLink to="/network">
+            <ChooseNetwork />
+          </NavLink>
+          <NavLink to="/language">
+            <SettingsButton />
+          </NavLink>
         </Row>
       </Row>
     </ScreenWrapper>

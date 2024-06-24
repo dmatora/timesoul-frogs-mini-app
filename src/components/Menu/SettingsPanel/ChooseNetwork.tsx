@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { UserIconInternal } from '../../UserIcon';
 import React from 'react';
+import { useFrogs } from '../../../contexts/FrogsContext';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.button`
   border: 0;
@@ -18,11 +20,17 @@ const Text = styled.div`
   font-size: 24px;
 `;
 
-const ChooseNetwork = () => (
-  <Container>
-    <UserIconInternal />
-    <Text>Выбрать сеть</Text>
-  </Container>
-);
+const ChooseNetwork = () => {
+  const { user, config } = useFrogs();
+  const { t } = useTranslation();
+  const network = config.networks?.find((network) => network.id === user.networkId);
+
+  return (
+    <Container>
+      <UserIconInternal />
+      <Text>{network?.title || t('settings.chooseNetwork')}</Text>
+    </Container>
+  );
+};
 
 export default ChooseNetwork;

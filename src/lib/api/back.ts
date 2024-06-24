@@ -8,6 +8,10 @@ export const getLeaderboard = async () => {
   return getBackApi('leaderboard').then((response) => response.data);
 };
 
+export const getUser = async () => {
+  return getBackApi('user').then((response) => response.data);
+};
+
 export const getUserCards = async () => {
   return getBackApi('user/cards').then((response) => response.data);
 };
@@ -22,6 +26,11 @@ export const patchUserTasks = async (task_id: string) => {
 
 export const postStart = async (invited_by: number | undefined) => {
   return postBackApi('start', invited_by ? { invited_by } : undefined).then((response) => response.data);
+};
+
+export const postNetwork = async (network: string) => {
+  const body = { network };
+  return postBackApi('user/network', body);
 };
 
 export const postCard = async (card_id: number) => {
