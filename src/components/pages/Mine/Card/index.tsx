@@ -50,12 +50,13 @@ const BuyButton = styled.button<{ buying: boolean }>`
   border-radius: 37px;
   box-shadow: 5px 6px 0 0 #262626;
 
-  visibility: ${({ disabled, buying }) => (disabled && !buying ? 'hidden' : 'visible')};
+  filter: ${({ disabled, buying }) => (disabled && !buying ? 'grayscale(100%)' : '')};
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  ${({ buying }) =>
+  ${({ disabled, buying }) =>
+    !disabled &&
     !buying &&
     `
   &:active {
@@ -97,7 +98,7 @@ const BuyButton = styled.button<{ buying: boolean }>`
 
 const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) => {
   const [buying, setBuying] = useState(false);
-  const { buyCard, userCards } = useFrogs();
+  const { balance, buyCard, userCards } = useFrogs();
   const { t } = useTranslation();
 
   const getCardName = (cardId: number) => {
@@ -112,20 +113,22 @@ const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) 
   return (
     <Container locked={!!card.isBlockedBy}>
       <CardHeader card={card} special={special} />
-      <Row gap={'6px'}>
+      <Row gap={'6px'} style={{ justifyContent: 'left' }}>
         {!card.isBlockedBy && (
           <>
             <CardLevel>
               {t('system.level')} {card.level}
             </CardLevel>
-            <BuyButton onClick={handleOnClick} buying={buying} disabled={buying || !card.nextLevelPrice}>
-              {!buying && card.nextLevelPrice && (
-                <Row gap={'5px'}>
-                  <Coin />
-                  {compactAmount(card.nextLevelPrice)}
-                </Row>
-              )}
-            </BuyButton>
+            {card.nextLevelPrice && (
+              <BuyButton onClick={handleOnClick} buying={buying} disabled={buying || card.nextLevelPrice > balance}>
+                {!buying && card.nextLevelPrice && (
+                  <Row gap={'5px'}>
+                    <Coin />
+                    {compactAmount(card.nextLevelPrice)}
+                  </Row>
+                )}
+              </BuyButton>
+            )}
           </>
         )}
         {card.isBlockedBy && (
