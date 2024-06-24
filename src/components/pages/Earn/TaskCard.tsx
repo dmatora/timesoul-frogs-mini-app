@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Row from '../../Row';
 import Coin from '../../Status/Coin';
-import OpenButton from './OpenButton';
 import { amountWithSpaces } from '../../../lib/utils';
+import { NextButton } from '../../DirectionButtons';
 
 const Container = styled.div<{ done?: boolean }>`
   border: ${({ done }) => (done ? '3px solid #98e703' : '3px solid transparent')};
@@ -66,7 +66,7 @@ const TaskCard = ({
           </div>
         </Row>
         {done && <DoneIcon />}
-        {!done && <OpenButton onClick={onClick} />}
+        {!done && <NextButton onClick={onClick} />}
       </Row>
     </Container>
   );
