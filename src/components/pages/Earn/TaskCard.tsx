@@ -6,9 +6,9 @@ import OpenButton from './OpenButton';
 import { amountWithSpaces } from '../../../lib/utils';
 
 const Container = styled.div<{ done?: boolean }>`
-  border: ${({ done }) => (done ? '3px solid #98e703' : 'none')};
-  height: 168px;
-  width: 900px;
+  border: ${({ done }) => (done ? '3px solid #98e703' : '3px solid transparent')};
+  height: 162px;
+  width: 894px;
   border-radius: 84px;
   background: white;
   padding: 0 58px 0 33px;
