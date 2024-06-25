@@ -19,7 +19,7 @@ const Overlay = styled.div`
   opacity: 0.9;
   position: absolute;
   top: 636px;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const Container = styled.div`
@@ -29,7 +29,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   top: 600px;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const JoinLabel = styled.div`
