@@ -15,6 +15,7 @@ import { useInterval } from 'react-use';
 import { getInvitedBy } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
 import i18n from '../lib/i18n';
+import { Event } from '../lib/events';
 
 type FrogsContextInterface = {
   config: Config | Record<string, never>;
@@ -162,13 +163,6 @@ export type User = {
   energyLimit: number;
   level: number;
   networkId: null | string;
-};
-
-export type Event = null | {
-  type: 'levelUp' | 'balanceUp';
-  maxEnergyGain?: number;
-  earnPerTapGain?: number;
-  balanceDiffSinceLast?: number;
 };
 
 export const useFrogs = () => useContext(FrogsContext);

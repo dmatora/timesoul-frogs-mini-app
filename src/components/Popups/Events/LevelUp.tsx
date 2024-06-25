@@ -5,6 +5,7 @@ import Popup from '../Popup';
 import styled from 'styled-components';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
+import { isLevelUpEvent } from '../../../lib/events';
 
 const Header = styled.div`
   text-align: center;
@@ -24,6 +25,8 @@ const LevelUp = () => {
   const { event } = useFrogs();
   const { t } = useTranslation();
 
+  if (!isLevelUpEvent(event)) throw new Error('Should not happen');
+
   return (
     <Popup>
       <Row>
@@ -33,11 +36,11 @@ const LevelUp = () => {
       <Row spread={true} margin="70px">
         <Text>
           {t('popup_levelUp.multiTap')}
-          <br />+{event?.earnPerTapGain}
+          <br />+{event.earnPerTapGain}
         </Text>
         <Text>
           {t('popup_levelUp.energyLimit')}
-          <br />+{event?.maxEnergyGain}
+          <br />+{event.maxEnergyGain}
         </Text>
       </Row>
     </Popup>

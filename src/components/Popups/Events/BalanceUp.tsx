@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
 import { compactAmount } from '../../../lib/utils';
+import { isBalanceUpEvent } from '../../../lib/events';
 
 const Header = styled.div`
   text-align: center;
@@ -24,6 +25,8 @@ const BalanceUp = () => {
   const { event } = useFrogs();
   const { t } = useTranslation();
 
+  if (!isBalanceUpEvent(event)) throw new Error('Should not happen');
+
   return (
     <Popup>
       <Row>
@@ -33,7 +36,7 @@ const BalanceUp = () => {
       <Row margin="70px">
         <Text>
           {t('popup_BalanceUp.balanceDiffSinceLast')}
-          <br />+{compactAmount(event?.balanceDiffSinceLast || 0) /* ToDo implement proper event types */}
+          <br />+{compactAmount(event.balanceDiffSinceLast)}
         </Text>
       </Row>
     </Popup>
