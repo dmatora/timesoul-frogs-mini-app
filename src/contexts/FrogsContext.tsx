@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 import {
   getFriends,
@@ -33,6 +33,7 @@ type FrogsContextInterface = {
   friends: Friend[];
   tasks: UserTask[];
   event: Event;
+  setEvent: Dispatch<SetStateAction<Event>>;
   clearEvent: () => void;
   updateNetwork: (networkId: string) => Promise<void>;
   updateFriendsList: () => Promise<void>;
@@ -59,6 +60,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   friends: [],
   tasks: [],
   event: null,
+  setEvent: () => null,
   clearEvent: () => null,
   updateNetwork: async () => Promise.resolve(),
   updateFriendsList: async () => Promise.resolve(),
@@ -357,6 +359,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         friends,
         tasks,
         event,
+        setEvent,
         clearEvent,
         updateNetwork,
         updateFriendsList,

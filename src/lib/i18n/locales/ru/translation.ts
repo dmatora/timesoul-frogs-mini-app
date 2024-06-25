@@ -11,6 +11,7 @@ export default {
     coming2: 'что-то интересное...',
     close: 'Закрыть',
     friends: 'Друзья',
+    continue: 'Продолжить',
   },
   settings: {
     chooseNetwork: 'Выбери сеть',

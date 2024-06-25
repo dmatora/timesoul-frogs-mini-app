@@ -11,6 +11,7 @@ export default {
     coming2: 'coming up here soon....',
     close: 'Close',
     friends: 'Friends',
+    continue: 'Continue',
   },
   settings: {
     chooseNetwork: 'Choose network',

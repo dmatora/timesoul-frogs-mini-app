@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CloseIcon from './CloseIcon';
 import { useFrogs } from '../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
+import Loading from '../Loading';
 
 const duration = 350;
 
@@ -76,8 +77,19 @@ const CloseButton = styled.button`
   }
 `;
 
-const Popup = ({ children, close, height }: { children: React.ReactNode; close?: string; height?: number }) => {
+const Popup = ({
+  children,
+  close,
+  height,
+  onConfirm,
+}: {
+  children: React.ReactNode;
+  close?: string;
+  height?: number;
+  onConfirm?: () => Promise<void>;
+}) => {
   const [open, setOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const { t } = useTranslation();
 
   const { clearEvent } = useFrogs();
@@ -85,6 +97,14 @@ const Popup = ({ children, close, height }: { children: React.ReactNode; close?:
   const handleClose = () => {
     setOpen(false);
     setTimeout(clearEvent, duration);
+  };
+
+  const handleConfirm = async () => {
+    if (onConfirm) {
+      setConfirming(true);
+      await onConfirm();
+    }
+    handleClose();
   };
 
   useEffect(() => {
@@ -96,7 +116,7 @@ const Popup = ({ children, close, height }: { children: React.ReactNode; close?:
       <PopupContainer open={open} height={height}>
         <CloseIcon onClick={handleClose} />
         {children}
-        <CloseButton onClick={handleClose}>{close || t('system.close')}</CloseButton>
+        <CloseButton onClick={handleConfirm}>{confirming ? <Loading /> : close || t('system.close')}</CloseButton>
       </PopupContainer>
     </PopupOverlay>
   );

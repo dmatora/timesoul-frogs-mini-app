@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Row from '../../../Row';
 import { useFrogs, UserCard } from '../../../../contexts/FrogsContext';
@@ -6,7 +6,6 @@ import CardHeader from './CardHeader';
 import { useTranslation } from 'react-i18next';
 import Coin from '../../../Status/Coin';
 import { compactAmount } from '../../../../lib/utils';
-import Loading from '../../../Loading';
 
 const Container = styled.div<{ locked: boolean }>`
   display: flex;
@@ -41,7 +40,7 @@ const Requirement = styled.div`
   justify-content: center;
 `;
 
-const BuyButton = styled.button<{ buying: boolean }>`
+const BuyButton = styled.button`
   width: 285px;
   height: 105px;
   border: none;
@@ -51,14 +50,13 @@ const BuyButton = styled.button<{ buying: boolean }>`
   border-radius: 37px;
   box-shadow: 5px 6px 0 0 #262626;
 
-  filter: ${({ disabled, buying }) => (disabled && !buying ? 'grayscale(100%)' : '')};
+  filter: ${({ disabled }) => (disabled ? 'grayscale(100%)' : '')};
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  ${({ disabled, buying }) =>
+  ${({ disabled }) =>
     !disabled &&
-    !buying &&
     `
   &:active {
     position: relative;
@@ -70,17 +68,14 @@ const BuyButton = styled.button<{ buying: boolean }>`
 `;
 
 const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) => {
-  const [buying, setBuying] = useState(false);
-  const { balance, buyCard, userCards } = useFrogs();
+  const { balance, userCards, setEvent } = useFrogs();
   const { t } = useTranslation();
 
   const getCardName = (cardId: number) => {
     return userCards.find((card) => card.id === cardId)?.name;
   };
   const handleOnClick = async () => {
-    setBuying(true);
-    await buyCard(card);
-    setBuying(false);
+    setEvent({ type: 'checkingCard', card });
   };
 
   return (
@@ -93,9 +88,8 @@ const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) 
               {t('system.level')} {card.level}
             </CardLevel>
             {card.nextLevelPrice && (
-              <BuyButton onClick={handleOnClick} buying={buying} disabled={buying || card.nextLevelPrice > balance}>
-                {buying && <Loading />}
-                {!buying && card.nextLevelPrice && (
+              <BuyButton onClick={handleOnClick} disabled={card.nextLevelPrice > balance}>
+                {card.nextLevelPrice && (
                   <Row gap={'5px'}>
                     <Coin />
                     {compactAmount(card.nextLevelPrice)}
