@@ -1,5 +1,5 @@
 import { useFrogs } from '../../../../contexts/FrogsContext';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import TapsAnimated from '../../../TapsAnimated';
 import Bronze from './Bronze';
 import Silver from './Silver';
@@ -11,6 +11,7 @@ import Legendary from './Legendary';
 import Master from './Master';
 import Grandmaster from './Grandmaster';
 import ImagePreloader from '../../../ImagePreloader';
+import PreventScroll from '../../../PreventScroll';
 
 const FrogButtonImage = ({ shaking, onPointerUp }: { shaking: boolean; onPointerUp: () => void }) => {
   const { level } = useFrogs();
@@ -32,10 +33,10 @@ const FrogButtonImage = ({ shaking, onPointerUp }: { shaking: boolean; onPointer
   if (!Image) throw new Error('Should not happen');
 
   return (
-    <>
+    <PreventScroll>
       <ImagePreloader images={nextImages[level]} />
       <Image shaking={shaking} onPointerUp={onPointerUp} />
-    </>
+    </PreventScroll>
   );
 };
 
