@@ -26,6 +26,11 @@ export default {
     balanceUp: 'Баланс поднят!',
     balanceDiffSinceLast: 'Ваша награда',
   },
+  popup_BalanceTip: {
+    tip: 'Увеличьте свою прибыль',
+    message: 'Нажмите меню Майн, чтобы купить улучшения для своей сети',
+    description: 'Зарабатывайте даже в режиме офлайн до 3 часов',
+  },
   menu: {
     network: 'Сеть',
     mine: 'Майн',

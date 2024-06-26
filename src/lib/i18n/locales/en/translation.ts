@@ -26,6 +26,11 @@ export default {
     balanceUp: 'Balance update!',
     balanceDiffSinceLast: 'Your reward',
   },
+  popup_BalanceTip: {
+    tip: 'Boost your profit',
+    message: 'Tap the Mine menu to buy upgrades for your network',
+    description: 'Earn even when offline up to 3 hours',
+  },
   menu: {
     network: 'Network',
     mine: 'Mine',

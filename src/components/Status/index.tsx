@@ -87,8 +87,13 @@ const TipIcon = styled((props) => (
 `;
 
 const Status = () => {
-  const { earnPerTap, balance, nextLevelPrice, profitPerHour } = useFrogs();
+  const { earnPerTap, balance, nextLevelPrice, profitPerHour, setEvent } = useFrogs();
   const { t } = useTranslation();
+
+  const handleClick = () =>
+    setEvent({
+      type: 'balanceTip',
+    });
 
   return (
     <Container>
@@ -106,11 +111,10 @@ const Status = () => {
         </WhiteCard>
         <WhiteCard>
           <CardLabel>{t('system.profitPerHour')}</CardLabel>
-          <CardRow>
+          <CardRow onClick={handleClick}>
             <Coin />
             <CardValue>{profitPerHour ? `+${compactAmount(profitPerHour)}` : '0'}</CardValue>
-            {/*<TipIcon style={{ marginLeft: 8 }} />*/}
-            {/* ToDo implement Tip popup */}
+            <TipIcon style={{ marginLeft: 8 }} />
           </CardRow>
         </WhiteCard>
       </Row>
