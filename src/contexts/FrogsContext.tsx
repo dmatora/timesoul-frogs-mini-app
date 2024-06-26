@@ -183,7 +183,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [maxEnergy, setMaxEnergy] = useLocalStorageState<number>('maxEnergy', { defaultValue: 0 });
   const [earnPerTap, setEarnPerTap] = useLocalStorageState<number>('earnPerTap', { defaultValue: 0 });
   const [profitPerHour, setProfitPerHour] = useLocalStorageState<number>('profitPerHour', { defaultValue: 0 });
-  const [level, setLevel] = useLocalStorageState<number>('level', { defaultValue: 0 });
+  const [level, setLevel] = useLocalStorageState<number>('level', { defaultValue: 1 });
   const [userCards, setUserCards] = useLocalStorageState<UserCard[]>('userCards', { defaultValue: [] });
   const [maxLevel, setMaxLevel] = useLocalStorageState<number>('maxLevel', { defaultValue: 0 });
   const [progress, setProgress] = useLocalStorageState<number>('progress', { defaultValue: 0 });
