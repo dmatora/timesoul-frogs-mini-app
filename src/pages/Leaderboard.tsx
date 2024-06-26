@@ -5,11 +5,12 @@ import Progress from '../components/pages/Tap/Progress';
 import Row from '../components/Row';
 import styled from 'styled-components';
 import UserCard from '../components/pages/Leaderboard/UserCard';
-import { compactAmount, getLevelName } from '../lib/utils';
+import { compactAmount, getLeaderboardImage, getLevelName } from '../lib/utils';
 import { NextButton, PrevButton } from '../components/DirectionButtons';
 import { useTranslation } from 'react-i18next';
 import { useLeaderboard } from '../lib/api';
 import Loading from '../components/Loading';
+import ImagePreloader from '../components/ImagePreloader';
 
 const gradient = [
   '',
@@ -64,21 +65,21 @@ const Leaderboard: React.FC = () => {
 
   const leaderBoardIsEmpty = !isLoading && !data?.list.length;
 
+  const prevBlocked = observedLevel === 1;
+  const nextBlocked = observedLevel === maxLevel || (leaderBoardIsEmpty && observedLevel > level);
+  const preloadImage = [];
+  if (!prevBlocked) preloadImage.push(getLeaderboardImage(observedLevel - 1));
+  if (!nextBlocked) preloadImage.push(getLeaderboardImage(observedLevel + 1));
+
   return (
     <PageContainer>
       <Row margin={'119px 0 10px'} gap="40px">
-        <PrevButton onClick={handlePrev} disabled={observedLevel === 1} />
+        <PrevButton onClick={handlePrev} disabled={prevBlocked} />
         <Circle level={observedLevel}>
-          <img
-            alt="frog"
-            src={`/img/frog/leaderboard/${observedLevel}.${getLevelName(observedLevel).toLowerCase()}.png`}
-            height="330"
-          />
+          <img alt="frog" src={getLeaderboardImage(observedLevel)} height="330" />
         </Circle>
-        <NextButton
-          onClick={handleNext}
-          disabled={observedLevel === maxLevel || isLoading || (leaderBoardIsEmpty && observedLevel > level)}
-        />
+        <ImagePreloader images={preloadImage} />
+        <NextButton onClick={handleNext} disabled={isLoading || nextBlocked} />
       </Row>
       <Row>
         <Level>{getLevelName(observedLevel)}</Level>

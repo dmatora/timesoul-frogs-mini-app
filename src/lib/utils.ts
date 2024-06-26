@@ -17,6 +17,9 @@ export const getLevelName = (level: number) => {
   return names[level];
 };
 
+export const getLeaderboardImage = (level: number) =>
+  `/img/frog/leaderboard/${level}.${getLevelName(level).toLowerCase()}.png`;
+
 export const amountWithSpaces = (balance: number) => {
   if (!balance) return '0';
   return Math.round(balance).toLocaleString('en-US').replace(/,/g, ' ');
