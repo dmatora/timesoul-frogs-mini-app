@@ -34,6 +34,10 @@ export const postNetwork = async (network: string) => {
   return postBackApi('user/network', body);
 };
 
+export const postBalance = async () => {
+  return postBackApi('user/balance');
+};
+
 export const postCard = async (card_id: number) => {
   const body = { card_id };
   return postBackApi('user/cards', body).then((response) => response.data);
