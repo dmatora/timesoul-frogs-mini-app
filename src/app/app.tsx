@@ -13,7 +13,7 @@ import MineWeb3 from '../pages/Mine/MineWeb3';
 import MineInvestments from '../pages/Mine/MineInvestments';
 import MineAchievements from '../pages/Mine/MineAchievements';
 import MineActivities from '../pages/Mine/MineActivities';
-import { FrogsProvider } from '../contexts/FrogsContext';
+import { FrogsProvider, useFrogs } from '../contexts/FrogsContext';
 import { handleResize } from '../lib/utils';
 import Leaderboard from '../pages/Leaderboard';
 import Popups from '../components/Popups';
@@ -24,6 +24,7 @@ import { onlineStatusInit } from '../controllers/OnlineStatusController';
 import { useLocation } from 'react-use';
 import Settings from '../pages/Settings';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import ImagePreloader from '../components/ImagePreloader';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -70,6 +71,12 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
   </QueryClientProvider>
 );
 
+const PreloadImages = () => {
+  const { userCards } = useFrogs();
+  const images = userCards.map((card) => [card.coverUrl, card.coverNaUrl]).flat();
+  return <ImagePreloader images={images} />;
+};
+
 export function App() {
   useEffect(() => {
     handleResize();
@@ -84,6 +91,7 @@ export function App() {
         <Notifications />
         <ForcePortrait />
         <VerticalApp>
+          <PreloadImages />
           <Menu />
           <Popups />
           <ScaledApp>
