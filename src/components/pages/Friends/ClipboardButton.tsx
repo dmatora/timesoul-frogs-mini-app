@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { notificationEmit } from '../../../controllers/NotificationsController';
+import { env } from '../../../lib/env';
+import { getTgUserId } from '../../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.button`
   width: 170px;
@@ -33,16 +36,21 @@ const ClipIcon = styled.div`
   box-shadow: 8px -8px 0 0 black;
 `;
 
-const ClipboardButton = ({url}: {url: string}) => {
+const ClipboardButton = () => {
+  const { t } = useTranslation();
+
+  const url = `${env.botUrl}?startapp=${getTgUserId()}`;
+  const text = `${url}\n${t('friends.playWithMe')}`;
+
   const handleCopy = () => {
     notificationEmit({
-      title: 'Invite a friend',
-      subtitle: 'The invitation link has copied to your clipboard!',
-    });  
+      title: t('friends.inviteFriend'),
+      subtitle: t('friends.linkCopied'),
+    });
   };
 
   return (
-    <CopyToClipboard text={url} onCopy={() => handleCopy()}>
+    <CopyToClipboard text={text} onCopy={() => handleCopy()}>
       <Container>
         <ClipIcon />
       </Container>

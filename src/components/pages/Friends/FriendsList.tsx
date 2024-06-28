@@ -78,7 +78,7 @@ const FriendsList: React.FC = () => {
         <InviteFriendButton onClick={() => WebApp.openTelegramLink(urlInvitation)}>
           {t('friends.inviteFriend')} <ProfileIcon />
         </InviteFriendButton>
-        <ClipboardButton url={urlInvitation} />
+        <ClipboardButton />
       </Row>
     </Container>
   );

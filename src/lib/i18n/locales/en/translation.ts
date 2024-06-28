@@ -60,6 +60,7 @@ export default {
     forYouAndYourFriend: 'for you and your friend',
     moreBonuses: 'More bonuses',
     listOfYourFriends: 'List of your friends',
+    linkCopied: 'The invitation link has been copied to your clipboard!',
     playWithMe:
       'Join me and play to earn tokens through an airdrop!\n' +
       '💰 Grab your gift! +25k coins for newcomers\n' +
