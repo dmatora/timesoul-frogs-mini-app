@@ -4,7 +4,7 @@ import { useFrogs } from '../contexts/FrogsContext';
 import Progress from '../components/pages/Tap/Progress';
 import Row from '../components/Row';
 import styled from 'styled-components';
-import UserCard from '../components/pages/Leaderboard/UserCard';
+import LeaderCard from '../components/pages/Leaderboard/LeaderCard';
 import { compactAmount, getLeaderboardImage, getLevelName } from '../lib/utils';
 import { NextButton, PrevButton } from '../components/DirectionButtons';
 import { useTranslation } from 'react-i18next';
@@ -48,12 +48,12 @@ const Balance = styled.div`
 `;
 
 const Leaderboard: React.FC = () => {
-  const { config, balance, level, maxLevel, nextLevelPrice } = useFrogs();
+  const { config, balance, level, maxLevel, nextLevelPrice, user } = useFrogs();
   const [observedLevel, setObservedLevel] = useState(level);
   const { t } = useTranslation();
   const { data, isLoading } = useLeaderboard(observedLevel);
 
-  const observedLevelPrice = config.levels.find((level) => level.number === observedLevel)?.price;
+  const observedLevelPrice = config.levels?.find((level) => level.number === observedLevel)?.price;
 
   const handlePrev = async () => {
     if (observedLevel > 1) setObservedLevel((prevObservedLevel) => prevObservedLevel - 1);
@@ -70,6 +70,9 @@ const Leaderboard: React.FC = () => {
   const preloadImage = [];
   if (!prevBlocked) preloadImage.push(getLeaderboardImage(observedLevel - 1));
   if (!nextBlocked) preloadImage.push(getLeaderboardImage(observedLevel + 1));
+
+  const userIsMissing =
+    !isLoading && observedLevel === level && !!data?.list.length && !data?.list.find((leader) => leader.id === user.id);
 
   return (
     <PageContainer>
@@ -94,7 +97,7 @@ const Leaderboard: React.FC = () => {
           )}
           {observedLevel !== level &&
             observedLevelPrice !== undefined &&
-            `${t('leaderboard.from')}  ${compactAmount(observedLevelPrice)}`}
+            `${t('leaderboard.from')} ${compactAmount(observedLevelPrice)}`}
         </Balance>
       </Row>
       <Row margin={'26px 48px 38px'}>{observedLevel === level && <Progress />}</Row>
@@ -104,7 +107,14 @@ const Leaderboard: React.FC = () => {
           {observedLevel > level ? t('leaderboard.beTheFirst') : '...'}
         </div>
       )}
-      {!isLoading && data?.list.map((leader, k) => <UserCard key={leader.id} user={leader} place={k + 1} />)}
+      {!isLoading && data?.list.map((leader, k) => <LeaderCard key={leader.id} user={leader} place={k + 1} />)}
+      {!isLoading && userIsMissing && (
+        <LeaderCard
+          key={user.id}
+          user={{ id: user.id, displayAs: user.displayAs, balance }}
+          length={data?.list.length}
+        />
+      )}
     </PageContainer>
   );
 };

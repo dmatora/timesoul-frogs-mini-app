@@ -146,7 +146,6 @@ export type Friend = {
 
 export type Leader = {
   id: number;
-  level: number;
   balance: number;
   displayAs: string;
 };
@@ -160,6 +159,8 @@ export type UserTask = {
 };
 
 export type User = {
+  id: number;
+  displayAs: string;
   earnPerTap: number;
   profitPerHour: number;
   energyLimit: number;

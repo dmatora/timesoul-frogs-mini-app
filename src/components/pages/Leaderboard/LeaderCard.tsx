@@ -38,7 +38,7 @@ const Place = styled.div`
   opacity: 0.5;
 `;
 
-const UserCard = ({ user, place }: { user: Leader; place: number }) => {
+const LeaderCard = ({ user, place, length = 100 }: { user: Leader; place?: number; length?: number }) => {
   const { t } = useTranslation();
   const name = user.displayAs || `${t('system.user')} ${user.id}`;
 
@@ -56,11 +56,11 @@ const UserCard = ({ user, place }: { user: Leader; place: number }) => {
           </div>
         </Row>
         <Row>
-          <Place>{place}</Place>
+          <Place>{place ? place : `${length}+`}</Place>
         </Row>
       </Row>
     </Container>
   );
 };
 
-export default UserCard;
+export default LeaderCard;
