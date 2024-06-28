@@ -299,7 +299,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   };
 
   const handleTap = () => {
-    if (energy > 0) {
+    if (energy >= earnPerTap) {
       setTaps((prevTaps) => prevTaps + 1);
       setBalance((prevBalance) => prevBalance + earnPerTap);
       setEnergy((prevEnergy) => prevEnergy - earnPerTap);
