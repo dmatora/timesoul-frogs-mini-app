@@ -2,6 +2,7 @@ import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, 
 import useLocalStorageState from 'use-local-storage-state';
 import {
   getFriends,
+  getTapUser,
   getUser,
   getUserCards,
   getUserTasks,
@@ -30,6 +31,7 @@ type FrogsContextInterface = {
   userCards: UserCard[];
   maxLevel: number;
   progress: number;
+  moodProgress: number;
   nextLevelPrice: number | null;
   friends: Friend[];
   tasks: UserTask[];
@@ -58,6 +60,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   userCards: [],
   maxLevel: 0,
   progress: 0,
+  moodProgress: 0,
   nextLevelPrice: 0,
   friends: [],
   tasks: [],
@@ -80,6 +83,7 @@ export type Config = {
   languages: { [key: string]: string };
   levels: Level[];
   networks: Network[];
+  profitPerHourOfflineLimitHours: number;
   syncPeriod: number;
 };
 
@@ -191,6 +195,8 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [userCards, setUserCards] = useLocalStorageState<UserCard[]>('userCards', { defaultValue: [] });
   const [maxLevel, setMaxLevel] = useLocalStorageState<number>('maxLevel', { defaultValue: 0 });
   const [progress, setProgress] = useLocalStorageState<number>('progress', { defaultValue: 0 });
+  const [moodProgress, setMoodProgress] = useLocalStorageState<number>('moodProgress', { defaultValue: 0 });
+  const [lastTap, setLastTap] = useLocalStorageState<number>('lastTap', { defaultValue: 0 });
   const [nextLevelPrice, setNextLevelPrice] = useLocalStorageState<number | null>('nextLevelPrice', {
     defaultValue: null,
   });
@@ -245,14 +251,27 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setLevel(level);
       setUserCards(userCards);
 
-      const syncData = await sync(0);
-      setBalance(syncData.user.balance);
-      setEnergy(syncData.user.energy);
+      const userTapData: {
+        balance: number;
+        balanceDiffSinceLast: number;
+        energy: number;
+        id: number;
+        level: number;
+        pph: number;
+        pphBalance: number;
+        updatedAtUnixMs: number;
+      } = await getTapUser();
+      console.debug(userTapData);
+      setBalance(userTapData.balance);
+      setEnergy(userTapData.energy);
+      setLastTap(userTapData.updatedAtUnixMs);
+      setTaps(0);
+      setLastTaps(0);
 
-      if (syncData.user.balanceDiffSinceLast > 0) {
+      if (userTapData.balanceDiffSinceLast > 0) {
         setEvent({
           type: 'balanceUp',
-          balanceDiffSinceLast: syncData.user.balanceDiffSinceLast,
+          balanceDiffSinceLast: userTapData.balanceDiffSinceLast,
         });
       }
       document.getElementById('preloader')?.remove();
@@ -262,8 +281,22 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     readConfig().then();
   }, []);
 
+  useEffect(() => {
+    if (!loading && moodProgress === 0) {
+      setEvent({
+        type: 'bored',
+      });
+      setProfitPerHour(0);
+    }
+  }, [moodProgress, loading]);
+
   useInterval(() => {
     setBalance((prevBalance) => prevBalance + profitPerHour / 3600);
+
+    const minutesPassed = (Date.now() - lastTap) / 1000 / 60;
+    const time = config.profitPerHourOfflineLimitHours * 60;
+    const minutesLeft = minutesPassed > time ? 0 : time - minutesPassed;
+    setMoodProgress((minutesLeft / time) * 100);
   }, 1000);
 
   useInterval(() => {
@@ -308,6 +341,9 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setTaps((prevTaps) => prevTaps + 1);
       setBalance((prevBalance) => prevBalance + earnPerTap);
       setEnergy((prevEnergy) => prevEnergy - earnPerTap);
+      setMoodProgress(100);
+      setLastTap(Date.now());
+      setProfitPerHour(user.profitPerHour);
     }
   };
 
@@ -362,6 +398,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         userCards,
         maxLevel,
         progress,
+        moodProgress,
         nextLevelPrice,
         friends,
         tasks,

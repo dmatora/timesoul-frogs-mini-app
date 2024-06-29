@@ -80,8 +80,9 @@ const HideWhileLoading = ({ children }: { children: React.ReactNode }) => {
 
 const PreloadImages = () => {
   const { userCards } = useFrogs();
-  const images = userCards.map((card) => [card.coverUrl, card.coverNaUrl]).flat();
-  return <ImagePreloader images={images} />;
+  const cardImages = userCards.map((card) => [card.coverUrl, card.coverNaUrl]).flat();
+  const popupImages = ['/img/frog/bored.png'];
+  return <ImagePreloader images={[...cardImages, ...popupImages]} />;
 };
 
 export function App() {

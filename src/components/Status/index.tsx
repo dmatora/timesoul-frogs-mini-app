@@ -87,7 +87,7 @@ const TipIcon = styled((props) => (
 `;
 
 const Status = () => {
-  const { earnPerTap, balance, nextLevelPrice, profitPerHour, setEvent } = useFrogs();
+  const { earnPerTap, balance, nextLevelPrice, profitPerHour, setEvent, moodProgress } = useFrogs();
   const { t } = useTranslation();
 
   const handleClick = () =>

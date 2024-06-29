@@ -31,11 +31,20 @@ export default {
     message: 'Tap the Mine menu to buy upgrades for your network',
     description: 'Earn even when offline up to 3 hours',
   },
+  popup_Bored: {
+    header: 'The frog is bored!',
+    message: 'Play with the frog.',
+    description: 'If the frog is not played with for 3 hours, profit stops',
+  },
   menu: {
     network: 'Network',
     mine: 'Mine',
     earn: 'Earn',
     food: 'Food',
+  },
+  tap: {
+    bored: 'Bored',
+    fun: 'Fun',
   },
   mineMenu: {
     activities: 'Activities',
