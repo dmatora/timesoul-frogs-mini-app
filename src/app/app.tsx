@@ -71,6 +71,13 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
   </QueryClientProvider>
 );
 
+const HideWhileLoading = ({ children }: { children: React.ReactNode }) => {
+  const { loading } = useFrogs();
+
+  if (loading) return null;
+  return children;
+};
+
 const PreloadImages = () => {
   const { userCards } = useFrogs();
   const images = userCards.map((card) => [card.coverUrl, card.coverNaUrl]).flat();
@@ -92,28 +99,30 @@ export function App() {
         <ForcePortrait />
         <VerticalApp>
           <PreloadImages />
-          <Menu />
-          <Popups />
-          <ScaledApp>
-            <TransitionGroup>
-              <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
-                <Routes location={location}>
-                  <Route path="/" element={<Tap />} />
-                  <Route path="/mine" element={<Navigate to="/mine/activities" />} />
-                  <Route path="/mine/activities" element={<MineActivities />} />
-                  <Route path="/mine/investments" element={<MineInvestments />} />
-                  <Route path="/mine/web3" element={<MineWeb3 />} />
-                  <Route path="/mine/achievements" element={<MineAchievements />} />
-                  <Route path="/network" element={<Settings selection="network" />} />
-                  <Route path="/language" element={<Settings selection="language" />} />
-                  <Route path="/friends" element={<Friends />} />
-                  <Route path="/earn" element={<Earn />} />
-                  <Route path="/food" element={<Food />} />
-                  <Route path="/leaderboard" element={<Leaderboard />} />
-                </Routes>
-              </CSSTransition>
-            </TransitionGroup>
-          </ScaledApp>
+          <HideWhileLoading>
+            <Menu />
+            <Popups />
+            <ScaledApp>
+              <TransitionGroup>
+                <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
+                  <Routes location={location}>
+                    <Route path="/" element={<Tap />} />
+                    <Route path="/mine" element={<Navigate to="/mine/activities" />} />
+                    <Route path="/mine/activities" element={<MineActivities />} />
+                    <Route path="/mine/investments" element={<MineInvestments />} />
+                    <Route path="/mine/web3" element={<MineWeb3 />} />
+                    <Route path="/mine/achievements" element={<MineAchievements />} />
+                    <Route path="/network" element={<Settings selection="network" />} />
+                    <Route path="/language" element={<Settings selection="language" />} />
+                    <Route path="/friends" element={<Friends />} />
+                    <Route path="/earn" element={<Earn />} />
+                    <Route path="/food" element={<Food />} />
+                    <Route path="/leaderboard" element={<Leaderboard />} />
+                  </Routes>
+                </CSSTransition>
+              </TransitionGroup>
+            </ScaledApp>
+          </HideWhileLoading>
         </VerticalApp>
       </Router>
     </Providers>

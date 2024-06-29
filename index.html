@@ -21,9 +21,39 @@
         a {
             text-decoration: none;
         }
+
+        #preloader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #preloader span {
+            width: 90px;
+            height: 90px;
+            position: relative;
+        }
+        #preloader span:before {
+            content: "";
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 5px solid #e0e0e0;
+            border-top-color: #98e703;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
   </head>
   <body>
+    <div id="preloader"><span></span></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

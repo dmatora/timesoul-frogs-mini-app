@@ -18,6 +18,7 @@ import i18n from '../lib/i18n';
 import { Event } from '../lib/events';
 
 type FrogsContextInterface = {
+  loading: boolean;
   config: Config | Record<string, never>;
   user: User | Record<string, never>;
   balance: number;
@@ -45,6 +46,7 @@ type FrogsContextInterface = {
 };
 
 const FrogsContext = createContext<FrogsContextInterface>({
+  loading: true,
   config: {},
   user: {},
   balance: 0,
@@ -175,6 +177,7 @@ interface FrogsProviderProps {
 }
 
 export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [config, setConfig] = useLocalStorageState<Config | Record<string, never>>('config', { defaultValue: {} });
   const [user, setUser] = useLocalStorageState<User | Record<string, never>>('user', { defaultValue: {} });
   const [balance, setBalance] = useLocalStorageState<number>('balance', { defaultValue: 0 });
@@ -252,6 +255,8 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
           balanceDiffSinceLast: syncData.user.balanceDiffSinceLast,
         });
       }
+      document.getElementById('preloader')?.remove();
+      setLoading(false);
     };
 
     readConfig().then();
@@ -345,6 +350,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   return (
     <FrogsContext.Provider
       value={{
+        loading,
         config,
         user,
         balance,
