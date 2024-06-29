@@ -3,18 +3,15 @@ import Status from '../components/Status';
 import FrogButton from '../components/pages/Tap/Button';
 import PageContainer from '../components/PageContainer';
 import { Energy } from '../components/pages/Tap/Energy';
-import { Level } from '../components/pages/Tap/Level';
-import { NavLink } from 'react-router-dom';
 import SettingsPanel from '../components/Menu/SettingsPanel';
+import MoodLevel from '../components/pages/Tap/Levels/MoodLevel';
 
 const Tap: React.FC = () => (
   <div>
     <SettingsPanel />
     <PageContainer header={true}>
       <Status />
-      <NavLink to="/leaderboard">
-        <Level />
-      </NavLink>
+      <MoodLevel />
       <FrogButton />
       <Energy />
     </PageContainer>

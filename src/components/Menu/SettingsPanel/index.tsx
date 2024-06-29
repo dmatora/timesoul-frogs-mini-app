@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import UserIcon from '../../UserIcon';
 import ChooseNetwork from './ChooseNetwork';
 import Row from '../../Row';
 import SettingsButton from './SettingsButton';
 import WebApp from '@twa-dev/sdk';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { CapitalLevel } from '../../pages/Tap/Levels/CapitalLevel';
 
 const ScreenWrapper = styled.div<{ expanded: boolean }>`
   height: ${({ expanded }) => (expanded ? '100px' : '0')};
@@ -56,10 +56,9 @@ const Settings = () => {
   return (
     <ScreenWrapper expanded={expanded}>
       <Row spread={true}>
-        <Row gap="20px">
-          <UserIcon light={true} />
-          <Username>{getUserName(t('system.user'))}</Username>
-        </Row>
+        <NavLink to="/leaderboard">
+          <CapitalLevel />
+        </NavLink>
         <Row gap="20px">
           <NavLink to="/network">
             <ChooseNetwork />
