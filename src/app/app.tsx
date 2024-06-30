@@ -25,6 +25,8 @@ import { useLocation } from 'react-use';
 import Settings from '../pages/Settings';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import ImagePreloader from '../components/ImagePreloader';
+import WebApp from '@twa-dev/sdk';
+import { postBalance } from '../lib/api';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -85,6 +87,26 @@ const PreloadImages = () => {
   return <ImagePreloader images={[...cardImages, ...popupImages]} />;
 };
 
+const HandleClose = () => {
+  const { taps, syncTaps } = useFrogs();
+  const handleBack = async () => {
+    setTimeout(() => {
+      WebApp.close();
+    }, 1000);
+    await Promise.all([postBalance(), syncTaps()]);
+    WebApp.close();
+  };
+
+  useEffect(() => {
+    WebApp.onEvent('backButtonClicked', handleBack);
+    return () => {
+      WebApp.offEvent('backButtonClicked', handleBack);
+    };
+  }, [taps]);
+
+  return null;
+};
+
 export function App() {
   useEffect(() => {
     handleResize();
@@ -100,6 +122,7 @@ export function App() {
         <ForcePortrait />
         <VerticalApp>
           <PreloadImages />
+          <HandleClose />
           <HideWhileLoading>
             <Menu />
             <Popups />
