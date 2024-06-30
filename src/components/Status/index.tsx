@@ -113,7 +113,7 @@ const Status = () => {
           <CardLabel>{t('system.profitPerHour')}</CardLabel>
           <CardRow onClick={handleClick}>
             <Coin />
-            <CardValue>{profitPerHour ? `+${compactAmount(profitPerHour)}` : '0'}</CardValue>
+            <CardValue>{profitPerHour ? `+${compactAmount(profitPerHour, 0)}` : '0'}</CardValue>
             <TipIcon style={{ marginLeft: 8 }} />
           </CardRow>
         </WhiteCard>
