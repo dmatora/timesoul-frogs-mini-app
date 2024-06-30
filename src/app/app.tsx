@@ -81,10 +81,11 @@ const HideWhileLoading = ({ children }: { children: React.ReactNode }) => {
 };
 
 const PreloadImages = () => {
-  const { userCards } = useFrogs();
+  const { userCards, dishes } = useFrogs();
   const cardImages = userCards.map((card) => [card.coverUrl, card.coverNaUrl]).flat();
-  const popupImages = ['/img/frog/bored.png'];
-  return <ImagePreloader images={[...cardImages, ...popupImages]} />;
+  const dishImages = dishes.map((dish) => [dish.coverUrl, dish.coverNaUrl]).flat();
+  const popupImages = ['/img/frog/bored.png', '/img/frog/hungry.png'];
+  return <ImagePreloader images={[...cardImages, ...dishImages, ...popupImages]} />;
 };
 
 const HandleClose = () => {

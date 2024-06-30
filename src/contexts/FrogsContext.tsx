@@ -7,6 +7,7 @@ import {
   getUserCards,
   getUserTasks,
   postCard,
+  postFeeding,
   postLevel,
   postNetwork,
   postStart,
@@ -29,10 +30,12 @@ type FrogsContextInterface = {
   earnPerTap: number;
   profitPerHour: number;
   level: number;
+  dishes: Dish[];
   userCards: UserCard[];
   maxLevel: number;
   progress: number;
   moodProgress: number;
+  satietyProgress: number;
   nextLevelPrice: number | null;
   friends: Friend[];
   tasks: UserTask[];
@@ -45,6 +48,7 @@ type FrogsContextInterface = {
   updateUserTasks: () => Promise<void>;
   handleTap: () => void;
   buyCard: (card: UserCard) => Promise<void>;
+  feedFrog: (dish: Dish) => Promise<void>;
   updateCards: () => Promise<void>;
   upgradeLevel: () => void;
 };
@@ -60,10 +64,12 @@ const FrogsContext = createContext<FrogsContextInterface>({
   earnPerTap: 0,
   profitPerHour: 0,
   level: 0,
+  dishes: [],
   userCards: [],
   maxLevel: 0,
   progress: 0,
   moodProgress: 0,
+  satietyProgress: 0,
   nextLevelPrice: 0,
   friends: [],
   tasks: [],
@@ -76,6 +82,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   updateUserTasks: async () => Promise.resolve(),
   handleTap: () => null,
   buyCard: async () => Promise.resolve(),
+  feedFrog: async () => Promise.resolve(),
   updateCards: () => Promise.resolve(),
   upgradeLevel: () => null,
 });
@@ -112,15 +119,12 @@ export type Card = {
 };
 
 export type UserCard = {
-  card_id: string;
-  level_number: number;
-
   categoryName: string;
   coverNaUrl: string;
   coverUrl: string;
   description: string;
   id: number;
-  isBlockedBy: {
+  isBlockedBy: null | {
     cardId: number;
     cardLevel: number;
     moreFriendsCount: null | number;
@@ -130,6 +134,19 @@ export type UserCard = {
   nextLevelPrice: number;
   nextLevelProfitPerHour: number;
   profitPerHour: number;
+};
+
+export type Dish = {
+  bonus: number;
+  calories: number;
+  coverNaUrl: string;
+  coverUrl: string;
+  id: number;
+  isBlockedBy: null | {
+    moreFriendsCount: null | number;
+    timeout: null | number;
+  };
+  name: string;
 };
 
 export type Level = {
@@ -175,6 +192,7 @@ export type User = {
   profitPerHour: number;
   energyLimit: number;
   level: number;
+  nextFeedingAt: number;
   networkId: null | string;
 };
 
@@ -196,11 +214,15 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [earnPerTap, setEarnPerTap] = useLocalStorageState<number>('earnPerTap', { defaultValue: 0 });
   const [profitPerHour, setProfitPerHour] = useLocalStorageState<number>('profitPerHour', { defaultValue: 0 });
   const [level, setLevel] = useLocalStorageState<number>('level', { defaultValue: 1 });
+  const [dishes, setDishes] = useLocalStorageState<Dish[]>('dishes', { defaultValue: [] });
   const [userCards, setUserCards] = useLocalStorageState<UserCard[]>('userCards', { defaultValue: [] });
   const [maxLevel, setMaxLevel] = useLocalStorageState<number>('maxLevel', { defaultValue: 0 });
   const [progress, setProgress] = useLocalStorageState<number>('progress', { defaultValue: 0 });
   const [moodProgress, setMoodProgress] = useLocalStorageState<number>('moodProgress', { defaultValue: 0 });
+  const [satietyProgress, setSatietyProgress] = useLocalStorageState<number>('satietyProgress', { defaultValue: 0 });
   const [lastTap, setLastTap] = useLocalStorageState<number>('lastTap', { defaultValue: 0 });
+  const [feedTime, setFeedTime] = useLocalStorageState<number>('feedTime', { defaultValue: 0 });
+  const [calories, setCalories] = useLocalStorageState<number>('calories', { defaultValue: 10800 });
   const [nextLevelPrice, setNextLevelPrice] = useLocalStorageState<number | null>('nextLevelPrice', {
     defaultValue: null,
   });
@@ -233,6 +255,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
           list: Friend[];
         };
         user: User;
+        dishes: Dish[];
         userCards: UserCard[];
       } = await postStart(getInvitedBy());
       if (start === undefined) {
@@ -240,9 +263,18 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         return;
       }
       console.debug(start);
-      const { config, user, userCards, friends } = start;
+      const { config, user, dishes, userCards, friends } = start;
       setConfig(config);
       setMaxLevel(config.levels.length);
+      setDishes(dishes);
+      setUserCards(userCards);
+      if (dishes[0].isBlockedBy) {
+        setFeedTime((user.nextFeedingAt - dishes[0].calories) * 1000);
+        setCalories(dishes[0].calories);
+        /* maybe add support for calories variety */
+      } else {
+        setFeedTime(0);
+      }
 
       const { hasMoreItems, list } = friends;
       setFriends(list);
@@ -253,7 +285,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setProfitPerHour(profitPerHour);
       setMaxEnergy(energyLimit);
       setLevel(level);
-      setUserCards(userCards);
 
       const userTapData: {
         balance: number;
@@ -286,6 +317,19 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    if (!loading && satietyProgress === 0) {
+      setEvent({
+        type: 'hungry',
+      });
+      const unlockedDishes = dishes.map((dish) => {
+        if (!dish.isBlockedBy?.moreFriendsCount) dish.isBlockedBy = null;
+        return dish;
+      });
+      setDishes(unlockedDishes);
+    }
+  }, [satietyProgress, loading]);
+
+  useEffect(() => {
     if (!loading && moodProgress === 0) {
       setEvent({
         type: 'bored',
@@ -301,6 +345,10 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     const time = config.profitPerHourOfflineLimitHours * 60;
     const minutesLeft = minutesPassed > time ? 0 : time - minutesPassed;
     setMoodProgress((minutesLeft / time) * 100);
+
+    const secondsPassedAfterMeal = (Date.now() - feedTime) / 1000;
+    const secondsLeftBeforeNextMeal = secondsPassedAfterMeal > calories ? 0 : calories - secondsPassedAfterMeal;
+    setSatietyProgress((secondsLeftBeforeNextMeal / calories) * 100);
   }, 1000);
 
   useInterval(() => {
@@ -363,6 +411,17 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     }
   };
 
+  const feedFrog = async (dish: Dish) => {
+    const dishData = await postFeeding(dish.id);
+    console.debug(dishData);
+    if (dishData) {
+      setDishes(dishData);
+      setBalance((prevBalance) => prevBalance + dish.bonus);
+    }
+    setFeedTime(Date.now());
+    setCalories(dish.calories);
+  };
+
   const updateCards = async () => {
     const cards = await getUserCards();
     console.debug(cards);
@@ -402,10 +461,12 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         earnPerTap,
         profitPerHour,
         level,
+        dishes,
         userCards,
         maxLevel,
         progress,
         moodProgress,
+        satietyProgress,
         nextLevelPrice,
         friends,
         tasks,
@@ -418,6 +479,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         updateUserTasks,
         handleTap,
         buyCard,
+        feedFrog,
         updateCards,
         upgradeLevel,
       }}
