@@ -36,6 +36,11 @@ export default {
     message: 'Play with the frog.',
     description: 'If the frog is not played with for 3 hours, profit stops',
   },
+  popup_Hungry: {
+    header: 'The frog is hungry!',
+    message: 'Feed the frog.',
+    description: 'The more friends you have, the more coins each feeding can bring',
+  },
   menu: {
     network: 'Network',
     mine: 'Mine',
@@ -84,5 +89,14 @@ export default {
     followOurX: 'Follow our X account',
     yourAd: 'Your advertisement could be here',
     connect: 'Contact the admin of our Telegram channel',
+  },
+  food: {
+    hungry: 'Hungry',
+    full: 'Full',
+    frogIsFull: 'Frog is full',
+    feed: 'Feed',
+    bonus: 'Бонус',
+    satiety: 'Satiety',
+    hours: 'hours',
   },
 };

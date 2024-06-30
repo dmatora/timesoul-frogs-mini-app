@@ -1,6 +1,13 @@
 import { UserCard } from '../contexts/FrogsContext';
 
-export type Event = null | LevelUpEvent | BalanceUpEvent | CheckingCardEvent | BallanceTipEvent | BoredEvent;
+export type Event =
+  | null
+  | LevelUpEvent
+  | BalanceUpEvent
+  | CheckingCardEvent
+  | BallanceTipEvent
+  | BoredEvent
+  | HungryEvent;
 
 export type LevelUpEvent = {
   type: 'levelUp';
@@ -26,8 +33,13 @@ export type BoredEvent = {
   type: 'bored';
 };
 
+export type HungryEvent = {
+  type: 'hungry';
+};
+
 export const isLevelUpEvent = (event: Event): event is LevelUpEvent => event?.type === 'levelUp';
 export const isBalanceUpEvent = (event: Event): event is BalanceUpEvent => event?.type === 'balanceUp';
 export const isBalanceTipEvent = (event: Event): event is BallanceTipEvent => event?.type === 'balanceTip';
 export const isCheckingCardEvent = (event: Event): event is CheckingCardEvent => event?.type === 'checkingCard';
 export const isBoredEvent = (event: Event): event is BoredEvent => event?.type === 'bored';
+export const isHungryEvent = (event: Event): event is HungryEvent => event?.type === 'hungry';

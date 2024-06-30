@@ -38,6 +38,11 @@ export const postBalance = async () => {
   return postBackApi('user/balance');
 };
 
+export const postFeeding = async (dish_id: number) => {
+  const body = { dish_id };
+  return postBackApi('user/feeding', body).then((response) => response.data);
+};
+
 export const postCard = async (card_id: number) => {
   const body = { card_id };
   return postBackApi('user/cards', body).then((response) => response.data);
