@@ -22,6 +22,7 @@ type FrogsContextInterface = {
   loading: boolean;
   config: Config | Record<string, never>;
   user: User | Record<string, never>;
+  taps: number;
   balance: number;
   energy: number;
   maxEnergy: number;
@@ -37,6 +38,7 @@ type FrogsContextInterface = {
   tasks: UserTask[];
   event: Event;
   setEvent: Dispatch<SetStateAction<Event>>;
+  syncTaps: () => Promise<void>;
   clearEvent: () => void;
   updateNetwork: (networkId: string) => Promise<void>;
   updateFriendsList: () => Promise<void>;
@@ -51,6 +53,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   loading: true,
   config: {},
   user: {},
+  taps: 0,
   balance: 0,
   energy: 0,
   maxEnergy: 0,
@@ -66,6 +69,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   tasks: [],
   event: null,
   setEvent: () => null,
+  syncTaps: async () => Promise.resolve(),
   clearEvent: () => null,
   updateNetwork: async () => Promise.resolve(),
   updateFriendsList: async () => Promise.resolve(),
@@ -306,13 +310,15 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     );
   }, 1000);
 
-  useInterval(async () => {
+  const syncTaps = async () => {
     if (taps > lastTaps) {
       const response = await sync(taps - lastTaps);
       console.debug(response);
       if (!response.times.error) setLastTaps(taps);
     }
-  }, 1000 * (config.syncPeriod || 10));
+  };
+
+  useInterval(syncTaps, 1000 * (config.syncPeriod || 10));
 
   const clearEvent = async () => {
     setEvent(null);
@@ -390,6 +396,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         config,
         user,
         balance,
+        taps,
         energy,
         maxEnergy,
         earnPerTap,
@@ -404,6 +411,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         tasks,
         event,
         setEvent,
+        syncTaps,
         clearEvent,
         updateNetwork,
         updateFriendsList,
