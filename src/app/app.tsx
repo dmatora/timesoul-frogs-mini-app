@@ -14,7 +14,7 @@ import MineInvestments from '../pages/Mine/MineInvestments';
 import MineAchievements from '../pages/Mine/MineAchievements';
 import MineActivities from '../pages/Mine/MineActivities';
 import { FrogsProvider, useFrogs } from '../contexts/FrogsContext';
-import { handleResize } from '../lib/utils';
+import { handleResize, shouldBlockDesktop } from '../lib/utils';
 import Leaderboard from '../pages/Leaderboard';
 import Popups from '../components/Popups';
 import ForcePortrait from '../components/ForcePortrait';
@@ -27,6 +27,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import ImagePreloader from '../components/ImagePreloader';
 import WebApp from '@twa-dev/sdk';
 import { postBalance } from '../lib/api';
+import BlockDesktop from '../components/BlockDesktop';
 
 const ScaledApp = styled.div`
   -webkit-user-select: none;
@@ -115,6 +116,13 @@ export function App() {
   }, []);
 
   const location = useLocation();
+
+  if (shouldBlockDesktop()) {
+    document.getElementById('preloader')?.remove();
+    return <BlockDesktop />;
+  } else {
+    WebApp.BackButton.show();
+  }
 
   return (
     <Providers>

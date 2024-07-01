@@ -28,7 +28,7 @@ const TelegramIcon = styled((props) => (
 `;
 
 const handleOnClick = async () => {
-  WebApp.openTelegramLink(env.channelUrl);
+  WebApp.openTelegramLink(`https://t.me/${env.channelName}`);
 };
 
 const AdTask = () => {
