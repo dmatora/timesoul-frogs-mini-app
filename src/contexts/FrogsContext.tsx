@@ -227,6 +227,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     defaultValue: null,
   });
   const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
+  const [friendsCount, setFriendsCount] = useLocalStorageState<number>('friendsCount', { defaultValue: 0 });
   const [tasks, setTasks] = useLocalStorageState<UserTask[]>('tasks', { defaultValue: [] });
   const [event, setEvent] = useState<Event>(null);
 
@@ -278,6 +279,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
       const { hasMoreItems, list } = friends;
       setFriends(list);
+      setFriendsCount(list.length);
 
       const { earnPerTap, profitPerHour, energyLimit, level } = user;
       setUser(user);
@@ -382,7 +384,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
   const updateFriendsList = async () => {
     const response = await getFriends();
-    if (response.list) setFriends(response.list);
+    if (response.list) {
+      if (response.list.length > friendsCount) await updateCards();
+      setFriends(response.list);
+      setFriendsCount(response.list.length);
+    }
   };
 
   const updateUserTasks = async () => {
