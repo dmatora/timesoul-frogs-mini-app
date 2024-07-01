@@ -33,8 +33,21 @@ export const EnergyValue = styled.div`
 `;
 
 export const Energy = () => {
-  const { balance, energy, maxEnergy, level, nextLevelPrice, upgradeLevel } = useFrogs();
+  const { config, balance, energy, earnPerTap, maxEnergy, level, nextLevelPrice, setEvent } = useFrogs();
   const { t } = useTranslation();
+
+  const handleOnClick = () => {
+    const nextLevel = config.levels?.find((item) => item.number === level + 1);
+    if (!nextLevel) {
+      throw new Error('Should not happen');
+    }
+
+    setEvent({
+      type: 'levelUp',
+      maxEnergyGain: nextLevel.energyLimit - maxEnergy,
+      earnPerTapGain: nextLevel.earnPerTap - earnPerTap,
+    });
+  };
 
   return (
     <Row spread={true} margin={'0 48px 118px'}>
@@ -45,7 +58,7 @@ export const Energy = () => {
         </EnergyValue>
       </Row>
       {nextLevelPrice && (
-        <BoostCard onClick={upgradeLevel} disabled={balance < nextLevelPrice}>
+        <BoostCard onClick={handleOnClick} disabled={!nextLevelPrice || balance < nextLevelPrice}>
           <BoostIcon />
           {t('system.level')} {level + 1}
         </BoostCard>
