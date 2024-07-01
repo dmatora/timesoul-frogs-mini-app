@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
 import { isLevelUpEvent } from '../../../lib/events';
+import { getLevelName } from '../../../lib/utils';
 
 const Header = styled.div`
   text-align: center;
@@ -22,17 +23,19 @@ const Text = styled.div`
 `;
 
 const LevelUp = () => {
-  const { event } = useFrogs();
+  const { event, level, upgradeLevel } = useFrogs();
   const { t } = useTranslation();
 
   if (!isLevelUpEvent(event)) throw new Error('Should not happen');
 
   return (
-    <Popup>
+    <Popup close={t('system.continue')} onConfirm={upgradeLevel}>
       <Row>
         <Coin size={'large'} />
       </Row>
-      <Header>{t('popup_levelUp.levelUp')}</Header>
+      <Header>
+        {t('system.level')} {getLevelName(level + 1)}
+      </Header>
       <Row spread={true} margin="70px">
         <Text>
           {t('popup_levelUp.multiTap')}

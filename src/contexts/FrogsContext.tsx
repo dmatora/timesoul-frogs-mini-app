@@ -50,7 +50,7 @@ type FrogsContextInterface = {
   buyCard: (card: UserCard) => Promise<void>;
   feedFrog: (dish: Dish) => Promise<void>;
   updateCards: () => Promise<void>;
-  upgradeLevel: () => void;
+  upgradeLevel: () => Promise<void>;
 };
 
 const FrogsContext = createContext<FrogsContextInterface>({
@@ -84,7 +84,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   buyCard: async () => Promise.resolve(),
   feedFrog: async () => Promise.resolve(),
   updateCards: () => Promise.resolve(),
-  upgradeLevel: () => null,
+  upgradeLevel: () => Promise.resolve(),
 });
 
 export type Config = {
@@ -447,11 +447,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     setLevel((prevLevel) => prevLevel + 1);
     setEarnPerTap(nextLevel.earnPerTap);
     setMaxEnergy(nextLevel.energyLimit);
-    setEvent({
-      type: 'levelUp',
-      maxEnergyGain: nextLevel.energyLimit - maxEnergy,
-      earnPerTapGain: nextLevel.earnPerTap - earnPerTap,
-    });
   };
 
   return (
