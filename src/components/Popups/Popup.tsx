@@ -40,7 +40,7 @@ const PopupContainer = styled.div<{ open: boolean; height?: number }>`
   transition: bottom ${duration}ms ease-in-out;
 
   width: 890px;
-  padding: 95px 95px 50px;
+  padding: 95px 95px 63px;
   @media (min-width: 1080px) {
   }
 
