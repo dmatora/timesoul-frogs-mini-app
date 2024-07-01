@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useFrogs } from '../contexts/FrogsContext';
 import Option from '../components/pages/Settings/Option';
 import { useNavigate } from 'react-router-dom';
-import i18n from '../lib/i18n';
+import i18n, { languages } from '../lib/i18n';
 import VenomIcon from '../components/pages/Settings/VenomIcon';
 import EthereumIcon from '../components/pages/Settings/EthereumIcon';
 import BitcoinIcon from '../components/pages/Settings/BitcoinIcon';
@@ -55,7 +55,7 @@ const Settings = ({ selection }: { selection: 'network' | 'language' }) => {
           />
         ))}
       {selection === 'language' &&
-        Object.entries(config.languages).map(([languageId, language]) => (
+        Object.entries(languages).map(([languageId, language]) => (
           <Option
             key={languageId}
             label={`${language} (${languageId})`}
