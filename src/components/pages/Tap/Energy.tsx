@@ -41,7 +41,7 @@ export const Energy = () => {
       <Row gap={'10px'}>
         <EnergyIcon />
         <EnergyValue>
-          {energy} / {maxEnergy}
+          {energy.toFixed()} / {maxEnergy}
         </EnergyValue>
       </Row>
       {nextLevelPrice && (
