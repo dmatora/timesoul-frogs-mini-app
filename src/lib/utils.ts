@@ -1,4 +1,7 @@
 import WebApp from '@twa-dev/sdk';
+import { env } from './env';
+
+const { isProd } = env;
 
 export const getLevelName = (level: number) => {
   const names = [
@@ -31,6 +34,12 @@ export const compactAmount = (price: number, fractionDigits = 2) => {
   if (price >= 1000000) return `${parseFloat((price / 1000000).toFixed(fractionDigits))}M`;
   if (price >= 1000) return `${parseFloat((price / 1000).toFixed(fractionDigits))}K`;
   return price;
+};
+
+export const shouldBlockDesktop = () => {
+  const isMobile = ['android', 'android_x', 'ios'].indexOf(WebApp.platform) >= 0;
+
+  return !isMobile && isProd;
 };
 
 export const getTgUserId = () => {
