@@ -15,21 +15,19 @@ const Seconds = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #999;
 `;
 
 const RefreshButton = () => {
   const [loading, setLoading] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(0);
   const { updateFriendsList, lastFriendsUpdate } = useFrogs();
 
-  const coolDown = Date.now() - lastFriendsUpdate < 60000;
-
-  useInterval(() => {
-    setSecondsLeft(Math.round(60 - (Date.now() - lastFriendsUpdate) / 1000));
-  }, 1000);
+  const coolDownSeconds = 60;
+  const secondsLeft = Math.round(coolDownSeconds - (Date.now() - lastFriendsUpdate) / 1000);
+  const coolDown = secondsLeft > 0 && secondsLeft < coolDownSeconds * 1000;
+  useInterval(() => null, 1000);
 
   const handleOnclick = async () => {
-    if (coolDown) return;
     setLoading(true);
     await updateFriendsList();
     setLoading(false);
@@ -38,7 +36,7 @@ const RefreshButton = () => {
   return (
     <Container>
       {!loading && coolDown && !!secondsLeft && <Seconds>{secondsLeft}</Seconds>}
-      <RefreshIcon onClick={handleOnclick} isLoading={loading} />
+      <RefreshIcon onClick={handleOnclick} isLoading={loading} disabled={loading || coolDown} />
     </Container>
   );
 };
