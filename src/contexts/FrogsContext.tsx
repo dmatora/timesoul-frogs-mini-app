@@ -37,6 +37,7 @@ type FrogsContextInterface = {
   moodProgress: number;
   satietyProgress: number;
   nextLevelPrice: number | null;
+  lastFriendsUpdate: number;
   friends: Friend[];
   tasks: UserTask[];
   event: Event;
@@ -71,6 +72,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   moodProgress: 0,
   satietyProgress: 0,
   nextLevelPrice: 0,
+  lastFriendsUpdate: 0,
   friends: [],
   tasks: [],
   event: null,
@@ -225,6 +227,9 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [calories, setCalories] = useLocalStorageState<number>('calories', { defaultValue: 10800 });
   const [nextLevelPrice, setNextLevelPrice] = useLocalStorageState<number | null>('nextLevelPrice', {
     defaultValue: null,
+  });
+  const [lastFriendsUpdate, setLastFriendsUpdate] = useLocalStorageState<number>('lastFriendsUpdate', {
+    defaultValue: 0,
   });
   const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
   const [friendsCount, setFriendsCount] = useLocalStorageState<number>('friendsCount', { defaultValue: 0 });
@@ -383,6 +388,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   };
 
   const updateFriendsList = async () => {
+    setLastFriendsUpdate(Date.now);
     const response = await getFriends();
     if (response.list) {
       if (response.list.length > friendsCount) await updateCards();
@@ -469,6 +475,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         moodProgress,
         satietyProgress,
         nextLevelPrice,
+        lastFriendsUpdate,
         friends,
         tasks,
         event,

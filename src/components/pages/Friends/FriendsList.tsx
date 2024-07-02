@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import WebApp from '@twa-dev/sdk';
 
 import Row from '../../Row';
 import FriendCard from './List/FriendCard';
-import RefreshIcon from './List/RefreshIcon';
 import ProfileIcon from './List/ProfileIcon';
 import { getTgUserId } from '../../../lib/utils';
-import { useFrogs } from '../../../contexts/FrogsContext';
 import { env } from '../../../lib/env';
 import ClipboardButton from './ClipboardButton';
+import RefreshButton from './List/RefreshButton';
+import { useFrogs } from '../../../contexts/FrogsContext';
 
 const Container = styled.div`
   margin: 20px auto 30px;
@@ -49,19 +49,12 @@ const InviteFriendButton = styled.button`
 `;
 
 const FriendsList: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-  const { friends, updateFriendsList } = useFrogs();
+  const { friends } = useFrogs();
   const { t } = useTranslation();
 
   const urlInvitation = `https://t.me/share/url?url=${encodeURIComponent(
     `${env.botUrl}?startapp=${getTgUserId()}`
   )}&text=${encodeURIComponent(t('friends.playWithMe'))}`;
-
-  const handleOnclick = async () => {
-    setLoading(true);
-    await updateFriendsList();
-    setLoading(false);
-  };
 
   return (
     <Container>
@@ -69,7 +62,7 @@ const FriendsList: React.FC = () => {
         <FriendsListLabel>
           {t('friends.listOfYourFriends')} ({friends.length})
         </FriendsListLabel>
-        <RefreshIcon onClick={handleOnclick} isLoading={loading} />
+        <RefreshButton />
       </Row>
       {friends.map((friend) => (
         <FriendCard key={friend.id} friend={friend} />
