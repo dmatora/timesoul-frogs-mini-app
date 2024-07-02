@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'Выбери сеть',
     chooseLanguage: 'Выбери язык',
   },
+  popup_CheckTask: {
+    join: 'Подписаться',
+    check: 'Проверить',
+    taskIsNotCompleted: 'Задача не выполнена',
+  },
   popup_levelUp: {
     levelUp: 'Уровень повышен!',
     multiTap: 'Мультитап',

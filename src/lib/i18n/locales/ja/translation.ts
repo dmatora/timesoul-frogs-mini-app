@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'ネットワークを選択',
     chooseLanguage: '言語を選択',
   },
+  popup_CheckTask: {
+    join: '参加する',
+    check: '確認する',
+    taskIsNotCompleted: 'タスクが完了していません',
+  },
   popup_levelUp: {
     levelUp: 'レベルアップ！',
     multiTap: 'マルチタップ',

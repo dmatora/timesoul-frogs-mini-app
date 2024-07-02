@@ -1,10 +1,6 @@
 import styled from 'styled-components';
-import TaskCard from '../TaskCard';
-import WebApp from '@twa-dev/sdk';
-import { useFrogs, UserTask } from '../../../../contexts/FrogsContext';
-import { patchUserTasks } from '../../../../lib/api';
 
-const XIcon = styled((props) => (
+export const XIcon = styled((props) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="112" height="113" viewBox="0 0 112 113" fill="none" {...props}>
     <g clipPath="url(#clip0_2099_17807)">
       <path
@@ -26,27 +22,7 @@ const XIcon = styled((props) => (
   </svg>
 ))`
   flex-shrink: 0;
-  margin-right: 26px;
+  margin-right: ${({ large }) => (large ? '' : '26px')};
+  width: ${({ large }) => (large ? '350px' : '')};
+  height: ${({ large }) => (large ? '350px' : '')};
 `;
-
-const handleOnClick = async (task: UserTask, updateUserTasks: () => Promise<void>) => {
-  await patchUserTasks(task.id);
-  await updateUserTasks();
-  WebApp.openLink(task.url);
-};
-
-const XTask = ({ task }: { task: UserTask }) => {
-  const { updateUserTasks } = useFrogs();
-
-  return (
-    <TaskCard
-      label={task.title}
-      Icon={XIcon}
-      bonus={task.bonus}
-      done={task.isCompleted}
-      onClick={() => handleOnClick(task, updateUserTasks)}
-    />
-  );
-};
-
-export default XTask;

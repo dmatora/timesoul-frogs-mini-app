@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'Pumili ng network',
     chooseLanguage: 'Pumili ng wika',
   },
+  popup_CheckTask: {
+    join: 'Sumali',
+    check: 'Suriin',
+    taskIsNotCompleted: 'Hindi pa nakumpleto ang gawain',
+  },
   popup_levelUp: {
     levelUp: 'Level up!',
     multiTap: 'Multitap',

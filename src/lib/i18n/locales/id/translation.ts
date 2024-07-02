@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'Pilih jaringan',
     chooseLanguage: 'Pilih bahasa',
   },
+  popup_CheckTask: {
+    join: 'Bergabung',
+    check: 'Periksa',
+    taskIsNotCompleted: 'Tugas belum selesai',
+  },
   popup_levelUp: {
     levelUp: 'Naik level!',
     multiTap: 'Multi-ketuk',

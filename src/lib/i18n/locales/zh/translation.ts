@@ -17,6 +17,11 @@ export default {
     chooseNetwork: '选择网络',
     chooseLanguage: '选择语言',
   },
+  popup_CheckTask: {
+    join: '加入',
+    check: '检查',
+    taskIsNotCompleted: '任务未完成',
+  },
   popup_levelUp: {
     levelUp: '升级！',
     multiTap: '多重点击',

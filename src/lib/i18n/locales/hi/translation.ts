@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'नेटवर्क चुनें',
     chooseLanguage: 'भाषा चुनें',
   },
+  popup_CheckTask: {
+    join: 'जुड़ें',
+    check: 'जाँच करें',
+    taskIsNotCompleted: 'कार्य पूरा नहीं हुआ',
+  },
   popup_levelUp: {
     levelUp: 'स्तर बढ़ा!',
     multiTap: 'मल्टीटैप',

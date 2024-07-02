@@ -4,6 +4,8 @@ import Row from '../../Row';
 import Coin from '../../Status/Coin';
 import { amountWithSpaces } from '../../../lib/utils';
 import { NextButton } from '../../DirectionButtons';
+import { useFrogs, UserTask } from '../../../contexts/FrogsContext';
+import getIcon from './TaskIcons';
 
 const Container = styled.div<{ done?: boolean }>`
   border: ${({ done }) => (done ? '3px solid #98e703' : '3px solid transparent')};
@@ -35,38 +37,29 @@ const DoneIcon = styled((props) => (
   padding: 0 36px;
 `;
 
-const TaskCard = ({
-  label,
-  Icon,
-  reward = true,
-  done = false,
-  bonus = 5000,
-  onClick,
-}: {
-  label: string;
-  Icon: string;
-  reward?: boolean;
-  done: boolean;
-  bonus?: number;
-  onClick: () => Promise<void>;
-}) => {
+const TaskCard = ({ task }: { task: UserTask }) => {
+  const { setEvent } = useFrogs();
+  const Icon = getIcon(task);
+
+  const handleOnClick = () => {
+    setEvent({ type: 'checkingTask', task });
+  };
+
   return (
-    <Container done={done}>
+    <Container done={task.isCompleted} onClick={handleOnClick}>
       <Row spread={true} style={{ width: '100%' }}>
         <Row>
           <Icon />
           <div>
-            <Label>{label}</Label>
-            {reward && (
-              <Row style={{ justifyContent: 'left' }} margin={'7px 0 0'}>
-                <Coin />
-                <Amount>+{amountWithSpaces(bonus)}</Amount>
-              </Row>
-            )}
+            <Label>{task.title}</Label>
+            <Row style={{ justifyContent: 'left' }} margin={'7px 0 0'}>
+              <Coin />
+              <Amount>+{amountWithSpaces(task.bonus)}</Amount>
+            </Row>
           </div>
         </Row>
-        {done && <DoneIcon />}
-        {!done && <NextButton onClick={onClick} />}
+        {task.isCompleted && <DoneIcon />}
+        {!task.isCompleted && <NextButton onClick={() => null} />}
       </Row>
     </Container>
   );

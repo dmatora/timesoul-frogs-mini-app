@@ -45,7 +45,7 @@ export const PrevButton = ({ disabled, onClick }: { disabled: boolean; onClick: 
   );
 };
 
-export const NextButton = ({ disabled, onClick }: { disabled: boolean; onClick: () => Promise<void> }) => {
+export const NextButton = ({ disabled, onClick }: { disabled?: boolean; onClick: () => void }) => {
   return (
     <Container disabled={disabled} onClick={onClick}>
       <DirectionIcon next={true} />

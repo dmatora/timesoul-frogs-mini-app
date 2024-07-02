@@ -17,6 +17,11 @@ export default {
     chooseNetwork: '네트워크 선택',
     chooseLanguage: '언어 선택',
   },
+  popup_CheckTask: {
+    join: '가입하기',
+    check: '확인하기',
+    taskIsNotCompleted: '작업이 완료되지 않았습니다',
+  },
   popup_levelUp: {
     levelUp: '레벨 업!',
     multiTap: '멀티탭',

@@ -12,14 +12,14 @@ export interface NotificationItem extends NotificationText {
 
 export interface NotificationText {
   title: string;
-  subtitle: string;
+  subtitle?: string;
 }
 
 export interface NotificationEventAddDetail {
   task: 'add';
   index: number;
   title: string;
-  subtitle: string;
+  subtitle?: string;
 }
 
 export interface NotificationEventDismissDetail {

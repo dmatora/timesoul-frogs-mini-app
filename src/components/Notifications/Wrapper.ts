@@ -12,7 +12,7 @@ export const Wrapper = styled.ul`
   flex-direction: column;
   list-style: none;
   justify-content: flex-end;
-  z-index: 12;
+  z-index: 200;
   padding: 0;
   font-family: Geologica, sans-serif;
   opacity: 0.9;

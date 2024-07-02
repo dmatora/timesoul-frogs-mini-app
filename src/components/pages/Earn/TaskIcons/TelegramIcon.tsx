@@ -1,10 +1,6 @@
 import styled from 'styled-components';
-import TaskCard from '../TaskCard';
-import WebApp from '@twa-dev/sdk';
-import { useFrogs, UserTask } from '../../../../contexts/FrogsContext';
-import { patchUserTasks } from '../../../../lib/api';
 
-const TelegramIcon = styled((props) => (
+export const TelegramIcon = styled((props) => (
   <svg width="112" height="113" viewBox="0 0 112 113" fill="none" {...props}>
     <g clipPath="url(#clip0_2099_17753)">
       <path
@@ -24,41 +20,7 @@ const TelegramIcon = styled((props) => (
   </svg>
 ))`
   flex-shrink: 0;
-  margin-right: 26px;
+  margin-right: ${({ large }) => (large ? '' : '26px')};
+  width: ${({ large }) => (large ? '350px' : '')};
+  height: ${({ large }) => (large ? '350px' : '')};
 `;
-
-export const UrlIcon = styled.div<{ url: string }>`
-  width: 112px;
-  height: 112px;
-  background: ${({ url }) => `url('${url}'`});
-  background-size: cover;
-  border-radius: 50% 50%;
-  flex-shrink: 0;
-  margin-right: 26px;
-`;
-
-const handleOnClick = async (task: UserTask, updateUserTasks: () => Promise<void>) => {
-  await patchUserTasks(task.id);
-  await updateUserTasks();
-  WebApp.openTelegramLink(task.url);
-};
-
-const TelegramTask = ({ task }: { task: UserTask }) => {
-  const { updateUserTasks } = useFrogs();
-  let icon: any = TelegramIcon;
-  if (task.title.includes('AlfaBank')) icon = () => <UrlIcon url="/img/alpha.jpeg" />;
-  if (task.title.includes('Sber')) icon = () => <UrlIcon url="/img/sber.jpeg" />;
-  if (task.title.includes('T-Bank')) icon = () => <UrlIcon url="/img/tbank.jpeg" />;
-
-  return (
-    <TaskCard
-      label={task.title}
-      Icon={icon}
-      bonus={task.bonus}
-      done={task.isCompleted}
-      onClick={() => handleOnClick(task, updateUserTasks)}
-    />
-  );
-};
-
-export default TelegramTask;

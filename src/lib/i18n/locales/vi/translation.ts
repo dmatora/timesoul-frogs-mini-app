@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'Chọn mạng',
     chooseLanguage: 'Chọn ngôn ngữ',
   },
+  popup_CheckTask: {
+    join: 'Tham gia',
+    check: 'Kiểm tra',
+    taskIsNotCompleted: 'Nhiệm vụ chưa hoàn thành',
+  },
   popup_levelUp: {
     levelUp: 'Lên cấp!',
     multiTap: 'Chạm nhiều lần',

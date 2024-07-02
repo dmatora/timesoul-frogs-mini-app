@@ -46,7 +46,7 @@ type FrogsContextInterface = {
   clearEvent: () => void;
   updateNetwork: (networkId: string) => Promise<void>;
   updateFriendsList: () => Promise<void>;
-  updateUserTasks: () => Promise<void>;
+  updateUserTasks: () => Promise<UserTask[]>;
   handleTap: () => void;
   buyCard: (card: UserCard) => Promise<void>;
   feedFrog: (dish: Dish) => Promise<void>;
@@ -81,7 +81,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   clearEvent: () => null,
   updateNetwork: async () => Promise.resolve(),
   updateFriendsList: async () => Promise.resolve(),
-  updateUserTasks: async () => Promise.resolve(),
+  updateUserTasks: async () => Promise.resolve([]),
   handleTap: () => null,
   buyCard: async () => Promise.resolve(),
   feedFrog: async () => Promise.resolve(),
@@ -185,6 +185,7 @@ export type UserTask = {
   isCompleted: boolean;
   title: string;
   url: string;
+  coverUrl: string;
 };
 
 export type User = {
@@ -400,6 +401,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const updateUserTasks = async () => {
     const response = await getUserTasks();
     if (response.list) setTasks(response.list);
+    return response.list;
   };
 
   const handleTap = () => {

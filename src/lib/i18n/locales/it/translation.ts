@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'Scegli la rete',
     chooseLanguage: 'Scegli la lingua',
   },
+  popup_CheckTask: {
+    join: 'Unisciti',
+    check: 'Controlla',
+    taskIsNotCompleted: 'Compito non completato',
+  },
   popup_levelUp: {
     levelUp: 'Sali di livello!',
     multiTap: 'Multi-tap',

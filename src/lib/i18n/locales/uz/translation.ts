@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'Tarmoqni tanlang',
     chooseLanguage: 'Tilni tanlang',
   },
+  popup_CheckTask: {
+    join: "Qo'shilish",
+    check: 'Tekshirish',
+    taskIsNotCompleted: 'Vazifa bajarilmadi',
+  },
   popup_levelUp: {
     levelUp: "Daraja ko'tarildi!",
     multiTap: "Ko'p bosish",

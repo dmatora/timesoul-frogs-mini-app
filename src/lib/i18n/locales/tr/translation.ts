@@ -17,6 +17,11 @@ export default {
     chooseNetwork: 'Ağ seç',
     chooseLanguage: 'Dil seç',
   },
+  popup_CheckTask: {
+    join: 'Katıl',
+    check: 'Kontrol et',
+    taskIsNotCompleted: 'Görev tamamlanmadı',
+  },
   popup_levelUp: {
     levelUp: 'Seviye atladın!',
     multiTap: 'Çoklu tıklama',
