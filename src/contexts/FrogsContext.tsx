@@ -194,7 +194,8 @@ export type User = {
   profitPerHour: number;
   energyLimit: number;
   level: number;
-  nextFeedingAt: number;
+  lastFeedingAt: number;
+  lastFeedingCalories: number;
   networkId: null | string;
 };
 
@@ -274,10 +275,9 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setMaxLevel(config.levels.length);
       setDishes(dishes);
       setUserCards(userCards);
-      if (dishes[0].isBlockedBy) {
-        setFeedTime((user.nextFeedingAt - dishes[0].calories) * 1000);
-        setCalories(dishes[0].calories);
-        /* maybe add support for calories variety */
+      if (user.lastFeedingAt) {
+        setFeedTime(user.lastFeedingAt * 1000);
+        setCalories(user.lastFeedingCalories);
       } else {
         setFeedTime(0);
       }
