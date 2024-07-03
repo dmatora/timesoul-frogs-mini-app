@@ -4,6 +4,7 @@ import Row from '../../Row';
 import Popup from '../Popup';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { isBoredEvent } from '../../../lib/events';
+import { useNavigate } from 'react-router-dom';
 
 const Header = styled.div`
   text-align: center;
@@ -23,12 +24,13 @@ const Text = styled.div`
 
 const Bored = () => {
   const { event } = useFrogs();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   if (!isBoredEvent(event)) throw new Error('Should not happen');
 
   return (
-    <Popup close={t('system.continue')}>
+    <Popup close={t('system.continue')} onConfirm={async () => navigate('/')}>
       <Row>
         <img alt="bored" src="/img/frog/bored.png" style={{ marginTop: '100px' }} />
       </Row>
