@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Sentry from '@sentry/react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -26,7 +26,6 @@ import Settings from '../pages/Settings';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import ImagePreloader from '../components/ImagePreloader';
 import WebApp from '@twa-dev/sdk';
-import { postBalance } from '../lib/api';
 import BlockDesktop from '../components/BlockDesktop';
 
 const ScaledApp = styled.div`
@@ -89,22 +88,16 @@ const PreloadImages = () => {
   return <ImagePreloader images={[...cardImages, ...dishImages, ...popupImages]} />;
 };
 
-const HandleClose = () => {
-  const { taps, syncTaps } = useFrogs();
-  const handleBack = async () => {
-    setTimeout(() => {
-      WebApp.close();
-    }, 1000);
-    await Promise.all([postBalance(), syncTaps()]);
-    WebApp.close();
-  };
+const HandleBack = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    WebApp.onEvent('backButtonClicked', handleBack);
-    return () => {
-      WebApp.offEvent('backButtonClicked', handleBack);
-    };
-  }, [taps]);
+  WebApp.BackButton.onClick(() => {
+    navigate('/');
+  });
+
+  if (location.pathname === '/') WebApp.BackButton.hide();
+  else WebApp.BackButton.show();
 
   return null;
 };
@@ -131,7 +124,7 @@ export function App() {
         <ForcePortrait />
         <VerticalApp>
           <PreloadImages />
-          <HandleClose />
+          <HandleBack />
           <HideWhileLoading>
             <Menu />
             <Popups />
