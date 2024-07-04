@@ -3,6 +3,7 @@ export default {
     user: 'Pengguna',
     rotate1: 'Silakan putar perangkat Anda',
     rotate2: 'ke mode potret',
+    rotate3: 'dan sembunyikan keyboard seluler',
     level: 'Level',
     earnPerTap: 'Pendapatan per ketukan',
     coinsToLevelUp: 'Koin untuk naik level',

@@ -3,6 +3,7 @@ export default {
     user: 'User',
     rotate1: 'Paki-ikot ang iyong device',
     rotate2: 'sa portrait mode',
+    rotate3: 'at itago ang mobile keyboard',
     level: 'Antas',
     earnPerTap: 'Kitain sa bawat tap',
     coinsToLevelUp: 'Barya para mag-level up',

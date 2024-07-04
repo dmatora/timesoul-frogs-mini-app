@@ -3,6 +3,7 @@ export default {
     user: 'Foydalanuvchi',
     rotate1: 'Iltimos, qurilmangizni',
     rotate2: 'portret rejimiga aylantiring',
+    rotate3: 'va mobil klaviaturani yashiring',
     level: 'Daraja',
     earnPerTap: 'Har bosishdan daromad',
     coinsToLevelUp: "Darajani ko'tarish uchun tangalar",

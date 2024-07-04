@@ -3,6 +3,7 @@ export default {
     user: 'User',
     rotate1: 'Please rotate your device',
     rotate2: 'to portrait mode',
+    rotate3: 'and hide mobile keyboard',
     level: 'Level',
     earnPerTap: 'Earn per tap',
     coinsToLevelUp: 'Coins to level up',

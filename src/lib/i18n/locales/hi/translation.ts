@@ -3,6 +3,7 @@ export default {
     user: 'उपयोगकर्ता',
     rotate1: 'कृपया अपने डिवाइस को घुमाएं',
     rotate2: 'पोर्ट्रेट मोड में',
+    rotate3: 'और मोबाइल कीबोर्ड छिपाएं',
     level: 'स्तर',
     earnPerTap: 'प्रति टैप कमाई',
     coinsToLevelUp: 'लेवल अप के लिए सिक्के',

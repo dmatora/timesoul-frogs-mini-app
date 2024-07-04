@@ -3,6 +3,7 @@ export default {
     user: 'Kullanıcı',
     rotate1: 'Lütfen cihazınızı',
     rotate2: 'dikey moda çevirin',
+    rotate3: 've mobil klavyeyi gizleyin',
     level: 'Seviye',
     earnPerTap: 'Tıklama başına kazanç',
     coinsToLevelUp: 'Seviye atlamak için gereken para',

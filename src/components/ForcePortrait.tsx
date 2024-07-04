@@ -62,6 +62,8 @@ const RotatePrompt = () => {
         {t('system.rotate1')}
         <br />
         {t('system.rotate2')}
+        <br />
+        {t('system.rotate3')}
       </Text>
     </Container>
   );

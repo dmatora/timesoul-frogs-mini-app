@@ -3,6 +3,7 @@ export default {
     user: 'Benutzer',
     rotate1: 'Bitte drehen Sie Ihr Gerät',
     rotate2: 'in den Hochformat-Modus',
+    rotate3: 'und blenden Sie die mobile Tastatur aus',
     level: 'Level',
     earnPerTap: 'Verdienst pro Tipp',
     coinsToLevelUp: 'Münzen zum Aufleveln',

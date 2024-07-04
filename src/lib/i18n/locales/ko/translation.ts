@@ -3,6 +3,7 @@ export default {
     user: '사용자',
     rotate1: '기기를 회전해주세요',
     rotate2: '세로 모드로',
+    rotate3: '그리고 모바일 키보드를 숨겨주세요',
     level: '레벨',
     earnPerTap: '탭당 수익',
     coinsToLevelUp: '레벨업에 필요한 코인',

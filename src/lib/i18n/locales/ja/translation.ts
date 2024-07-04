@@ -3,6 +3,7 @@ export default {
     user: 'ユーザー',
     rotate1: 'デバイスを回転させてください',
     rotate2: '縦向きモードに',
+    rotate3: 'そしてモバイルキーボードを非表示にしてください',
     level: 'レベル',
     earnPerTap: 'タップ毎の獲得',
     coinsToLevelUp: 'レベルアップに必要なコイン',
