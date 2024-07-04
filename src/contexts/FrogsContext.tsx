@@ -251,6 +251,26 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     setNextLevelPrice(nextLevel.price);
   }, [level]);
 
+  const updateTapData = async () => {
+    const userTapData: {
+      balance: number;
+      balanceDiffSinceLast: number;
+      energy: number;
+      id: number;
+      level: number;
+      pph: number;
+      pphBalance: number;
+      updatedAtUnixMs: number;
+    } = await getTapUser();
+    console.debug(userTapData);
+    setBalance(userTapData.balance);
+    setEnergy(userTapData.energy);
+    setLastTap(userTapData.updatedAtUnixMs);
+    setTaps(0);
+    setLastTaps(0);
+    return userTapData;
+  };
+
   useEffect(() => {
     const readConfig = async () => {
       console.debug({ i18n });
@@ -294,23 +314,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setMaxEnergy(energyLimit);
       setLevel(level);
 
-      const userTapData: {
-        balance: number;
-        balanceDiffSinceLast: number;
-        energy: number;
-        id: number;
-        level: number;
-        pph: number;
-        pphBalance: number;
-        updatedAtUnixMs: number;
-      } = await getTapUser();
-      console.debug(userTapData);
-      setBalance(userTapData.balance);
-      setEnergy(userTapData.energy);
-      setLastTap(userTapData.updatedAtUnixMs);
-      setTaps(0);
-      setLastTaps(0);
-
+      const userTapData = await updateTapData();
       if (userTapData.balanceDiffSinceLast > 0) {
         setEvent({
           type: 'balanceUp',
@@ -392,7 +396,10 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     setLastFriendsUpdate(Date.now);
     const response = await getFriends();
     if (response.list) {
-      if (response.list.length > friendsCount) await updateCards();
+      if (response.list.length > friendsCount) {
+        await updateCards();
+        await updateTapData();
+      }
       setFriends(response.list);
       setFriendsCount(response.list.length);
     }
