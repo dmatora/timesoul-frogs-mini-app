@@ -48,7 +48,7 @@ const Balance = styled.div`
 `;
 
 const Leaderboard: React.FC = () => {
-  const { config, balance, level, maxLevel, nextLevelPrice, user } = useFrogs();
+  const { config, balance, level, maxLevel, progress, nextLevelPrice, user } = useFrogs();
   const [observedLevel, setObservedLevel] = useState(level);
   const { t } = useTranslation();
   const { data, isLoading } = useLeaderboard(observedLevel);
@@ -100,7 +100,7 @@ const Leaderboard: React.FC = () => {
             `${t('leaderboard.from')} ${compactAmount(observedLevelPrice)}`}
         </Balance>
       </Row>
-      <Row margin={'26px 48px 38px'}>{observedLevel === level && <Progress />}</Row>
+      <Row margin={'26px 48px 38px'}>{observedLevel === level && <Progress progress={progress} />}</Row>
       {isLoading && <Loading fontSize="100px" />}
       {leaderBoardIsEmpty && (
         <div style={{ margin: '0 auto', fontSize: '100px' }}>
