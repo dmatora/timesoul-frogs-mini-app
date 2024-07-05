@@ -282,6 +282,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
           hasMoreItems: true;
           list: Friend[];
         };
+        tasks: UserTask[];
         user: User;
         dishes: Dish[];
         userCards: UserCard[];
@@ -291,10 +292,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         return;
       }
       console.debug(start);
-      const { config, user, dishes, userCards, friends } = start;
+      const { config, user, dishes, tasks, userCards, friends } = start;
       setConfig(config);
       setMaxLevel(config.levels.length);
       setDishes(dishes);
+      setTasks(tasks);
       setUserCards(userCards);
       if (user.lastFeedingAt) {
         setFeedTime(user.lastFeedingAt * 1000);
