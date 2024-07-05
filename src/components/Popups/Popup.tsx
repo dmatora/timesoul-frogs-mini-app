@@ -51,7 +51,7 @@ const PopupContainer = styled.div<{ open: boolean; height?: number }>`
   }
 `;
 
-const CloseButton = styled.button`
+const CloseButton = styled.button<{ disabled?: boolean }>`
   width: 832px;
   height: 170px;
   margin: 44px auto 0;
@@ -61,6 +61,7 @@ const CloseButton = styled.button`
   border-radius: 62px;
   box-shadow: 5px 7px 0 0 #262626;
 
+  filter: ${({ disabled }) => (disabled ? 'grayscale(100%)' : '')};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,12 +71,16 @@ const CloseButton = styled.button`
   font-size: 45px;
   font-weight: 600;
 
+  ${({ disabled }) =>
+    !disabled &&
+    `
   &:active {
     position: relative;
     box-shadow: none;
     top: 5px;
     left: 7px;
   }
+  `}
 `;
 
 const Popup = ({
@@ -84,12 +89,14 @@ const Popup = ({
   close,
   height,
   onConfirm,
+  confirmDisabled,
 }: {
   children: React.ReactNode;
   hideClose?: boolean;
   close?: string | Element;
   height?: number;
   onConfirm?: () => Promise<void | boolean>;
+  confirmDisabled?: boolean;
 }) => {
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
@@ -122,7 +129,9 @@ const Popup = ({
         <CloseIcon onClick={handleClose} />
         {children}
         {!hideClose && (
-          <CloseButton onClick={handleConfirm}>{confirming ? <Loading /> : close || t('system.close')}</CloseButton>
+          <CloseButton disabled={confirmDisabled} onClick={handleConfirm}>
+            {confirming ? <Loading /> : close || t('system.close')}
+          </CloseButton>
         )}
       </PopupContainer>
     </PopupOverlay>

@@ -68,7 +68,7 @@ const BuyButton = styled.button`
 `;
 
 const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) => {
-  const { balance, userCards, setEvent } = useFrogs();
+  const { userCards, setEvent } = useFrogs();
   const { t } = useTranslation();
 
   const getCardName = (cardId: number) => {
@@ -88,7 +88,7 @@ const Card = ({ card, special = false }: { card: UserCard; special?: boolean }) 
               {t('system.level')} {card.level}
             </CardLevel>
             {card.nextLevelPrice && (
-              <BuyButton onClick={handleOnClick} disabled={card.nextLevelPrice > balance}>
+              <BuyButton onClick={handleOnClick}>
                 {card.nextLevelPrice && (
                   <Row gap={'5px'}>
                     <Coin />

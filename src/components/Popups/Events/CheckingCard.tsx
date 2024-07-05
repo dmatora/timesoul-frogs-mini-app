@@ -41,13 +41,17 @@ const Text = styled.div`
 `;
 
 const CheckingCard = () => {
-  const { event, buyCard } = useFrogs();
+  const { event, buyCard, balance } = useFrogs();
   const { t } = useTranslation();
 
   if (!isCheckingCardEvent(event)) throw new Error('Should not happen');
 
   return (
-    <Popup close={t('system.continue')} onConfirm={() => buyCard(event.card)}>
+    <Popup
+      close={t('system.continue')}
+      onConfirm={() => buyCard(event.card)}
+      confirmDisabled={event.card.nextLevelPrice > balance}
+    >
       <Row>
         <img alt="card" src={event.card.coverUrl} />
       </Row>
