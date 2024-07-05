@@ -33,7 +33,7 @@ export const compactAmount = (price: number, fractionDigits = 2) => {
   if (price >= 1000000000) return `${parseFloat((price / 1000000000).toFixed(fractionDigits))}B`;
   if (price >= 1000000) return `${parseFloat((price / 1000000).toFixed(fractionDigits))}M`;
   if (price >= 1000) return `${parseFloat((price / 1000).toFixed(fractionDigits))}K`;
-  return price;
+  return price.toFixed();
 };
 
 export const shouldBlockDesktop = () => {
