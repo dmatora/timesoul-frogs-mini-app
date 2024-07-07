@@ -36,6 +36,7 @@ const Container = styled.div`
 const BlockDesktop = () => {
   const invitedBy = getInvitedBy();
   const url = invitedBy ? `${env.botUrl}/?startapp=${getInvitedBy()}` : env.botUrl;
+  console.debug({ url });
 
   return (
     <Container>
