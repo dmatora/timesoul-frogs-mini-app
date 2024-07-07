@@ -5,7 +5,7 @@ import Row from '../../Row';
 import Coin from '../../Status/Coin';
 import { useTranslation } from 'react-i18next';
 import UserIcon from '../../UserIcon';
-import { amountWithSpaces } from '../../../lib/utils';
+import { amountWithSpaces, filterSpecialCharacters } from '../../../lib/utils';
 
 const Container = styled.div`
   height: 156px;
@@ -48,7 +48,7 @@ const LeaderCard = ({ user, place, length = 100 }: { user: Leader; place?: numbe
         <Row gap="58px">
           <UserIcon />
           <div>
-            <Name>{name}</Name>
+            <Name>{filterSpecialCharacters(name)}</Name>
             <Row style={{ justifyContent: 'left' }}>
               <Coin />
               <Balance>{amountWithSpaces(user.balance)}</Balance>

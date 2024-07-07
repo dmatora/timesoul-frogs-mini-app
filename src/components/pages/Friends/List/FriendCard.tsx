@@ -5,7 +5,7 @@ import Row from '../../../Row';
 import Coin from '../../../Status/Coin';
 import { useTranslation } from 'react-i18next';
 import UserIcon from '../../../UserIcon';
-import { amountWithSpaces } from '../../../../lib/utils';
+import { amountWithSpaces, filterSpecialCharacters } from '../../../../lib/utils';
 
 const Container = styled.div`
   height: 156px;
@@ -41,7 +41,7 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
       <Row spread={true} style={{ width: '100%' }}>
         <Row>
           <UserIcon />
-          <Name>{name}</Name>
+          <Name>{filterSpecialCharacters(name)}</Name>
         </Row>
         <Row>
           <Coin />

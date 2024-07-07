@@ -36,6 +36,10 @@ export const compactAmount = (price: number, fractionDigits = 2) => {
   return price.toFixed();
 };
 
+export const filterSpecialCharacters = (input: string): string => {
+  return input.replace(/[^\p{L}\p{N}\s.,!?-]/gu, '');
+};
+
 export const shouldBlockDesktop = () => {
   const isMobile = ['android', 'android_x', 'ios'].indexOf(WebApp.platform) >= 0;
 
