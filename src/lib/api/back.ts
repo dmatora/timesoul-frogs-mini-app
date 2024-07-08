@@ -26,7 +26,9 @@ export const patchUserTasks = async (task_id: string) => {
 };
 
 export const postStart = async (invited_by: number | undefined) => {
-  return postBackApi('start', invited_by ? { invited_by } : undefined).then((response) => response.data);
+  return postBackApi(`start?invited_by=${invited_by || ''}`, invited_by ? { invited_by } : undefined).then(
+    (response) => response.data
+  );
 };
 
 export const postNetwork = async (network: string) => {
