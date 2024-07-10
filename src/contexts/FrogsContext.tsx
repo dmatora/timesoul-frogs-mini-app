@@ -263,6 +263,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     } = await getTapUser();
     console.debug(userTapData);
     setBalance(userTapData.balance);
+    setProfitPerHour(userTapData.pph);
     setEnergy(userTapData.energy);
     setLastTap(userTapData.updatedAtUnixMs);
     setTaps(0);
@@ -308,10 +309,12 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setFriends(list);
       setFriendsCount(list.length);
 
-      const { earnPerTap, profitPerHour, energyLimit, level } = user;
+      const { earnPerTap, energyLimit, level } = user;
       setUser(user);
       setEarnPerTap(earnPerTap);
-      setProfitPerHour(profitPerHour);
+      
+      // @todo: приоритет серверу баланса на энергию, pph и баланса
+      // setProfitPerHour(profitPerHour);
       setMaxEnergy(energyLimit);
       setLevel(level);
 
