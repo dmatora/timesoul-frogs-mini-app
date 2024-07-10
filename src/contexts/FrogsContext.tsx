@@ -259,11 +259,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       id: number;
       level: number;
       pph: number;
-      pphBalance: number;
       updatedAtUnixMs: number;
     } = await getTapUser();
     console.debug(userTapData);
     setBalance(userTapData.balance);
+    setProfitPerHour(userTapData.pph);
     setEnergy(userTapData.energy);
     setLastTap(userTapData.updatedAtUnixMs);
     setTaps(0);
@@ -309,10 +309,12 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setFriends(list);
       setFriendsCount(list.length);
 
-      const { earnPerTap, profitPerHour, energyLimit, level } = user;
+      const { earnPerTap, energyLimit, level } = user;
       setUser(user);
       setEarnPerTap(earnPerTap);
-      setProfitPerHour(profitPerHour);
+      
+      // @todo: приоритет серверу баланса на энергию, pph и баланса
+      // setProfitPerHour(profitPerHour);
       setMaxEnergy(energyLimit);
       setLevel(level);
 
@@ -420,7 +422,8 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setEnergy((prevEnergy) => prevEnergy - earnPerTap);
       setMoodProgress(100);
       setLastTap(Date.now());
-      setProfitPerHour(user.profitPerHour);
+      // @todo: Обновить User после после покупки карточки, иначе выводит старый PPH 
+      // setProfitPerHour(user.profitPerHour);
     }
   };
 
