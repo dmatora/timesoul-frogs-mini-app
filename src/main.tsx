@@ -25,6 +25,15 @@ WebApp.isClosingConfirmationEnabled = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
+const noScroll = (e: Event) => {
+  if (location.pathname === '/') {
+    console.log(location.pathname);
+    e.preventDefault();
+  }
+};
+
+window.addEventListener('touchmove', noScroll, { passive: false });
+
 root.render(
   <StrictMode>
     <App />
