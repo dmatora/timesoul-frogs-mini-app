@@ -99,7 +99,6 @@ export type Config = {
   levels: Level[];
   networks: Network[];
   profitPerHourOfflineLimitHours: number;
-  syncPeriod: number;
 };
 
 export type CardCategory = {
@@ -315,7 +314,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       const { earnPerTap, energyLimit, level } = user;
       setUser(user);
       setEarnPerTap(earnPerTap);
-      
+
       // @todo: приоритет серверу баланса на энергию, pph и баланса
       // setProfitPerHour(profitPerHour);
       setMaxEnergy(energyLimit);
@@ -378,14 +377,24 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   }, 1000);
 
   const syncTaps = async () => {
-    if (taps > lastTaps) {
+    const now = Date.now();
+    const isNotTappingNow = (now - lastTap) / 1000 > 2;
+
+    // console.log('isNotTappingNow', isNotTappingNow, (now - lastTap) / 1000);
+
+    if (isNotTappingNow && taps > 0) {
       const response = await sync(taps - lastTaps);
       console.debug(response);
-      if (!response.times.error) setLastTaps(taps);
+
+      if (!response.times.error) {
+        setLastTaps(taps);
+        setLastTap(now);
+        setTaps(0);
+      }
     }
   };
 
-  useInterval(syncTaps, 1000 * (config.syncPeriod || 10));
+  useInterval(syncTaps, 500);
 
   const clearEvent = async () => {
     setEvent(null);
@@ -425,7 +434,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setEnergy((prevEnergy) => prevEnergy - earnPerTap);
       setMoodProgress(100);
       setLastTap(Date.now());
-      // @todo: Обновить User после после покупки карточки, иначе выводит старый PPH 
+      // @todo: Обновить User после после покупки карточки, иначе выводит старый PPH
       // setProfitPerHour(user.profitPerHour);
     }
   };

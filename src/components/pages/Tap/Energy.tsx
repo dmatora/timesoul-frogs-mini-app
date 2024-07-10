@@ -5,6 +5,7 @@ import BoostCard from './BoostCard';
 import BoostIcon from './BoostIcon';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
+import Coin from '../../../components/Status/Coin';
 
 export const EnergyIcon = styled((props) => (
   <svg width="60" height="58" viewBox="0 0 60 58" fill="none" {...props}>
@@ -32,8 +33,26 @@ export const EnergyValue = styled.div`
   text-align: right;
 `;
 
+const Hits = styled.div`
+  font-size: 35px;
+  font-weight: 500;
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+
+    &.active {
+      opacity: 0.9;
+    }
+  }
+`;
+
 export const Energy = () => {
-  const { config, balance, energy, earnPerTap, maxEnergy, level, nextLevelPrice, setEvent } = useFrogs();
+  const { config, balance, energy, earnPerTap, maxEnergy, level, nextLevelPrice, setEvent, taps } = useFrogs();
   const { t } = useTranslation();
 
   const handleOnClick = () => {
@@ -57,6 +76,11 @@ export const Energy = () => {
           {energy.toFixed()} / {maxEnergy}
         </EnergyValue>
       </Row>
+      <Hits>
+        <span className={taps ? 'active' : ''}>
+          <Coin />+{taps * earnPerTap}
+        </span>
+      </Hits>
       {nextLevelPrice && (
         <BoostCard onClick={handleOnClick} disabled={!nextLevelPrice || balance < nextLevelPrice}>
           <BoostIcon />
