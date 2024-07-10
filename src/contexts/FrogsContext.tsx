@@ -259,7 +259,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       id: number;
       level: number;
       pph: number;
-      pphBalance: number;
       updatedAtUnixMs: number;
     } = await getTapUser();
     console.debug(userTapData);
@@ -420,7 +419,8 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setEnergy((prevEnergy) => prevEnergy - earnPerTap);
       setMoodProgress(100);
       setLastTap(Date.now());
-      setProfitPerHour(user.profitPerHour);
+      // @todo: Обновить User после после покупки карточки, иначе выводит старый PPH 
+      // setProfitPerHour(user.profitPerHour);
     }
   };
 
