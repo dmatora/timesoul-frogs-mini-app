@@ -105,4 +105,14 @@ export default {
     satiety: 'তৃপ্তি',
     hours: 'ঘণ্টা',
   },
+  toast: {
+    buyCard: {
+      title: 'Achievement Unlocked!',
+      subtitle: 'Time to lead your frog empire to greatness 👑',
+    },
+    feedFrog: {
+      title: 'The Frog is Happy!',
+      subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
+    }
+  },  
 };

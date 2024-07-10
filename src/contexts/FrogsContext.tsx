@@ -18,6 +18,8 @@ import { getInvitedBy } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
 import i18n from '../lib/i18n';
 import { Event } from '../lib/events';
+import { notificationEmit } from '../controllers/NotificationsController';
+import { useTranslation } from 'react-i18next';
 
 type FrogsContextInterface = {
   loading: boolean;
@@ -237,6 +239,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [friendsCount, setFriendsCount] = useLocalStorageState<number>('friendsCount', { defaultValue: 0 });
   const [tasks, setTasks] = useLocalStorageState<UserTask[]>('tasks', { defaultValue: [] });
   const [event, setEvent] = useState<Event>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (nextLevelPrice) setProgress(balance > nextLevelPrice ? 100 : (balance / nextLevelPrice) * 100);
@@ -434,6 +437,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setUserCards(cardsData);
       setBalance((prevBalance) => prevBalance - card.nextLevelPrice);
       setProfitPerHour((prevProfitPerHour) => prevProfitPerHour + card.nextLevelProfitPerHour - card.profitPerHour);
+
+      notificationEmit({
+        title: t('toast.buyCard.title'),
+        subtitle: t('toast.buyCard.subtitle'),
+      });
     }
   };
 
@@ -443,6 +451,11 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     if (dishData) {
       setDishes(dishData);
       setBalance((prevBalance) => prevBalance + dish.bonus);
+
+      notificationEmit({
+        title: t('toast.feedFrog.title'),
+        subtitle: t('toast.feedFrog.subtitle'),
+      });
     }
     setFeedTime(Date.now());
     setCalories(dish.calories);

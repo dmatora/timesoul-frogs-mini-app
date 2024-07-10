@@ -21,6 +21,7 @@ WebApp.ready();
 WebApp.setBackgroundColor('#000');
 WebApp.setHeaderColor('#000');
 WebApp.expand();
+WebApp.isClosingConfirmationEnabled = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
