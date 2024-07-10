@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Row from '../../../Row';
 import Coin from '../../../Status/Coin';
-import { UserCard } from '../../../../contexts/FrogsContext';
+import { useFrogs, UserCard } from '../../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
 import { compactAmount } from '../../../../lib/utils';
 import LockedIcon from './LockedIcon';
@@ -18,6 +18,10 @@ const Container = styled.div<{ special: boolean }>`
   flex-direction: row;
   justify-content: ${({ special }) => (special ? 'center' : '')};
   padding: ${({ special }) => (special ? '40px 0' : '10px 0')};
+  
+  &:active {
+    background: #98e703;
+  }
 `;
 
 const Title = styled.div<{ special: boolean }>`
@@ -48,10 +52,15 @@ const Icon = styled.img<{ locked: boolean; special: boolean }>`
 
 const CardHeader = ({ card, special }: { card: UserCard; special: boolean }) => {
   const { t } = useTranslation();
+  const { setEvent } = useFrogs();
   const active = card.level > 0;
 
+  const handleOnClick = async () => {
+    setEvent({ type: 'checkingCard', card });
+  };
+
   return (
-    <Container special={special}>
+    <Container special={special} onClick={handleOnClick}>
       <Row gap={'30px'} style={{ flexDirection: special ? 'column' : 'row', justifyContent: 'left' }}>
         {card.isBlockedBy && <LockedIcon special={special} />}
         <Icon
