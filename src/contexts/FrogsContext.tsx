@@ -1,5 +1,6 @@
 import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
+import * as Sentry from '@sentry/react';
 import {
   getFriends,
   getTapUser,
@@ -201,6 +202,28 @@ export type User = {
   networkId: null | string;
 };
 
+interface IBalance {
+  balance: number;
+  balanceDiffSinceLast: number;
+  energy: number;
+  id: number;
+  level: number;
+  pph: number;
+  updatedAtUnixMs: number;
+}
+interface IApp {
+  cardsCatalog: CardCategory[];
+  config: Config;
+  friends: {
+    hasMoreItems: true;
+    list: Friend[];
+  };
+  tasks: UserTask[];
+  user: User;
+  dishes: Dish[];
+  userCards: UserCard[];
+}
+
 export const useFrogs = () => useContext(FrogsContext);
 
 interface FrogsProviderProps {
@@ -253,16 +276,9 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     setNextLevelPrice(nextLevel.price);
   }, [level]);
 
-  const updateTapData = async () => {
-    const userTapData: {
-      balance: number;
-      balanceDiffSinceLast: number;
-      energy: number;
-      id: number;
-      level: number;
-      pph: number;
-      updatedAtUnixMs: number;
-    } = await getTapUser();
+  const updateTapData = async (): Promise<IBalance> => {
+    const userTapData: IBalance = await getTapUser();
+
     console.debug(userTapData);
     setBalance(userTapData.balance);
     setProfitPerHour(userTapData.pph);
@@ -273,61 +289,78 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     return userTapData;
   };
 
+  const startWithAttempts = async (attempt: number): Promise<boolean> => {
+    const [start, userTapData]: [IApp, IBalance] = await Promise.all([postStart(getInvitedBy()), updateTapData()]);
+
+    if (start === undefined || userTapData === undefined) {
+      Sentry.captureMessage(`startWithAttempts ${attempt} - main or balance service failed'`, {
+        user: {
+          id: WebApp.initDataUnsafe?.user?.id,
+        },
+      });
+      return false;
+    }
+
+    console.debug(start);
+    const { config, user, dishes, tasks, userCards, friends } = start;
+    setConfig(config);
+    setMaxLevel(config.levels.length);
+    setDishes(dishes);
+    setTasks(tasks);
+    setUserCards(userCards);
+    if (user.lastFeedingAt) {
+      setFeedTime(user.lastFeedingAt * 1000);
+      setCalories(user.lastFeedingCalories);
+    } else {
+      setFeedTime(0);
+    }
+
+    const { hasMoreItems, list } = friends;
+    setFriends(list);
+    setFriendsCount(list.length);
+
+    const { earnPerTap, energyLimit, level } = user;
+    setUser(user);
+    setEarnPerTap(earnPerTap);
+
+    // @todo: приоритет серверу баланса на энергию, pph и баланса
+    // setProfitPerHour(profitPerHour);
+    setMaxEnergy(energyLimit);
+    setLevel(level);
+
+    if (userTapData.balanceDiffSinceLast > 0) {
+      setEvent({
+        type: 'balanceUp',
+        balanceDiffSinceLast: userTapData.balanceDiffSinceLast,
+      });
+    }
+
+    return true;
+  };
+
   useEffect(() => {
     const readConfig = async () => {
       console.debug({ i18n });
       console.debug({ initDataUnsafe: WebApp.initDataUnsafe });
-      const start: {
-        cardsCatalog: CardCategory[];
-        config: Config;
-        friends: {
-          hasMoreItems: true;
-          list: Friend[];
-        };
-        tasks: UserTask[];
-        user: User;
-        dishes: Dish[];
-        userCards: UserCard[];
-      } = await postStart(getInvitedBy());
-      if (start === undefined) {
+
+      let isStarted = false;
+
+      for (let x = 0; x < 5; x++) {
+        if (!isStarted) isStarted = await startWithAttempts(x);
+      }
+
+      if (!isStarted) {
         metrikaEventAppCrashed();
-        console.log('Start is broken, operating in offline mode');
+        console.log('Venom Frogs failed to start :(');
+        Sentry.captureMessage('Venom Frogs failed to start :(', {
+          user: {
+            id: WebApp.initDataUnsafe?.user?.id,
+          },
+        });
+
         return;
       }
-      console.debug(start);
-      const { config, user, dishes, tasks, userCards, friends } = start;
-      setConfig(config);
-      setMaxLevel(config.levels.length);
-      setDishes(dishes);
-      setTasks(tasks);
-      setUserCards(userCards);
-      if (user.lastFeedingAt) {
-        setFeedTime(user.lastFeedingAt * 1000);
-        setCalories(user.lastFeedingCalories);
-      } else {
-        setFeedTime(0);
-      }
 
-      const { hasMoreItems, list } = friends;
-      setFriends(list);
-      setFriendsCount(list.length);
-
-      const { earnPerTap, energyLimit, level } = user;
-      setUser(user);
-      setEarnPerTap(earnPerTap);
-
-      // @todo: приоритет серверу баланса на энергию, pph и баланса
-      // setProfitPerHour(profitPerHour);
-      setMaxEnergy(energyLimit);
-      setLevel(level);
-
-      const userTapData = await updateTapData();
-      if (userTapData.balanceDiffSinceLast > 0) {
-        setEvent({
-          type: 'balanceUp',
-          balanceDiffSinceLast: userTapData.balanceDiffSinceLast,
-        });
-      }
       document.getElementById('preloader')?.remove();
       setLoading(false);
       metrikaEventAppStarted(user.id);
