@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 import * as Sentry from '@sentry/react';
 import {
@@ -231,6 +231,7 @@ interface FrogsProviderProps {
 }
 
 export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
+  const readingConfigRef = useRef(false);
   const [loading, setLoading] = useState(true);
   const [config, setConfig] = useLocalStorageState<Config | Record<string, never>>('config', { defaultValue: {} });
   const [user, setUser] = useLocalStorageState<User | Record<string, never>>('user', { defaultValue: {} });
@@ -340,6 +341,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const readConfig = async () => {
+      readingConfigRef.current = true;
       console.debug({ i18n });
       console.debug({ initDataUnsafe: WebApp.initDataUnsafe });
 
@@ -366,7 +368,16 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       metrikaEventAppStarted(user.id);
     };
 
-    readConfig().then();
+    if (!readingConfigRef.current) {
+      readConfig().then();
+      return;
+    }
+    if (window.location.hostname !== 'localhost')
+      Sentry.captureMessage('Double fire for useEffectOnce detected', {
+        user: {
+          id: WebApp.initDataUnsafe?.user?.id,
+        },
+      });
   }, []);
 
   useEffect(() => {
