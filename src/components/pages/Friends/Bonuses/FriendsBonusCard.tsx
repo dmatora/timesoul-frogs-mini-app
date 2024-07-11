@@ -52,7 +52,7 @@ const FriendsBonusCard = ({ premium }: { premium?: boolean }) => {
           </Title>
           <Row style={{ justifyContent: 'left' }} margin={'30px 0 0'}>
             <Coin />
-            <Amount>+{premium ? '35 000' : '25 000'}</Amount>
+            <Amount>+{premium ? '5 000' : '3 000'}</Amount>
             <Text>{t('friends.forYouAndYourFriend')}</Text>
           </Row>
         </div>
