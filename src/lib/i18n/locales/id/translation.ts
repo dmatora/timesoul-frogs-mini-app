@@ -83,8 +83,8 @@ export default {
     linkCopied: 'Tautan undangan telah disalin ke clipboard Anda!',
     playWithMe:
       'Bergabunglah denganku dan bermain untuk mendapatkan token melalui airdrop!\n' +
-      '💰 Dapatkan hadiahmu! +25k koin untuk pendatang baru\n' +
-      '🚀 Punya Telegram Premium? Dapatkan +35k koin!\n',
+      '💰 Dapatkan hadiahmu! +3000 koin untuk pendatang baru\n' +
+      '🚀 Punya Telegram Premium? Dapatkan +5000 koin!\n',
   },
   earn: {
     moreCoins: 'Dapatkan lebih banyak koin!',

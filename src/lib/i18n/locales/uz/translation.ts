@@ -83,8 +83,8 @@ export default {
     linkCopied: 'Taklif havolasi vaqtinchalik xotiraga nusxalandi!',
     playWithMe:
       "Menga qo'shiling va airdrop orqali tokenlar olish uchun o'ynang!\n" +
-      "💰 Sovg'angizni oling! Yangi kelganlar uchun +25k tanga\n" +
-      '🚀 Telegram Premium bormi? +35k tanga oling!\n',
+      "💰 Sovg'angizni oling! Yangi kelganlar uchun +3000 tanga\n" +
+      '🚀 Telegram Premium bormi? +5000 tanga oling!\n',
   },
   earn: {
     moreCoins: "Ko'proq tanga ishlang!",

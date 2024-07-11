@@ -83,8 +83,8 @@ export default {
     linkCopied: 'O link de convite foi copiado para a sua área de transferência!',
     playWithMe:
       'Junte-se a mim e jogue para ganhar tokens através de um airdrop!\n' +
-      '💰 Pegue seu presente! +25k moedas para novos jogadores\n' +
-      '🚀 Tem Telegram Premium? Ganhe +35k moedas!\n',
+      '💰 Pegue seu presente! +3000 moedas para novos jogadores\n' +
+      '🚀 Tem Telegram Premium? Ganhe +5000 moedas!\n',
   },
   earn: {
     moreCoins: 'Ganhe mais moedas!',

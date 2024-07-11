@@ -83,8 +83,8 @@ export default {
     linkCopied: 'The invitation link has been copied to your clipboard!',
     playWithMe:
       'Join me and play to earn tokens through an airdrop!\n' +
-      '💰 Grab your gift! +25k coins for newcomers\n' +
-      '🚀 Have Telegram Premium? Get +35k coins!\n',
+      '💰 Grab your gift! +3000 coins for newcomers\n' +
+      '🚀 Have Telegram Premium? Get +5000 coins!\n',
   },
   earn: {
     moreCoins: 'Earn more coins!',

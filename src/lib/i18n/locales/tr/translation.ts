@@ -83,8 +83,8 @@ export default {
     linkCopied: 'Davet bağlantısı panoya kopyalandı!',
     playWithMe:
       'Bana katıl ve airdrop ile token kazanmak için oyna!\n' +
-      '💰 Hediyeni kap! Yeni gelenler için +25k para\n' +
-      "🚀 Telegram Premium'un var mı? +35k para kazan!\n",
+      '💰 Hediyeni kap! Yeni gelenler için +3000 para\n' +
+      "🚀 Telegram Premium'un var mı? +5000 para kazan!\n",
   },
   earn: {
     moreCoins: 'Daha fazla para kazan!',

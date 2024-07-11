@@ -83,8 +83,8 @@ export default {
     linkCopied: 'Der Einladungslink wurde in die Zwischenablage kopiert!',
     playWithMe:
       'Spiel mit mir und verdiene Token durch einen Airdrop!\n' +
-      '💰 Schnapp dir dein Geschenk! +25k Münzen für Neulinge\n' +
-      '🚀 Hast du Telegram Premium? Erhalte +35k Münzen!\n',
+      '💰 Schnapp dir dein Geschenk! +3000 Münzen für Neulinge\n' +
+      '🚀 Hast du Telegram Premium? Erhalte +5000 Münzen!\n',
   },
   earn: {
     moreCoins: 'Verdiene mehr Münzen!',

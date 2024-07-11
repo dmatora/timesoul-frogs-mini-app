@@ -83,8 +83,8 @@ export default {
     linkCopied: 'Nakopya na ang link ng imbitasyon sa iyong clipboard!',
     playWithMe:
       'Sumali sa akin at maglaro para kumita ng mga token sa pamamagitan ng airdrop!\n' +
-      '💰 Kunin ang iyong regalo! +25k barya para sa mga bagong sali\n' +
-      '🚀 May Telegram Premium ka ba? Makakuha ng +35k barya!\n',
+      '💰 Kunin ang iyong regalo! +3000 barya para sa mga bagong sali\n' +
+      '🚀 May Telegram Premium ka ba? Makakuha ng +5000 barya!\n',
   },
   earn: {
     moreCoins: 'Kumita ng mas maraming barya!',

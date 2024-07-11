@@ -83,8 +83,8 @@ export default {
     linkCopied: '邀请链接已复制到剪贴板！',
     playWithMe:
       '加入我一起玩游戏，通过空投赚取代币！\n' +
-      '💰 领取礼物！新用户可获得+25k金币\n' +
-      '🚀 拥有Telegram Premium？获得+35k金币！\n',
+      '💰 领取礼物！新用户可获得+3000金币\n' +
+      '🚀 拥有Telegram Premium？获得+5000金币！\n',
   },
   earn: {
     moreCoins: '赚取更多金币！',

@@ -83,8 +83,8 @@ export default {
     linkCopied: "Le lien d'invitation a été copié dans votre presse-papiers !",
     playWithMe:
       'Rejoignez-moi et jouez pour gagner des jetons via un airdrop !\n' +
-      '💰 Attrapez votre cadeau ! +25k pièces pour les nouveaux venus\n' +
-      '🚀 Vous avez Telegram Premium ? Obtenez +35k pièces !\n',
+      '💰 Attrapez votre cadeau ! +3000 pièces pour les nouveaux venus\n' +
+      '🚀 Vous avez Telegram Premium ? Obtenez +5000 pièces !\n',
   },
   earn: {
     moreCoins: 'Gagnez plus de pièces !',

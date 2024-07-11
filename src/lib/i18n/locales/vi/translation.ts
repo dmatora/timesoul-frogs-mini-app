@@ -83,8 +83,8 @@ export default {
     linkCopied: 'Liên kết mời đã được sao chép vào bộ nhớ tạm!',
     playWithMe:
       'Tham gia cùng tôi và chơi để kiếm token thông qua airdrop!\n' +
-      '💰 Nhận quà của bạn! +25k xu cho người mới\n' +
-      '🚀 Bạn có Telegram Premium? Nhận +35k xu!\n',
+      '💰 Nhận quà của bạn! +3000 xu cho người mới\n' +
+      '🚀 Bạn có Telegram Premium? Nhận +5000 xu!\n',
   },
   earn: {
     moreCoins: 'Kiếm thêm xu!',
