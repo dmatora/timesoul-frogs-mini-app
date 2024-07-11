@@ -35,7 +35,5 @@ const noScroll = (e: Event) => {
 window.addEventListener('touchmove', noScroll, { passive: false });
 
 root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+  <App />
 );
