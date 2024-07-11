@@ -14,7 +14,7 @@ import {
   sync,
 } from '../lib/api';
 import { useInterval } from 'react-use';
-import { getInvitedBy } from '../lib/utils';
+import { getInvitedBy, metrikaEventAppCrashed, metrikaEventAppStarted } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
 import i18n from '../lib/i18n';
 import { Event } from '../lib/events';
@@ -290,6 +290,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         userCards: UserCard[];
       } = await postStart(getInvitedBy());
       if (start === undefined) {
+        metrikaEventAppCrashed();
         console.log('Start is broken, operating in offline mode');
         return;
       }
@@ -329,6 +330,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       }
       document.getElementById('preloader')?.remove();
       setLoading(false);
+      metrikaEventAppStarted(user.id);
     };
 
     readConfig().then();

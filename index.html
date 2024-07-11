@@ -8,51 +8,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <style>
-        body {
-            background: black;
-            color: black;
-            font-family: Geologica, sans-serif;
-            margin: 0
-        }
-        button {
-            font-family: Geologica, sans-serif;
-            color: black;
-        }
-        a {
-            text-decoration: none;
-        }
+      body {
+        background: black;
+        color: black;
+        font-family: Geologica, sans-serif;
+        margin: 0;
+      }
+      button {
+        font-family: Geologica, sans-serif;
+        color: black;
+      }
+      a {
+        text-decoration: none;
+      }
 
-        #preloader {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+      #preloader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      #preloader span {
+        width: 90px;
+        height: 90px;
+        position: relative;
+      }
+      #preloader span:before {
+        content: '';
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 5px solid #e0e0e0;
+        border-top-color: #98e703;
+        animation: spin 1s linear infinite;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
-        #preloader span {
-            width: 90px;
-            height: 90px;
-            position: relative;
-        }
-        #preloader span:before {
-            content: "";
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 5px solid #e0e0e0;
-            border-top-color: #98e703;
-            animation: spin 1s linear infinite;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+      }
     </style>
   </head>
   <body>
+    <script type="text/javascript">
+      window.isLocalHost = window.location.hostname === 'localhost';
+
+      if (window.isLocalHost === false) {
+        window.initializedAt = new Date();
+        (function (m, e, t, r, i, k, a) {
+          m[i] =
+            m[i] ||
+            function () {
+              (m[i].a = m[i].a || []).push(arguments);
+            };
+          m[i].l = 1 * new Date();
+          for (var j = 0; j < document.scripts.length; j++) {
+            if (document.scripts[j].src === r) {
+              return;
+            }
+          }
+          (k = e.createElement(t)),
+            (a = e.getElementsByTagName(t)[0]),
+            (k.async = 1),
+            (k.src = r),
+            a.parentNode.insertBefore(k, a);
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+        ym(97804594, 'init', {
+          clickmap: true,
+          webvisor: true,
+          trackLinks: true,
+          accurateTrackBounce: true,
+        });
+      }
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <noscript
+      ><div><img src="https://mc.yandex.ru/watch/97804594" style="position: absolute; left: -9999px" alt="" /></div
+    ></noscript>
+    <!-- /Yandex.Metrika counter -->
+
     <div id="preloader"><span></span></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

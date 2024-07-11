@@ -3,6 +3,14 @@ import { env } from './env';
 
 const { isProd } = env;
 
+declare global {
+  interface Window {
+    ym: any;
+    initializedAt: Date;
+    isLocalHost: boolean;
+  }
+}
+
 export const getLevelName = (level: number) => {
   const names = [
     '',
@@ -60,4 +68,28 @@ export const getInvitedBy = () => {
 export const handleResize = () => {
   const scale = document.documentElement.clientWidth > 1080 ? 1 : document.documentElement.clientWidth / 1080;
   document.documentElement.style.setProperty('--scale', scale.toString());
+};
+
+export const metrikaEventAppStarted = (userId: number) => {
+  if (window.isLocalHost === false) {
+    window.ym(97804594, 'reachGoal', 'appStarted', {
+      initializedAt: window.initializedAt.toString(),
+      loadingTimeMs: Date.now() - window.initializedAt.getTime(),
+      userId,
+    });
+
+    window.ym(97804594, 'params', {
+      initializedAt: window.initializedAt.toString(),
+      loadingTimeMs: Date.now() - window.initializedAt.getTime(),
+      userId,
+    });
+  }
+};
+export const metrikaEventAppCrashed = () => {
+  if (window.isLocalHost === false) {
+    window.ym(97804594, 'reachGoal', 'appCrashed', {
+      initializedAt: window.initializedAt.toString(),
+      loadingTimeMs: Date.now() - window.initializedAt.getTime(),
+    });
+  }
 };
