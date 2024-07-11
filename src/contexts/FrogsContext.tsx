@@ -234,7 +234,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [config, setConfig] = useLocalStorageState<Config | Record<string, never>>('config', { defaultValue: {} });
   const [user, setUser] = useLocalStorageState<User | Record<string, never>>('user', { defaultValue: {} });
-  const [balance, setBalance] = useLocalStorageState<number>('balance', { defaultValue: 0 });
+  const [balance, setBalance] = useState(0);
   const [taps, setTaps] = useLocalStorageState<number>('taps', { defaultValue: 0 });
   const [lastTaps, setLastTaps] = useLocalStorageState<number>('lastTaps', { defaultValue: 0 });
   const [energy, setEnergy] = useLocalStorageState<number>('energy', { defaultValue: 0 });
