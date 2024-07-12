@@ -15,7 +15,7 @@ import {
   sync,
 } from '../lib/api';
 import { useInterval } from 'react-use';
-import { getInvitedBy, metrikaEventAppCrashed, metrikaEventAppStarted } from '../lib/utils';
+import { exponentialDelay, getInvitedBy, metrikaEventAppCrashed, metrikaEventAppStarted, sleep } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
 import i18n from '../lib/i18n';
 import { Event } from '../lib/events';
@@ -291,6 +291,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   };
 
   const startWithAttempts = async (attempt: number): Promise<boolean> => {
+    await sleep(exponentialDelay(attempt));
     const [start, userTapData]: [IApp, IBalance] = await Promise.all([postStart(getInvitedBy()), updateTapData()]);
 
     if (start === undefined || userTapData === undefined) {

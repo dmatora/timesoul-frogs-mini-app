@@ -11,6 +11,25 @@ declare global {
   }
 }
 
+export const exponentialDelay = (attempt: number, baseDelay = 1000, randomizationFactor = 0.2): number => {
+  if (attempt === 0) return 0;
+
+  // Calculate exponential delay starting from attempt 1
+  const exponentialDelay = baseDelay * Math.pow(2, attempt - 1);
+
+  // Add randomization (±20% of the exponential delay by default)
+  const randomFactor = 1 - randomizationFactor + Math.random() * randomizationFactor * 2;
+  const finalDelay = exponentialDelay * randomFactor;
+
+  return Math.floor(finalDelay);
+};
+
+export const sleep = (ms: number): Promise<void> => {
+  if (ms === 0) return Promise.resolve();
+  console.debug(`Sleeping for ${ms / 1000}s`);
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 export const getLevelName = (level: number) => {
   const names = [
     '',
