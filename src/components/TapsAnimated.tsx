@@ -68,8 +68,9 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
 
     setTapAnimationData((prevData) => [...prevData, { x, y, center, date: Date.now() }]);
 
-    setTimeout(() => {
+    const t = setTimeout(() => {
       setTapAnimationData((prevData) => prevData.slice(1));
+      clearTimeout(t);
     }, 2000);
   };
 
@@ -122,7 +123,8 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
             style={{ fontSize: 75 }}
             initial={{ opacity: 1, y: item.y, x: item.x }}
             animate={{ opacity: 0, y: item.y - 140 / scale }}
-            transition={{ type: 'spring', stiffness: 30 }}
+            // transition={{ type: 'spring', stiffness: 30 }}
+            transition={{ type: 'linear' }}
           >
             +{earnPerTap}
           </motion.div>
