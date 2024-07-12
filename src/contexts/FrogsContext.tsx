@@ -292,10 +292,21 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
   const startWithAttempts = async (attempt: number): Promise<boolean> => {
     await sleep(exponentialDelay(attempt));
-    const [start, userTapData]: [IApp, IBalance] = await Promise.all([postStart(getInvitedBy()), updateTapData()]);
+    const start: IApp = await postStart(getInvitedBy());
+    if (start === undefined) {
+      Sentry.captureMessage(`startWithAttempts ${attempt} - main service failed'`, {
+        user: {
+          id: WebApp.initDataUnsafe?.user?.id,
+        },
+      });
+      return false;
+    }
+    console.debug(start);
 
-    if (start === undefined || userTapData === undefined) {
-      Sentry.captureMessage(`startWithAttempts ${attempt} - main or balance service failed'`, {
+    const userTapData: IBalance = await updateTapData();
+
+    if (userTapData === undefined) {
+      Sentry.captureMessage(`startWithAttempts ${attempt} - balance service failed'`, {
         user: {
           id: WebApp.initDataUnsafe?.user?.id,
         },
@@ -303,7 +314,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       return false;
     }
 
-    console.debug(start);
     const { config, user, dishes, tasks, userCards, friends } = start;
     setConfig(config);
     setMaxLevel(config.levels.length);
