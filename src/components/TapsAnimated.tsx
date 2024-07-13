@@ -84,7 +84,7 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
             className="tap-animation"
             style={{ fontSize: 75 }}
             initial={{ opacity: 1, y: item.y, x: item.x }}
-            animate={{ opacity: 0, y: item.y - 140 / scale }}
+            animate={{ opacity: 0, y: item.y - 300 / scale }}
             transition={{ type: 'spring', stiffness: 30 }}
           >
             +{earnPerTap}
