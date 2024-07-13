@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useFrogs } from '../contexts/FrogsContext';
 import styled from 'styled-components';
 
@@ -44,17 +44,11 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
   const { earnPerTap, energy } = useFrogs();
   const earnButtonRef = useRef<HTMLDivElement>(null);
   const [tapAnimationData, setTapAnimationData] = useState<TapAnimationItem[]>([]);
-  const buttonAnimation = useAnimation();
   const scale = Number(getComputedStyle(document.documentElement).getPropertyValue('--scale'));
 
-  const tap = async (event: React.PointerEvent<HTMLDivElement>) => {
-    if (energy >= earnPerTap) {
-      createTapAnimation(event);
-      // await animateTap(event);
-    }
-  };
+  const onPointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (energy < earnPerTap) return;
 
-  const createTapAnimation = (event: { clientX: number; clientY: number }) => {
     let x = 0;
     let y = 0;
     let center = 0;
@@ -68,36 +62,9 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
 
     setTapAnimationData((prevData) => [...prevData, { x, y, center, date: Date.now() }]);
 
-    const t = setTimeout(() => {
+    setTimeout(() => {
       setTapAnimationData((prevData) => prevData.slice(1));
-      clearTimeout(t);
     }, 2000);
-  };
-
-  const animateTap = async (event: React.PointerEvent<HTMLDivElement>) => {
-    if (earnButtonRef.current) {
-      const rect = earnButtonRef.current.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      const deltaX = event.clientX - x;
-      const deltaY = (y - event.clientY) * 0.1;
-      const rotateY = deltaX * 0.1;
-      const rotateX = deltaY;
-
-      await buttonAnimation.start({
-        translateZ: -5,
-        rotateX,
-        rotateY,
-        transition: { duration: 0.15 },
-      });
-
-      await buttonAnimation.start({
-        translateZ: 0,
-        rotateX: 0,
-        rotateY: 0,
-        transition: { duration: 0.15 },
-      });
-    }
   };
 
   const randomOffset = () => {
@@ -107,14 +74,9 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Container>
-      <motion.div
-        onPointerUp={tap}
-        ref={earnButtonRef}
-        animate={buttonAnimation}
-        style={{ border: 'none', background: 'transparent' }}
-      >
+      <div onPointerUp={onPointerUp} ref={earnButtonRef} style={{ border: 'none', background: 'transparent' }}>
         {children}
-      </motion.div>
+      </div>
       <div className="tap-animation-container">
         {tapAnimationData.map((item) => (
           <motion.div
@@ -123,8 +85,7 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
             style={{ fontSize: 75 }}
             initial={{ opacity: 1, y: item.y, x: item.x }}
             animate={{ opacity: 0, y: item.y - 140 / scale }}
-            // transition={{ type: 'spring', stiffness: 30 }}
-            transition={{ type: 'linear' }}
+            transition={{ type: 'spring', stiffness: 30 }}
           >
             +{earnPerTap}
           </motion.div>
