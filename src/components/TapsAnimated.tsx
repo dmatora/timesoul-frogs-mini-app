@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 import { useFrogs } from '../contexts/FrogsContext';
 import styled from 'styled-components';
 
@@ -37,6 +36,15 @@ const Container = styled.div`
     user-select: none;
     width: 100px;
     z-index: 60;
+    opacity: 1;
+    animation: fadeOut 1s linear forwards;
+  }
+
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      top: -150vh;
+    }
   }
 `;
 
@@ -45,10 +53,18 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
   const earnButtonRef = useRef<HTMLDivElement>(null);
   const [tapAnimationData, setTapAnimationData] = useState<TapAnimationItem[]>([]);
   const scale = Number(getComputedStyle(document.documentElement).getPropertyValue('--scale'));
+  const [ix, setIx] = useState(0);
 
-  const onPointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (energy < earnPerTap || tapAnimationData.filter((item) => Date.now() - item.date < 500).length > 5) return;
+  // console.log("RENDER TAPS: ", ix);
+  // console.log({ tapAnimationData });
 
+  const tap = async (event: React.PointerEvent<HTMLDivElement>) => {
+    if (energy >= earnPerTap) {
+      createTapAnimation(event);
+    }
+  };
+
+  const createTapAnimation = (event: { clientX: number; clientY: number }) => {
     let x = 0;
     let y = 0;
     let center = 0;
@@ -60,35 +76,42 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
       center = rect.width / 2 - 25;
     }
 
-    setTapAnimationData((prevData) => [...prevData, { x, y, center, date: Date.now() }]);
-
-    setTimeout(() => {
-      setTapAnimationData((prevData) => prevData.slice(1));
-    }, 1000);
+    let i = ix % 10; // max 10 elements
+    let arr = [...tapAnimationData];
+    arr[i] = { x, y, center, date: Date.now() };
+    setIx(i + 1);
+    setTapAnimationData(arr);
   };
+
 
   const randomOffset = () => {
     const offset = Math.random() * 20 - 10;
     return Math.round(offset);
   };
 
+  console.log(tapAnimationData.length);
   return (
     <Container>
-      <div onPointerUp={onPointerUp} ref={earnButtonRef} style={{ border: 'none', background: 'transparent' }}>
+      <div
+        onPointerUp={tap}
+        ref={earnButtonRef}
+        style={{ border: 'none', background: 'transparent' }}
+      >
         {children}
       </div>
       <div className="tap-animation-container">
         {tapAnimationData.map((item) => (
-          <motion.div
-            key={item.date}
-            className="tap-animation"
-            style={{ fontSize: 75 }}
-            initial={{ opacity: 1, y: item.y, x: item.x }}
-            animate={{ opacity: 0, y: item.y - 140 / scale }}
-            transition={{ type: 'spring', stiffness: 30 }}
-          >
+        <div
+          key={item.date}
+          className="tap-animation"
+          style={{
+            fontSize: 75,
+            top: `${item.y}px`,
+            left: `${item.x}px`,
+          }}
+        >
             +{earnPerTap}
-          </motion.div>
+          </div>
         ))}
       </div>
     </Container>
