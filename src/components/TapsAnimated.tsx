@@ -47,7 +47,7 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
   const scale = Number(getComputedStyle(document.documentElement).getPropertyValue('--scale'));
 
   const onPointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (energy < earnPerTap) return;
+    if (energy < earnPerTap || tapAnimationData.filter((item) => Date.now() - item.date < 500).length > 5) return;
 
     let x = 0;
     let y = 0;
@@ -64,7 +64,7 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
 
     setTimeout(() => {
       setTapAnimationData((prevData) => prevData.slice(1));
-    }, 2000);
+    }, 1000);
   };
 
   const randomOffset = () => {
