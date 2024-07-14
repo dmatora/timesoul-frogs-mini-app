@@ -76,40 +76,34 @@ const TapsAnimated = ({ children }: { children: React.ReactNode }) => {
       center = rect.width / 2 - 25;
     }
 
-    let i = ix % 10; // max 10 elements
-    let arr = [...tapAnimationData];
+    const i = ix % 10; // max 10 elements
+    const arr = [...tapAnimationData];
     arr[i] = { x, y, center, date: Date.now() };
     setIx(i + 1);
     setTapAnimationData(arr);
   };
-
 
   const randomOffset = () => {
     const offset = Math.random() * 20 - 10;
     return Math.round(offset);
   };
 
-  console.log(tapAnimationData.length);
   return (
     <Container>
-      <div
-        onPointerUp={tap}
-        ref={earnButtonRef}
-        style={{ border: 'none', background: 'transparent' }}
-      >
+      <div onPointerUp={tap} ref={earnButtonRef} style={{ border: 'none', background: 'transparent' }}>
         {children}
       </div>
       <div className="tap-animation-container">
         {tapAnimationData.map((item) => (
-        <div
-          key={item.date}
-          className="tap-animation"
-          style={{
-            fontSize: 75,
-            top: `${item.y}px`,
-            left: `${item.x}px`,
-          }}
-        >
+          <div
+            key={item.date}
+            className="tap-animation"
+            style={{
+              fontSize: 75,
+              top: `${item.y}px`,
+              left: `${item.x}px`,
+            }}
+          >
             +{earnPerTap}
           </div>
         ))}
