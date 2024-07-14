@@ -13,7 +13,7 @@ import {
   postStart,
   sync,
 } from '../lib/api';
-import { useInterval } from 'react-use';
+import { useInterval, useTimeoutFn } from 'react-use';
 import { exponentialDelay, getInvitedBy, metrikaEventAppCrashed, metrikaEventAppStarted, sleep } from '../lib/utils';
 import WebApp from '@twa-dev/sdk';
 import i18n from '../lib/i18n';
@@ -26,6 +26,7 @@ type FrogsContextInterface = {
   config: Config | Record<string, never>;
   user: User | Record<string, never>;
   taps: number;
+  tapping: boolean;
   balance: number;
   energy: number;
   maxEnergy: number;
@@ -62,6 +63,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   config: {},
   user: {},
   taps: 0,
+  tapping: false,
   balance: 0,
   energy: 0,
   maxEnergy: 0,
@@ -241,6 +243,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | Record<string, never>>({});
   const [balance, setBalance] = useState(0);
   const [taps, setTaps] = useState(0);
+  const [tapping, setTapping] = useState(false);
   const [lastTaps, setLastTaps] = useState(0);
   const [energy, setEnergy] = useState(0);
   const [maxEnergy, setMaxEnergy] = useState(0);
@@ -263,6 +266,10 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [tasks, setTasks] = useState<UserTask[]>([]);
   const [event, setEvent] = useState<Event>(null);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (taps > 0) setTapping(true);
+  }, [taps]);
 
   const updateTapData = async (): Promise<IBalance> => {
     const userTapData: IBalance = await getTapUser();
@@ -449,25 +456,25 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     );
   }, 1000);
 
-  const syncTaps = async () => {
+  const updateTappingSState = async () => {
     const now = Date.now();
-    const isNotTappingNow = (now - lastTap) / 1000 > 2;
+    setTapping(now - lastTap < 1000);
+    const timeToSync = now - lastTap > 2000;
 
-    // console.log('isNotTappingNow', isNotTappingNow, (now - lastTap) / 1000);
-
-    if (isNotTappingNow && taps > 0) {
+    if (timeToSync && taps > 0) {
       const response = await sync(taps - lastTaps);
       console.debug(response);
 
       if (!response.times.error) {
-        setLastTaps(taps);
-        setLastTap(now);
+        setLastTaps(0);
         setTaps(0);
       }
     }
+
+    resetUpdateTappingTimeout();
   };
 
-  useInterval(syncTaps, 500);
+  const [, , resetUpdateTappingTimeout] = useTimeoutFn(updateTappingSState, 1000);
 
   const clearEvent = async () => {
     setEvent(null);
@@ -510,6 +517,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setLastTap(Date.now());
       // @todo: Обновить User после после покупки карточки, иначе выводит старый PPH
       // setProfitPerHour(user.profitPerHour);
+      resetUpdateTappingTimeout();
     }
   };
 
@@ -573,6 +581,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         user,
         balance,
         taps,
+        tapping,
         energy,
         maxEnergy,
         earnPerTap,

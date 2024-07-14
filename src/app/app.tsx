@@ -89,7 +89,8 @@ const PreloadImages = () => {
   const cardImages = userCards.map((card) => [card.coverUrl, card.coverNaUrl]).flat();
   const dishImages = dishes.map((dish) => [dish.coverUrl, dish.coverNaUrl]).flat();
   const popupImages = ['/img/frog/bored.png', '/img/frog/hungry.png'];
-  return <ImagePreloader images={[...cardImages, ...dishImages, ...popupImages]} />;
+  const tapImages = ['/img/tap1.png', '/img/tap2.png', '/img/tap3.png'];
+  return <ImagePreloader images={[...cardImages, ...dishImages, ...popupImages, ...tapImages]} />;
 };
 
 const HandleBack = () => {

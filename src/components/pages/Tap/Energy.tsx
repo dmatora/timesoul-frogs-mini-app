@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Row from '../../Row';
 import BoostCard from './BoostCard';
 import BoostIcon from './BoostIcon';
 import { useFrogs } from '../../../contexts/FrogsContext';
 import { useTranslation } from 'react-i18next';
-import Coin from '../../../components/Status/Coin';
+import TappingAnimation from './TappingAnimation';
+import UploadingAnimation from './UploadingAnimation';
 
 export const EnergyIcon = styled((props) => (
   <svg width="60" height="58" viewBox="0 0 60 58" fill="none" {...props}>
@@ -33,17 +34,18 @@ export const EnergyValue = styled.div`
   text-align: right;
 `;
 
-const Hits = styled.div`
+const Hits = styled.div<{ length: number }>`
   font-size: 35px;
   font-weight: 500;
 
   span {
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
     gap: 8px;
     opacity: 0;
     transition: opacity 300ms ease-in;
+    width: calc(150px + ${({ length }) => length}ch);
 
     &.active {
       opacity: 0.9;
@@ -52,8 +54,13 @@ const Hits = styled.div`
 `;
 
 export const Energy = () => {
-  const { config, balance, energy, earnPerTap, maxEnergy, level, nextLevelPrice, setEvent, taps } = useFrogs();
+  const { config, balance, energy, earnPerTap, maxEnergy, level, nextLevelPrice, setEvent, taps, tapping } = useFrogs();
   const { t } = useTranslation();
+  const [lastTaps, setLastTaps] = useState(0);
+
+  useEffect(() => {
+    if (taps > 0) setLastTaps(taps);
+  }, [taps]);
 
   const handleOnClick = () => {
     const nextLevel = config.levels?.find((item) => item.number === level + 1);
@@ -76,9 +83,11 @@ export const Energy = () => {
           {energy.toFixed()} / {maxEnergy}
         </EnergyValue>
       </Row>
-      <Hits>
+      <Hits length={lastTaps.toString().length + 1}>
         <span className={taps ? 'active' : ''}>
-          <Coin />+{taps * earnPerTap}
+          +{lastTaps}
+          {tapping && <TappingAnimation />}
+          {!tapping && <UploadingAnimation />}
         </span>
       </Hits>
       {nextLevelPrice && (
