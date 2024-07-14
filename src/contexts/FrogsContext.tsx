@@ -45,7 +45,7 @@ type FrogsContextInterface = {
   tasks: UserTask[];
   event: Event;
   setEvent: Dispatch<SetStateAction<Event>>;
-  syncTaps: () => Promise<void>;
+  updateBalance: () => Promise<void>;
   clearEvent: () => void;
   updateNetwork: (networkId: string) => Promise<void>;
   updateFriendsList: () => Promise<void>;
@@ -80,7 +80,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   tasks: [],
   event: null,
   setEvent: () => null,
-  syncTaps: async () => Promise.resolve(),
+  updateBalance: async () => Promise.resolve(),
   clearEvent: () => null,
   updateNetwork: async () => Promise.resolve(),
   updateFriendsList: async () => Promise.resolve(),
@@ -288,6 +288,10 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     setTaps(0);
     setLastTaps(0);
     return userTapData;
+  };
+
+  const updateBalance = async () => {
+    await updateTapData();
   };
 
   const startWithAttempts = async (attempt: number): Promise<boolean> => {
@@ -573,7 +577,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         tasks,
         event,
         setEvent,
-        syncTaps,
+        updateBalance,
         clearEvent,
         updateNetwork,
         updateFriendsList,

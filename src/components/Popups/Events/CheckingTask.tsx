@@ -62,7 +62,7 @@ const Bonus = styled.div`
 `;
 
 const CheckingCard = () => {
-  const { event, updateUserTasks, setEvent, tasks } = useFrogs();
+  const { event, updateUserTasks, setEvent, updateBalance } = useFrogs();
   const { t } = useTranslation();
 
   if (!isCheckingTaskEvent(event)) throw new Error('Should not happen');
@@ -79,6 +79,9 @@ const CheckingCard = () => {
     const updatedTask = updatedTasks.find((userTask) => userTask.id === task.id);
     if (!updatedTask) throw new Error('Should not happen');
     setEvent({ ...event, task: updatedTask });
+    if (updatedTask?.isCompleted) {
+      await updateBalance();
+    }
     if (!updatedTask?.isCompleted)
       notificationEmit({
         title: t('popup_CheckTask.taskIsNotCompleted'),
