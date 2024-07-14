@@ -214,7 +214,7 @@ interface IApp {
   cardsCatalog: CardCategory[];
   config: Config;
   friends: {
-    hasMoreItems: true;
+    hasMoreItems: boolean;
     list: Friend[];
   };
   tasks: UserTask[];
