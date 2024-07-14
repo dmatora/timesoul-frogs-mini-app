@@ -1,5 +1,4 @@
 import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
-import useLocalStorageState from 'use-local-storage-state';
 import * as Sentry from '@sentry/react';
 import {
   getFriends,
@@ -240,34 +239,30 @@ const sentryCaptureMessage = (message: string) =>
 export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const readingConfigRef = useRef(false);
   const [loading, setLoading] = useState(true);
-  const [config, setConfig] = useLocalStorageState<Config | Record<string, never>>('config', { defaultValue: {} });
-  const [user, setUser] = useLocalStorageState<User | Record<string, never>>('user', { defaultValue: {} });
+  const [config, setConfig] = useState<Config | Record<string, never>>({});
+  const [user, setUser] = useState<User | Record<string, never>>({});
   const [balance, setBalance] = useState(0);
-  const [taps, setTaps] = useLocalStorageState<number>('taps', { defaultValue: 0 });
-  const [lastTaps, setLastTaps] = useLocalStorageState<number>('lastTaps', { defaultValue: 0 });
-  const [energy, setEnergy] = useLocalStorageState<number>('energy', { defaultValue: 0 });
-  const [maxEnergy, setMaxEnergy] = useLocalStorageState<number>('maxEnergy', { defaultValue: 0 });
-  const [earnPerTap, setEarnPerTap] = useLocalStorageState<number>('earnPerTap', { defaultValue: 0 });
-  const [profitPerHour, setProfitPerHour] = useLocalStorageState<number>('profitPerHour', { defaultValue: 0 });
-  const [level, setLevel] = useLocalStorageState<number>('level', { defaultValue: 1 });
-  const [dishes, setDishes] = useLocalStorageState<Dish[]>('dishes', { defaultValue: [] });
-  const [userCards, setUserCards] = useLocalStorageState<UserCard[]>('userCards', { defaultValue: [] });
-  const [maxLevel, setMaxLevel] = useLocalStorageState<number>('maxLevel', { defaultValue: 0 });
-  const [progress, setProgress] = useLocalStorageState<number>('progress', { defaultValue: 0 });
-  const [moodProgress, setMoodProgress] = useLocalStorageState<number>('moodProgress', { defaultValue: 0 });
-  const [satietyProgress, setSatietyProgress] = useLocalStorageState<number>('satietyProgress', { defaultValue: 0 });
-  const [lastTap, setLastTap] = useLocalStorageState<number>('lastTap', { defaultValue: 0 });
-  const [feedTime, setFeedTime] = useLocalStorageState<number>('feedTime', { defaultValue: 0 });
-  const [calories, setCalories] = useLocalStorageState<number>('calories', { defaultValue: 10800 });
-  const [nextLevelPrice, setNextLevelPrice] = useLocalStorageState<number | null>('nextLevelPrice', {
-    defaultValue: null,
-  });
-  const [lastFriendsUpdate, setLastFriendsUpdate] = useLocalStorageState<number>('lastFriendsUpdate', {
-    defaultValue: 0,
-  });
-  const [friends, setFriends] = useLocalStorageState<Friend[]>('friends', { defaultValue: [] });
-  const [friendsCount, setFriendsCount] = useLocalStorageState<number>('friendsCount', { defaultValue: 0 });
-  const [tasks, setTasks] = useLocalStorageState<UserTask[]>('tasks', { defaultValue: [] });
+  const [taps, setTaps] = useState(0);
+  const [lastTaps, setLastTaps] = useState(0);
+  const [energy, setEnergy] = useState(0);
+  const [maxEnergy, setMaxEnergy] = useState(0);
+  const [earnPerTap, setEarnPerTap] = useState(0);
+  const [profitPerHour, setProfitPerHour] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [dishes, setDishes] = useState<Dish[]>([]);
+  const [userCards, setUserCards] = useState<UserCard[]>([]);
+  const [maxLevel, setMaxLevel] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [moodProgress, setMoodProgress] = useState(0);
+  const [satietyProgress, setSatietyProgress] = useState(0);
+  const [lastTap, setLastTap] = useState(0);
+  const [feedTime, setFeedTime] = useState(0);
+  const [calories, setCalories] = useState(10800);
+  const [nextLevelPrice, setNextLevelPrice] = useState<number | null>(null);
+  const [lastFriendsUpdate, setLastFriendsUpdate] = useState(0);
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const [friendsCount, setFriendsCount] = useState(0);
+  const [tasks, setTasks] = useState<UserTask[]>([]);
   const [event, setEvent] = useState<Event>(null);
   const { t } = useTranslation();
 
