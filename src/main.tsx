@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import WebApp from '@twa-dev/sdk';
 
@@ -10,8 +9,10 @@ import '@fontsource/geologica/600.css';
 import '@fontsource/geologica/700.css';
 
 import App from './app/app';
+import { env } from './lib/env';
 
-if (window.location.hash.length > 500) window.location.href = `/`;
+if (!env.developers.includes(WebApp?.initDataUnsafe?.user?.id?.toString()) && window.location.hash.length > 500)
+  window.location.href = `/`;
 
 window.addEventListener('resize', handleResize);
 window.addEventListener('DOMContentLoaded', handleResize);
@@ -34,6 +35,4 @@ const noScroll = (e: Event) => {
 
 window.addEventListener('touchmove', noScroll, { passive: false });
 
-root.render(
-  <App />
-);
+root.render(<App />);

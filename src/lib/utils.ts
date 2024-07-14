@@ -1,7 +1,7 @@
 import WebApp from '@twa-dev/sdk';
 import { env } from './env';
 
-const { isProd } = env;
+const { isProd, developers } = env;
 
 declare global {
   interface Window {
@@ -70,7 +70,7 @@ export const filterSpecialCharacters = (input: string): string => {
 export const shouldBlockDesktop = () => {
   const isMobile = ['android', 'android_x', 'ios'].indexOf(WebApp.platform) >= 0;
 
-  return !isMobile && isProd;
+  return !isMobile && isProd && !developers.includes(WebApp?.initDataUnsafe?.user?.id?.toString());
 };
 
 export const getTgUserId = () => {

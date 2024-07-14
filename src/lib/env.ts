@@ -5,6 +5,7 @@ const {
   VITE_TG_CHANNEL_TASK: channelTask,
   VITE_TG_BOT_URL: botUrl,
   VITE_SENTRY_DSN: sentryDsn,
+  VITE_DEVELOPERS: developersString,
   PROD: isProd,
 } = import.meta.env;
 
@@ -14,5 +15,7 @@ if (!channelName) throw new Error('missing VITE_TG_CHANNEL_NAME');
 if (!channelTask) throw new Error('missing VITE_TG_CHANNEL_TASK');
 if (!botUrl) throw new Error('missing VITE_TG_BOT_URL');
 if (!sentryDsn) throw new Error('missing VITE_SENTRY_DSN');
+if (!developersString) throw new Error('missing VITE_DEVELOPERS');
+const developers = developersString.split(',');
 
-export const env = { isProd, backUrl, tapUrl, channelName, channelTask, botUrl, sentryDsn };
+export const env = { isProd, backUrl, tapUrl, channelName, channelTask, botUrl, sentryDsn, developers };
