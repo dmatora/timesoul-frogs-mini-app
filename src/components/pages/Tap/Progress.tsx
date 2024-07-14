@@ -27,7 +27,7 @@ const ProgressBarFill = styled.div<{ small: boolean }>`
 export const Progress = ({ small = false, progress }: { small?: boolean; progress: number }) => (
   <ProgressBarContainer>
     <ProgressBarBackground small={small}>
-      <div style={{ width: progress * (small ? 4 : 10), overflowX: 'hidden' }}>
+      <div style={{ width: progress * (small ? 4 : 10), overflowX: 'hidden', transition: 'width 300ms ease-in' }}>
         <ProgressBarFill small={small} />
       </div>
     </ProgressBarBackground>
