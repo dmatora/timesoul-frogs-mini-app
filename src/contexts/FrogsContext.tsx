@@ -266,19 +266,6 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const [event, setEvent] = useState<Event>(null);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (nextLevelPrice) setProgress(balance > nextLevelPrice ? 100 : (balance / nextLevelPrice) * 100);
-  }, [balance, nextLevelPrice]);
-
-  useEffect(() => {
-    const nextLevel = config.levels?.find((item) => item.number === level + 1);
-    if (!nextLevel) {
-      setNextLevelPrice(null);
-      return;
-    }
-    setNextLevelPrice(nextLevel.price);
-  }, [level]);
-
   const updateTapData = async (): Promise<IBalance> => {
     const userTapData: IBalance = await getTapUser();
 
@@ -321,6 +308,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     if (user.lastFeedingAt) {
       setFeedTime(user.lastFeedingAt * 1000);
       setCalories(user.lastFeedingCalories);
+      updateSatietyProgress(user.lastFeedingAt * 1000, user.lastFeedingCalories);
     } else {
       setFeedTime(0);
     }
@@ -337,6 +325,8 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     // setProfitPerHour(profitPerHour);
     setMaxEnergy(energyLimit);
     setLevel(level);
+    updateLevelProgress(updateNextLevelPrice(start.config, level));
+    updateMoodProgress(config.profitPerHourOfflineLimitHours, userTapData.updatedAtUnixMs);
 
     if (userTapData.balanceDiffSinceLast > 0) {
       setEvent({
@@ -409,17 +399,49 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     }
   }, [moodProgress, loading]);
 
-  useInterval(() => {
-    setBalance((prevBalance) => prevBalance + profitPerHour / 3600);
+  const updateNextLevelPrice = (config: Config | Record<string, never>, level: number) => {
+    const nextLevel = config.levels?.find((item) => item.number === level + 1);
+    if (!nextLevel) {
+      setNextLevelPrice(null);
+      return null;
+    }
+    setNextLevelPrice(nextLevel.price);
+    return nextLevel.price;
+  };
 
+  const updateLevelProgress = (nextLevelPrice: number | null) => {
+    if (!nextLevelPrice) {
+      setProgress(100);
+      return;
+    }
+    if (nextLevelPrice) setProgress(balance > nextLevelPrice ? 100 : (balance / nextLevelPrice) * 100);
+  };
+
+  const updateMoodProgress = (profitPerHourOfflineLimitHours: number, lastTap: number) => {
     const minutesPassed = (Date.now() - lastTap) / 1000 / 60;
-    const time = config.profitPerHourOfflineLimitHours * 60;
+    const time = profitPerHourOfflineLimitHours * 60;
     const minutesLeft = minutesPassed > time ? 0 : time - minutesPassed;
     setMoodProgress((minutesLeft / time) * 100);
+  };
 
+  const updateSatietyProgress = (feedTime: number, calories: number) => {
     const secondsPassedAfterMeal = (Date.now() - feedTime) / 1000;
     const secondsLeftBeforeNextMeal = secondsPassedAfterMeal > calories ? 0 : calories - secondsPassedAfterMeal;
     setSatietyProgress((secondsLeftBeforeNextMeal / calories) * 100);
+  };
+
+  useEffect(() => {
+    updateLevelProgress(nextLevelPrice);
+  }, [balance, nextLevelPrice]);
+
+  useEffect(() => {
+    updateNextLevelPrice(config, level);
+  }, [level]);
+
+  useInterval(() => {
+    setBalance((prevBalance) => prevBalance + profitPerHour / 3600);
+    updateMoodProgress(config.profitPerHourOfflineLimitHours, lastTap);
+    updateSatietyProgress(feedTime, calories);
   }, 1000);
 
   useInterval(() => {
