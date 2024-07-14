@@ -33,6 +33,11 @@ const callApi = async (
     console.debug({ endpoint, response });
     return null;
   }
+  if (response.status >= 400) {
+    const responseJson = await response.json();
+    console.debug({ endpoint, responseJson });
+    throw new Error(responseJson.message);
+  }
   if (response.status !== 200) {
     console.debug({ endpoint, response });
     return false;

@@ -361,8 +361,16 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
       let isStarted = false;
 
-      for (let x = 0; x < 5; x++) {
-        if (!isStarted) isStarted = await startWithAttempts(x);
+      try {
+        for (let x = 0; x < 5; x++) {
+          if (!isStarted) isStarted = await startWithAttempts(x);
+        }
+      } catch (e: any) {
+        if (e?.message === 'Authentication error: Invalid auth token') {
+          sentryCaptureMessage(`Authentication error`);
+          return;
+        }
+        throw e;
       }
 
       if (!isStarted) {
