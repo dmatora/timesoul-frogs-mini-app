@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -17,7 +18,14 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [react(), nxViteTsPaths()],
+  plugins: [
+    react(),
+    nxViteTsPaths(),
+    sentryVitePlugin({
+      org: 'vnfrclicker',
+      project: 'vnfr-clicker-front',
+    }),
+  ],
 
   // Uncomment this if you are using workers.
   // worker: {
@@ -28,9 +36,12 @@ export default defineConfig({
     outDir: './dist',
     emptyOutDir: true,
     reportCompressedSize: true,
+
     commonjsOptions: {
       transformMixedEsModules: true,
     },
+
+    sourcemap: true,
   },
 
   test: {
