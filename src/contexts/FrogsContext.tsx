@@ -230,6 +230,13 @@ interface FrogsProviderProps {
   children: React.ReactNode;
 }
 
+const sentryCaptureMessage = (message: string) =>
+  Sentry.captureMessage(message, {
+    user: {
+      id: WebApp.initDataUnsafe?.user?.id,
+    },
+  });
+
 export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const readingConfigRef = useRef(false);
   const [loading, setLoading] = useState(true);
@@ -298,11 +305,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     await sleep(exponentialDelay(attempt));
     const start: IApp = await postStart(getInvitedBy());
     if (start === undefined) {
-      Sentry.captureMessage(`startWithAttempts ${attempt} - main service failed'`, {
-        user: {
-          id: WebApp.initDataUnsafe?.user?.id,
-        },
-      });
+      sentryCaptureMessage(`startWithAttempts ${attempt} - main service failed'`);
       return false;
     }
     console.debug(start);
@@ -310,11 +313,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
     const userTapData: IBalance = await updateTapData();
 
     if (userTapData === undefined) {
-      Sentry.captureMessage(`startWithAttempts ${attempt} - balance service failed'`, {
-        user: {
-          id: WebApp.initDataUnsafe?.user?.id,
-        },
-      });
+      sentryCaptureMessage(`startWithAttempts ${attempt} - balance service failed'`);
       return false;
     }
 
@@ -369,12 +368,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       if (!isStarted) {
         metrikaEventAppCrashed();
         console.log('Venom Frogs failed to start :(');
-        Sentry.captureMessage('Venom Frogs failed to start :(', {
-          user: {
-            id: WebApp.initDataUnsafe?.user?.id,
-          },
-        });
-
+        sentryCaptureMessage('Venom Frogs failed to start :(');
         return;
       }
 
@@ -387,12 +381,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       readConfig().then();
       return;
     }
-    if (window.location.hostname !== 'localhost')
-      Sentry.captureMessage('Double fire for useEffectOnce detected', {
-        user: {
-          id: WebApp.initDataUnsafe?.user?.id,
-        },
-      });
+    if (window.location.hostname !== 'localhost') sentryCaptureMessage('Double fire for useEffectOnce detected');
   }, []);
 
   useEffect(() => {
