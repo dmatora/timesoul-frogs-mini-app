@@ -63,6 +63,7 @@ const VerticalApp = styled.div`
 
 Sentry.init({
   dsn: env.sentryDsn,
+  release: env.build || 'unknown',
 });
 Sentry.setUser({
   id: WebApp.initDataUnsafe?.user?.id,

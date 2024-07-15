@@ -4,13 +4,14 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
 # Install dependencies
+RUN apk add --no-cache git
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm ci --silent
 
 # Build the project
 COPY . ./
-RUN npm run build
+RUN VITE_BUILD=$(git rev-parse HEAD) npm run build
 
 # Stage 2: Production environment
 FROM nginx:latest
