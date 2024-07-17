@@ -64,6 +64,9 @@ const VerticalApp = styled.div`
 Sentry.init({
   dsn: env.sentryDsn,
 });
+Sentry.setUser({
+  id: WebApp.initDataUnsafe?.user?.id,
+});
 
 const queryClient = new QueryClient();
 

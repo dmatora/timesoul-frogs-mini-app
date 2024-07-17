@@ -232,12 +232,7 @@ interface FrogsProviderProps {
   children: React.ReactNode;
 }
 
-const sentryCaptureMessage = (message: string) =>
-  Sentry.captureMessage(message, {
-    user: {
-      id: WebApp.initDataUnsafe?.user?.id,
-    },
-  });
+const sentryCaptureMessage = (message: string) => Sentry.captureMessage(message);
 
 export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
   const readingConfigRef = useRef(false);
