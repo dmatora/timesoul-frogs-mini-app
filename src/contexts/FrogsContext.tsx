@@ -41,6 +41,7 @@ type FrogsContextInterface = {
   nextLevelPrice: number | null;
   lastFriendsUpdate: number;
   friends: Friend[];
+  friendsCount: number;
   tasks: UserTask[];
   event: Event;
   setEvent: Dispatch<SetStateAction<Event>>;
@@ -76,6 +77,7 @@ const FrogsContext = createContext<FrogsContextInterface>({
   nextLevelPrice: 0,
   lastFriendsUpdate: 0,
   friends: [],
+  friendsCount: 0,
   tasks: [],
   event: null,
   setEvent: () => null,
@@ -198,6 +200,7 @@ export type User = {
   level: number;
   lastFeedingAt: number;
   lastFeedingCalories: number;
+  friendsCount: number;
   networkId: null | string;
 };
 
@@ -315,7 +318,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
     const { hasMoreItems, list } = friends;
     setFriends(list);
-    setFriendsCount(list.length);
+    setFriendsCount(user.friendsCount);
 
     const { earnPerTap, energyLimit, level } = user;
     setUser(user);
@@ -485,14 +488,15 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
 
   const updateFriendsList = async () => {
     setLastFriendsUpdate(Date.now);
-    const response = await getFriends();
-    if (response.list) {
-      if (response.list.length > friendsCount) {
+    const friends: { hasMoreItems: boolean; list: Friend[] } = await getFriends();
+    const user: User = await getUser();
+    if (friends.list) {
+      if (user.friendsCount > friendsCount) {
         await updateCards();
         await updateTapData();
       }
-      setFriends(response.list);
-      setFriendsCount(response.list.length);
+      setFriends(friends.list);
+      setFriendsCount(user.friendsCount);
     }
   };
 
@@ -588,6 +592,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
         nextLevelPrice,
         lastFriendsUpdate,
         friends,
+        friendsCount,
         tasks,
         event,
         setEvent,

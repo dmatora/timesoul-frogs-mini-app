@@ -49,7 +49,7 @@ const InviteFriendButton = styled.button`
 `;
 
 const FriendsList: React.FC = () => {
-  const { friends } = useFrogs();
+  const { friends, friendsCount } = useFrogs();
   const { t } = useTranslation();
 
   const urlInvitation = `https://t.me/share/url?url=${encodeURIComponent(
@@ -60,7 +60,7 @@ const FriendsList: React.FC = () => {
     <Container>
       <Row spread={true} margin="0 0 20px">
         <FriendsListLabel>
-          {t('friends.listOfYourFriends')} ({friends.length})
+          {t('friends.listOfYourFriends')} ({friendsCount})
         </FriendsListLabel>
         <RefreshButton />
       </Row>
