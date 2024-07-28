@@ -234,6 +234,8 @@ interface FrogsProviderProps {
   children: React.ReactNode;
 }
 
+const isUser = (user: User | Record<string, never>): user is User => !!user.id;
+
 const sentryCaptureMessage = (message: string) => Sentry.captureMessage(message);
 
 export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
@@ -515,8 +517,7 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setEnergy((prevEnergy) => prevEnergy - earnPerTap);
       setMoodProgress(100);
       setLastTap(Date.now());
-      // @todo: Обновить User после после покупки карточки, иначе выводит старый PPH
-      // setProfitPerHour(user.profitPerHour);
+      setProfitPerHour(user.profitPerHour);
       resetUpdateTappingTimeout();
     }
   };
@@ -528,6 +529,8 @@ export const FrogsProvider: React.FC<FrogsProviderProps> = ({ children }) => {
       setUserCards(cardsData);
       setBalance((prevBalance) => prevBalance - card.nextLevelPrice);
       setProfitPerHour((prevProfitPerHour) => prevProfitPerHour + card.nextLevelProfitPerHour - card.profitPerHour);
+      if (isUser(user))
+        setUser({ ...user, profitPerHour: user.profitPerHour + card.nextLevelProfitPerHour - card.profitPerHour });
 
       notificationEmit({
         title: t('toast.buyCard.title'),
