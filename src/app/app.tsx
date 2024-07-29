@@ -57,8 +57,6 @@ const AppContainer = styled.div`
   }
 `;
 
-const VerticalApp = styled.div``;
-
 Sentry.init({
   dsn: env.sentryDsn,
   release: env.build || 'unknown',
@@ -124,36 +122,34 @@ export function App() {
     <Providers>
       <Router>
         <Notifications />
-        <VerticalApp>
-          <PreloadImages />
-          <HandleBack />
-          <HideWhileLoading>
-            <Menu />
-            <Popups />
-            <ScaledContainer>
-              <AppContainer>
-                <TransitionGroup>
-                  <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
-                    <Routes location={location}>
-                      <Route path="/" element={<Tap />} />
-                      <Route path="/mine" element={<Navigate to="/mine/activities" />} />
-                      <Route path="/mine/activities" element={<MineActivities />} />
-                      <Route path="/mine/investments" element={<MineInvestments />} />
-                      <Route path="/mine/web3" element={<MineWeb3 />} />
-                      <Route path="/mine/achievements" element={<MineAchievements />} />
-                      <Route path="/network" element={<Settings selection="network" />} />
-                      <Route path="/language" element={<Settings selection="language" />} />
-                      <Route path="/friends" element={<Friends />} />
-                      <Route path="/earn" element={<Earn />} />
-                      <Route path="/food" element={<Food />} />
-                      <Route path="/leaderboard" element={<Leaderboard />} />
-                    </Routes>
-                  </CSSTransition>
-                </TransitionGroup>
-              </AppContainer>
-            </ScaledContainer>
-          </HideWhileLoading>
-        </VerticalApp>
+        <PreloadImages />
+        <HandleBack />
+        <HideWhileLoading>
+          <Menu />
+          <Popups />
+          <ScaledContainer>
+            <AppContainer>
+              <TransitionGroup>
+                <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
+                  <Routes location={location}>
+                    <Route path="/" element={<Tap />} />
+                    <Route path="/mine" element={<Navigate to="/mine/activities" />} />
+                    <Route path="/mine/activities" element={<MineActivities />} />
+                    <Route path="/mine/investments" element={<MineInvestments />} />
+                    <Route path="/mine/web3" element={<MineWeb3 />} />
+                    <Route path="/mine/achievements" element={<MineAchievements />} />
+                    <Route path="/network" element={<Settings selection="network" />} />
+                    <Route path="/language" element={<Settings selection="language" />} />
+                    <Route path="/friends" element={<Friends />} />
+                    <Route path="/earn" element={<Earn />} />
+                    <Route path="/food" element={<Food />} />
+                    <Route path="/leaderboard" element={<Leaderboard />} />
+                  </Routes>
+                </CSSTransition>
+              </TransitionGroup>
+            </AppContainer>
+          </ScaledContainer>
+        </HideWhileLoading>
       </Router>
     </Providers>
   );

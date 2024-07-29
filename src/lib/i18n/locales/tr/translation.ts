@@ -1,9 +1,6 @@
 export default {
   system: {
     user: 'Kullanıcı',
-    rotate1: 'Lütfen cihazınızı',
-    rotate2: 'dikey moda çevirin',
-    rotate3: 've mobil klavyeyi gizleyin',
     level: 'Seviye',
     earnPerTap: 'Tıklama başına kazanç',
     coinsToLevelUp: 'Seviye atlamak için gereken para',
@@ -113,6 +110,6 @@ export default {
     feedFrog: {
       title: 'The Frog is Happy!',
       subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
-    }
-  },  
+    },
+  },
 };

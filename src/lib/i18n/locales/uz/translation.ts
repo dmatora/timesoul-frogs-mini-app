@@ -1,9 +1,6 @@
 export default {
   system: {
     user: 'Foydalanuvchi',
-    rotate1: 'Iltimos, qurilmangizni',
-    rotate2: 'portret rejimiga aylantiring',
-    rotate3: 'va mobil klaviaturani yashiring',
     level: 'Daraja',
     earnPerTap: 'Har bosishdan daromad',
     coinsToLevelUp: "Darajani ko'tarish uchun tangalar",
@@ -113,6 +110,6 @@ export default {
     feedFrog: {
       title: 'The Frog is Happy!',
       subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
-    }
-  },  
+    },
+  },
 };

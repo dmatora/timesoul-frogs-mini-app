@@ -1,9 +1,6 @@
 export default {
   system: {
     user: 'Người dùng',
-    rotate1: 'Vui lòng xoay thiết bị của bạn',
-    rotate2: 'sang chế độ dọc',
-    rotate3: 'và ẩn bàn phím di động',
     level: 'Cấp độ',
     earnPerTap: 'Thu nhập mỗi lần chạm',
     coinsToLevelUp: 'Số xu để lên cấp',
@@ -113,6 +110,6 @@ export default {
     feedFrog: {
       title: 'The Frog is Happy!',
       subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
-    }
-  },  
+    },
+  },
 };

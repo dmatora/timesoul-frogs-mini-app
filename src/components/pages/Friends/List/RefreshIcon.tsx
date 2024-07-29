@@ -1,6 +1,14 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import React from 'react';
-import { rotateAnimation } from '../../../ForcePortrait';
+
+export const rotateAnimation = keyframes`
+  0% {
+      transform: rotate(0deg) scaleY(-1);
+  }
+  100% {
+    transform: rotate(360deg) scaleY(-1);
+  }
+`;
 
 const RefreshIcon = styled(({ disabled, isLoading, className, ...props }) => (
   <svg

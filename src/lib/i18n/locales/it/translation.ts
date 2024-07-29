@@ -1,9 +1,6 @@
 export default {
   system: {
     user: 'Utente',
-    rotate1: 'Per favore, ruota il tuo dispositivo',
-    rotate2: 'in modalità verticale',
-    rotate3: 'e nascondi la tastiera mobile',
     level: 'Livello',
     earnPerTap: 'Guadagno per tap',
     coinsToLevelUp: 'Monete per salire di livello',
@@ -113,6 +110,6 @@ export default {
     feedFrog: {
       title: 'The Frog is Happy!',
       subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
-    }
-  },  
+    },
+  },
 };

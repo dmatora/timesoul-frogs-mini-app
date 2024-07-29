@@ -1,9 +1,6 @@
 export default {
   system: {
     user: '用户',
-    rotate1: '请旋转您的设备',
-    rotate2: '至竖屏模式',
-    rotate3: '并隐藏移动键盘',
     level: '等级',
     earnPerTap: '每次点击收益',
     coinsToLevelUp: '升级所需金币',
@@ -113,6 +110,6 @@ export default {
     feedFrog: {
       title: 'The Frog is Happy!',
       subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
-    }
-  },  
+    },
+  },
 };
