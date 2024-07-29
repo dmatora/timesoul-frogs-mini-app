@@ -104,12 +104,12 @@ export default {
   },
   toast: {
     buyCard: {
-      title: 'Achievement Unlocked!',
-      subtitle: 'Time to lead your frog empire to greatness 👑',
+      title: 'Başarım Açıldı!',
+      subtitle: 'Kurbağa imparatorluğunuzu büyüklüğe taşıma zamanı 👑',
     },
     feedFrog: {
-      title: 'The Frog is Happy!',
-      subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
+      title: 'Kurbağa Mutlu!',
+      subtitle: 'Harika iş! Gülümsemelerin devam etmesi için evcil hayvanınızı besleyin 🍽️',
     },
   },
 };

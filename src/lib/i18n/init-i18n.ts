@@ -3,9 +3,15 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 type TranslationContent = {
-  [key: string]: {
-    [key: string]: string;
-  };
+  [key: string]:
+    | {
+        [key: string]: string;
+      }
+    | {
+        [key: string]: {
+          [key: string]: string;
+        };
+      };
 };
 
 type Translations = {

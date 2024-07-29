@@ -104,12 +104,12 @@ export default {
   },
   toast: {
     buyCard: {
-      title: 'Achievement Unlocked!',
-      subtitle: 'Time to lead your frog empire to greatness 👑',
+      title: 'Pencapaian Terbuka!',
+      subtitle: 'Saatnya memimpin kerajaan katak Anda menuju kejayaan 👑',
     },
     feedFrog: {
-      title: 'The Frog is Happy!',
-      subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
+      title: 'Katak Senang!',
+      subtitle: 'Kerja bagus! Beri makan peliharaan Anda agar tetap tersenyum 🍽️',
     },
   },
 };

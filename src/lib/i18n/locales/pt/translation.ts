@@ -104,12 +104,12 @@ export default {
   },
   toast: {
     buyCard: {
-      title: 'Achievement Unlocked!',
-      subtitle: 'Time to lead your frog empire to greatness 👑',
+      title: 'Conquista desbloqueada!',
+      subtitle: 'Hora de levar seu império de sapos à grandeza 👑',
     },
     feedFrog: {
-      title: 'The Frog is Happy!',
-      subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
+      title: 'O sapo está feliz!',
+      subtitle: 'Ótimo trabalho! Alimente seu bichinho para manter os sorrisos 🍽️',
     },
   },
 };

@@ -104,12 +104,12 @@ export default {
   },
   toast: {
     buyCard: {
-      title: 'Achievement Unlocked!',
-      subtitle: 'Time to lead your frog empire to greatness 👑',
+      title: '업적 달성!',
+      subtitle: '당신의 개구리 제국을 위대함으로 이끌 시간입니다 👑',
     },
     feedFrog: {
-      title: 'The Frog is Happy!',
-      subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
+      title: '개구리가 행복해요!',
+      subtitle: '잘 했어요! 계속 웃음을 유지하려면 반려동물에게 먹이를 주세요 🍽️',
     },
   },
 };

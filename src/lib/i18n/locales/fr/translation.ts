@@ -104,12 +104,12 @@ export default {
   },
   toast: {
     buyCard: {
-      title: 'Achievement Unlocked!',
-      subtitle: 'Time to lead your frog empire to greatness 👑',
+      title: 'Succès débloqué !',
+      subtitle: 'Il est temps de mener votre empire de grenouilles vers la grandeur 👑',
     },
     feedFrog: {
-      title: 'The Frog is Happy!',
-      subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
+      title: 'La grenouille est heureuse !',
+      subtitle: 'Excellent travail ! Nourrissez votre animal pour garder les sourires 🍽️',
     },
   },
 };

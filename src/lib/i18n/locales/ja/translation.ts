@@ -104,12 +104,12 @@ export default {
   },
   toast: {
     buyCard: {
-      title: 'Achievement Unlocked!',
-      subtitle: 'Time to lead your frog empire to greatness 👑',
+      title: '実績解除！',
+      subtitle: 'カエル帝国を偉大な存在に導く時が来ました 👑',
     },
     feedFrog: {
-      title: 'The Frog is Happy!',
-      subtitle: 'Great job! Feed your pet to keep the smiles coming 🍽️',
+      title: 'カエルが喜んでいます！',
+      subtitle: 'よくできました！ペットに餌をあげて笑顔を保ちましょう 🍽️',
     },
   },
 };
