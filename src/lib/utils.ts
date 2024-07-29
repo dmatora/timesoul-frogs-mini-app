@@ -85,7 +85,11 @@ export const getInvitedBy = () => {
 };
 
 export const handleResize = () => {
-  const scale = document.documentElement.clientWidth > 1080 ? 1 : document.documentElement.clientWidth / 1080;
+  const { clientWidth, clientHeight } = document.documentElement;
+  const ratio = clientWidth / clientHeight;
+  const optimalRatio = 1080 / 1920;
+  const squareDevice = ratio > optimalRatio;
+  const scale = squareDevice ? clientHeight / 1990 : clientWidth / 1080;
   document.documentElement.style.setProperty('--scale', scale.toString());
 };
 

@@ -8,17 +8,9 @@ const ButtonContainer = styled.div<{ active: boolean }>`
   align-items: center;
   flex-direction: column;
 
-  @media (min-width: 1080px) {
-    border-radius: 70px;
-    width: 145px;
-    height: 140px;
-  }
-
-  @media (max-width: 1079px) {
-    border-radius: 6.481vw;
-    width: 13.425vw;
-    height: 12.962vw;
-  }
+  border-radius: 70px;
+  width: 145px;
+  height: 140px;
 `;
 
 export default ButtonContainer;

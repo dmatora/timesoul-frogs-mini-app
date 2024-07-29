@@ -14,18 +14,9 @@ export const VenomIcon = styled(({ active, ...props }) => (
   </svg>
 ))`
   flex-shrink: 0;
-
-  @media (min-width: 1080px) {
-    width: 66px;
-    height: 64px;
-    margin-top: 10px;
-  }
-
-  @media (max-width: 1079px) {
-    width: 6.111vw;
-    height: 5.925vw;
-    margin-top: 0.925vw;
-  }
+  width: 66px;
+  height: 64px;
+  margin-top: 10px;
 `;
 
 const EthereumIcon = styled(({ active, ...props }) => (
@@ -43,18 +34,9 @@ const EthereumIcon = styled(({ active, ...props }) => (
   </svg>
 ))`
   flex-shrink: 0;
-
-  @media (min-width: 1080px) {
-    width: 66px;
-    height: 64px;
-    margin-top: 10px;
-  }
-
-  @media (max-width: 1079px) {
-    width: 6.111vw;
-    height: 5.925vw;
-    margin-top: 0.925vw;
-  }
+  width: 66px;
+  height: 64px;
+  margin-top: 10px;
 `;
 
 const BitcoinIcon = styled(({ active, ...props }) => (
@@ -66,18 +48,9 @@ const BitcoinIcon = styled(({ active, ...props }) => (
   </svg>
 ))`
   flex-shrink: 0;
-
-  @media (min-width: 1080px) {
-    width: 66px;
-    height: 64px;
-    margin-top: 10px;
-  }
-
-  @media (max-width: 1079px) {
-    width: 6.111vw;
-    height: 5.925vw;
-    margin-top: 0.925vw;
-  }
+  width: 66px;
+  height: 64px;
+  margin-top: 10px;
 `;
 
 const getNetworkIcon = (networkId: string) => {

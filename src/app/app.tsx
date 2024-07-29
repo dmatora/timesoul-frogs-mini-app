@@ -17,7 +17,6 @@ import { FrogsProvider, useFrogs } from '../contexts/FrogsContext';
 import { handleResize, shouldBlockDesktop } from '../lib/utils';
 import Leaderboard from '../pages/Leaderboard';
 import Popups from '../components/Popups';
-import ForcePortrait from '../components/ForcePortrait';
 import { env } from '../lib/env';
 import { Notifications } from '../components/Notifications';
 import { onlineStatusInit } from '../controllers/OnlineStatusController';
@@ -28,7 +27,14 @@ import ImagePreloader from '../components/ImagePreloader';
 import WebApp from '@twa-dev/sdk';
 import BlockDesktop from '../components/BlockDesktop';
 
-const ScaledApp = styled.div`
+const ScaledContainer = styled.div`
+  width: calc(100% / var(--scale));
+  height: 100%;
+  transform-origin: left 0;
+  transform: scale(var(--scale));
+`;
+
+const AppContainer = styled.div`
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -37,10 +43,6 @@ const ScaledApp = styled.div`
   width: 1080px;
   height: 0;
   margin: 0 auto;
-  @media (max-width: 1079px) {
-    transform-origin: 0 0;
-    transform: scale(var(--scale));
-  }
 
   .fade-enter {
     position: absolute;
@@ -55,11 +57,7 @@ const ScaledApp = styled.div`
   }
 `;
 
-const VerticalApp = styled.div`
-  @media screen and (orientation: landscape) {
-    display: none;
-  }
-`;
+const VerticalApp = styled.div``;
 
 Sentry.init({
   dsn: env.sentryDsn,
@@ -126,33 +124,34 @@ export function App() {
     <Providers>
       <Router>
         <Notifications />
-        <ForcePortrait />
         <VerticalApp>
           <PreloadImages />
           <HandleBack />
           <HideWhileLoading>
             <Menu />
             <Popups />
-            <ScaledApp>
-              <TransitionGroup>
-                <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
-                  <Routes location={location}>
-                    <Route path="/" element={<Tap />} />
-                    <Route path="/mine" element={<Navigate to="/mine/activities" />} />
-                    <Route path="/mine/activities" element={<MineActivities />} />
-                    <Route path="/mine/investments" element={<MineInvestments />} />
-                    <Route path="/mine/web3" element={<MineWeb3 />} />
-                    <Route path="/mine/achievements" element={<MineAchievements />} />
-                    <Route path="/network" element={<Settings selection="network" />} />
-                    <Route path="/language" element={<Settings selection="language" />} />
-                    <Route path="/friends" element={<Friends />} />
-                    <Route path="/earn" element={<Earn />} />
-                    <Route path="/food" element={<Food />} />
-                    <Route path="/leaderboard" element={<Leaderboard />} />
-                  </Routes>
-                </CSSTransition>
-              </TransitionGroup>
-            </ScaledApp>
+            <ScaledContainer>
+              <AppContainer>
+                <TransitionGroup>
+                  <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
+                    <Routes location={location}>
+                      <Route path="/" element={<Tap />} />
+                      <Route path="/mine" element={<Navigate to="/mine/activities" />} />
+                      <Route path="/mine/activities" element={<MineActivities />} />
+                      <Route path="/mine/investments" element={<MineInvestments />} />
+                      <Route path="/mine/web3" element={<MineWeb3 />} />
+                      <Route path="/mine/achievements" element={<MineAchievements />} />
+                      <Route path="/network" element={<Settings selection="network" />} />
+                      <Route path="/language" element={<Settings selection="language" />} />
+                      <Route path="/friends" element={<Friends />} />
+                      <Route path="/earn" element={<Earn />} />
+                      <Route path="/food" element={<Food />} />
+                      <Route path="/leaderboard" element={<Leaderboard />} />
+                    </Routes>
+                  </CSSTransition>
+                </TransitionGroup>
+              </AppContainer>
+            </ScaledContainer>
           </HideWhileLoading>
         </VerticalApp>
       </Router>

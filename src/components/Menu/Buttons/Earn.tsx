@@ -49,18 +49,9 @@ export const Icon = styled(({ active, ...props }) => (
   </svg>
 ))`
   flex-shrink: 0;
-
-  @media (min-width: 1080px) {
-    width: 75px;
-    height: 64px;
-    margin-top: 11px;
-  }
-
-  @media (max-width: 1079px) {
-    width: 6.944vw;
-    height: 5.925vw;
-    margin-top: 1.018vw;
-  }
+  width: 75px;
+  height: 64px;
+  margin-top: 11px;
 `;
 
 const EarnButton = ({ active = false }) => {

@@ -11,19 +11,10 @@ const duration = 350;
 const PopupOverlay = styled.div<{ open: boolean }>`
   position: fixed;
   z-index: 100;
+  width: 100%;
   height: 100%;
   background: ${({ open }) => (open ? '#000c' : 'transparent')};
   transition: background ${duration}ms ease-in-out;
-
-  @media (min-width: 1080px) {
-    width: 1080px;
-    left: 50%;
-    margin: 0 auto 0 -540px;
-  }
-
-  @media (max-width: 1079px) {
-    width: 100%;
-  }
 `;
 
 const PopupContainer = styled.div<{ open: boolean; height?: number }>`
@@ -35,20 +26,18 @@ const PopupContainer = styled.div<{ open: boolean; height?: number }>`
   }
 
   position: absolute;
+  bottom: ${({ open, height }) => (open ? '0' : `calc(-${height || 1248}px * var(--scale))`)};
+  left: 50%;
+  margin: 0 auto 0 -540px;
+
   background: #efedf2;
   border-radius: 95px 95px 0 0;
-  bottom: ${({ open, height }) => (open ? '0' : `calc(-${height || 1248}px * var(--scale))`)};
   transition: bottom ${duration}ms ease-in-out;
 
   width: 890px;
   padding: 95px 95px 63px;
-  @media (min-width: 1080px) {
-  }
-
-  @media (max-width: 1079px) {
-    transform-origin: 0 100%;
-    transform: scale(var(--scale));
-  }
+  transform-origin: center 100%;
+  transform: scale(var(--scale));
 `;
 
 const CloseButton = styled.button<{ disabled?: boolean }>`

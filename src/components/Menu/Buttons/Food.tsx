@@ -53,18 +53,9 @@ export const Icon = styled(({ active, ...props }) => (
   </svg>
 ))`
   flex-shrink: 0;
-
-  @media (min-width: 1080px) {
-    width: 63px;
-    height: 65px;
-    margin-top: 11px;
-  }
-
-  @media (max-width: 1079px) {
-    width: 5.833vw;
-    height: 6.018vw;
-    margin-top: 1.018vw;
-  }
+  width: 63px;
+  height: 65px;
+  margin-top: 11px;
 `;
 
 const FoodButton = ({ active = false }) => {

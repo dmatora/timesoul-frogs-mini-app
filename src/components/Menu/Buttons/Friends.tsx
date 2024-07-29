@@ -33,18 +33,9 @@ export const Icon = styled(({ active, ...props }) => (
   </svg>
 ))`
   flex-shrink: 0;
-
-  @media (min-width: 1080px) {
-    width: 106px;
-    height: 57px;
-    margin-top: 11px;
-  }
-
-  @media (max-width: 1079px) {
-    width: 9.814vw;
-    height: 5.27vw;
-    margin-top: 1.018vw;
-  }
+  width: 106px;
+  height: 57px;
+  margin-top: 11px;
 `;
 
 const FriendsButton = ({ active = false }) => {

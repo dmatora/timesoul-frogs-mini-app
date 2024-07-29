@@ -13,18 +13,9 @@ export const Icon = styled(({ active, ...props }) => (
   </svg>
 ))`
   flex-shrink: 0;
-
-  @media (min-width: 1080px) {
-    width: 60px;
-    height: 60px;
-    margin-top: 13px;
-  }
-
-  @media (max-width: 1079px) {
-    width: 5.555vw;
-    height: 5.555vw;
-    margin-top: 1.203vw;
-  }
+  width: 60px;
+  height: 60px;
+  margin-top: 13px;
 `;
 
 const MineButton = ({ active = false }) => {
