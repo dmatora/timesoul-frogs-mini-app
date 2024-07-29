@@ -116,3 +116,13 @@ export const metrikaEventAppCrashed = () => {
     });
   }
 };
+
+export const loadEruda = () => {
+  if (window.eruda) return;
+  const script = document.createElement('script');
+  script.src = '//cdn.jsdelivr.net/npm/eruda';
+  script.onload = () => {
+    window.eruda.init();
+  };
+  document.head.appendChild(script);
+};

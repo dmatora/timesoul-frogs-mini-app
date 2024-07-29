@@ -7,6 +7,7 @@ import EarnButton from './Buttons/Earn';
 import FoodButton from './Buttons/Food';
 import { NavLink } from 'react-router-dom';
 import { useFrogs } from '../../contexts/FrogsContext';
+import Debug from '../Debug';
 
 const FixedContainer = styled.div`
   position: fixed;
@@ -47,7 +48,13 @@ const Menu = () => {
         <NavLink to="/earn" onClick={updateUserTasks}>
           {({ isActive }) => <EarnButton active={isActive} />}
         </NavLink>
-        <NavLink to="/food">{({ isActive }) => <FoodButton active={isActive} />}</NavLink>
+        <NavLink to="/food">
+          {({ isActive }) => (
+            <Debug>
+              <FoodButton active={isActive} />
+            </Debug>
+          )}
+        </NavLink>
       </MenuContainer>
     </FixedContainer>
   );
