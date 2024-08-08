@@ -9,7 +9,7 @@ import { amountWithSpaces } from '../../../lib/utils';
 import { isCheckingTaskEvent } from '../../../lib/events';
 import WebApp from '@twa-dev/sdk';
 import getIcon from '../../pages/Earn/TaskIcons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { notificationEmit } from '../../../controllers/NotificationsController';
 import { patchUserTasks } from '../../../lib/api';
 
@@ -64,10 +64,14 @@ const Bonus = styled.div`
 const CheckingCard = () => {
   const { event, updateUserTasks, setEvent, updateBalance } = useFrogs();
   const { t } = useTranslation();
+  const [joinClicked, setJoinClicked] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(3);
+  const [checkDisabled, setCheckDisabled] = useState(true);
 
   if (!isCheckingTaskEvent(event)) throw new Error('Should not happen');
 
   const handleJoin = async (task: UserTask) => {
+    setJoinClicked(true);
     const isX = task.url.startsWith('https://x.com');
     if (isX) WebApp.openLink(task.url);
     else WebApp.openTelegramLink(task.url);
@@ -89,6 +93,19 @@ const CheckingCard = () => {
     return !updatedTask?.isCompleted;
   };
 
+  useEffect(() => {
+    let timer: NodeJS.Timer;
+    if (joinClicked && secondsLeft > 0) {
+      timer = setInterval(() => {
+        setSecondsLeft((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+    } else if (secondsLeft === 0) {
+      setCheckDisabled(false);
+    }
+
+    return () => clearInterval(timer);
+  }, [joinClicked, secondsLeft]);
+
   const Icon = getIcon(event.task);
 
   return (
@@ -96,6 +113,7 @@ const CheckingCard = () => {
       hideClose={event.task.isCompleted}
       close={t('popup_CheckTask.check')}
       onConfirm={() => handleCheck(event.task)}
+      confirmDisabled={checkDisabled}
     >
       <Row>
         <Icon large={true} />
